@@ -48,4 +48,4 @@ function Header() {
   );
 }
 
-export default App;
+export { App };
