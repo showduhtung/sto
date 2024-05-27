@@ -1,7 +1,6 @@
 import * as React from "react";
 
-import { cn } from "@/lib/utils";
-
+import { cn } from "@/lib/tailwind";
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
 
 const Input = React.forwardRef<
@@ -18,11 +17,10 @@ const Input = React.forwardRef<
       {startIcon && <div className="mr-2">{startIcon}</div>}
       <input
         {...props}
-        type="search"
         ref={ref}
         className="w-full p-2 placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
       />
-      {endIcon && <div className="ml-2">{endIcon}</div>}
+      {endIcon && <div className="mr-2">{endIcon}</div>}
     </div>
   );
 });

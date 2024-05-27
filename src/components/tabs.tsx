@@ -1,8 +1,7 @@
 import * as React from "react";
 import * as TabsPrimitive from "@radix-ui/react-tabs";
 
-import { cn } from "@/lib/utils";
-
+import { cn } from "@/lib/tailwind";
 const Tabs = TabsPrimitive.Root;
 
 const TabsList = React.forwardRef<
@@ -11,7 +10,7 @@ const TabsList = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <TabsPrimitive.List
     ref={ref}
-    className={cn("border-b border-gray-200 flex space-x-8", className)}
+    className={cn("flex space-x-8 border-b border-gray-200", className)}
     {...props}
   />
 ));
@@ -24,7 +23,7 @@ const TabsTrigger = React.forwardRef<
   <TabsPrimitive.Trigger
     ref={ref}
     className={cn(
-      "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 whitespace-nowrap border-b-2 py-2 px-1 text-sm cursor-pointer data-[state=active]:border-primary data-[state=active]:text-primary w-fit uppercase",
+      "w-fit cursor-pointer whitespace-nowrap border-b-2 border-transparent px-1 py-2 text-sm uppercase text-gray-500 hover:border-gray-300 hover:text-gray-700 data-[state=active]:border-primary data-[state=active]:text-primary",
       className,
     )}
     {...props}

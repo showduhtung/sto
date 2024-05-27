@@ -1,7 +1,6 @@
 import { Settings } from "lucide-react";
 import { Button } from "./components/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "./components/tabs";
-
 import { HymnalWorship, SermonPanel } from "./panels";
 
 function App() {
