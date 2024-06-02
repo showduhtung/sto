@@ -1,12 +1,26 @@
-import { HymnTitleModel } from "~/models";
-import { LanguageType } from "~/models/language";
+import { type LanguageType, HymnTitleModel, HymnModel } from "~/models";
+
+async function fetchHymn(id: string, language: LanguageType = "en") {
+  const response = await fetch(`server/data/hymns/${language}/${id}.json`);
+  const parsed = await response.json();
+  console.log(parsed);
+  return HymnModel(parsed);
+}
+
+async function fetchHymns(ids: string[], language: LanguageType = "en") {
+  const responses = await Promise.all(
+    ids.map((id) => fetch(`server/data/hymns/${language}/${id}.json`)),
+  );
+  const parsed = await Promise.all(responses.map((response) => response.json()));
+  return parsed.map(HymnModel);
+}
 
 async function fetchHymnTitles(language: LanguageType = "en") {
   const response = await fetch(`server/data/hymns/titles/${language}.json`);
   const parsed = await response.json();
 
   const hymns = Object.entries(parsed)
-    .map(([id, title]) => HymnTitleModel({ id, title }))
+    .map(([id, title]) => HymnTitleModel({ id, title: title as string }))
     .sort((a, b) => {
       // Compare by number first
       const aNum = parseInt(a.id, 10);
@@ -25,4 +39,4 @@ async function fetchHymnTitles(language: LanguageType = "en") {
   return hymns;
 }
 
-export { fetchHymnTitles };
+export { fetchHymnTitles, fetchHymns, fetchHymn };

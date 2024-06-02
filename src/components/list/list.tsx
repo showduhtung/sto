@@ -1,25 +1,41 @@
-import * as React from "react";
+import { Fragment, type PropsWithChildren } from "react";
+import {
+  DraggableItem,
+  type DraggableItemProps,
+  type DraggableProps,
+  DraggableProvider,
+} from "./list.draggable";
 import { cn } from "@/lib/tailwind";
-import { SortableListContextProvider } from "./list.context";
+import { ListContextProvider, useListContext } from "./list.context";
 
-const List = React.forwardRef<
-  React.ElementRef<"ul">,
-  React.HTMLAttributes<HTMLUListElement> & { sortable?: boolean }
->((props, ref) => {
-  const [state, setState] = React.useState<string[]>([]);
-  function dispatch(id: string) {}
+type ListProps = PropsWithChildren<{ draggable?: boolean; className?: string } & DraggableProps>;
+
+function List({ children, draggable, className, onChange, ...props }: ListProps) {
+  if (draggable && !onChange) throw new Error("Draggable lists must have an onChange prop");
+
+  const Wrapper = draggable ? DraggableProvider : Fragment;
   return (
-    <SortableListContextProvider value={{ state }}>
-      <ul ref={ref} {...props} />
-    </SortableListContextProvider>
+    <ListContextProvider value={{ state: { draggable } }}>
+      <Wrapper onChange={onChange}>
+        <ul className={cn("flex flex-col gap-2", className)} {...props} role="application">
+          {children}
+        </ul>
+      </Wrapper>
+    </ListContextProvider>
   );
-});
-List.displayName = "sto-list";
+}
 
-const ListItem = React.forwardRef<React.ElementRef<"li">, React.HTMLAttributes<HTMLLIElement>>(
-  ({ className, ...props }, ref) => <li ref={ref} className={cn("", className)} {...props} />,
-);
+type ListItemProps = PropsWithChildren<DraggableItemProps & { className?: string }>;
 
-ListItem.displayName = "sto-list-item";
+function ListItem({ children, className, ...props }: ListItemProps) {
+  const { state } = useListContext();
+
+  const Wrapper = state.draggable ? DraggableItem : Fragment;
+  return (
+    <Wrapper {...props}>
+      <li className={className}>{children}</li>
+    </Wrapper>
+  );
+}
 
 export { List, ListItem };

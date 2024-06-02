@@ -1,14 +1,19 @@
 import { useState } from "react";
+
+import { HymnSearch } from "@/features/hymns/components";
 import { Label } from "@/components/label";
 import { Switch } from "@/components/switch";
-import { HymnSearch } from "@/features/hymns/components";
-import { PanelContainer } from "@/ui";
 import { Button } from "@/components/button";
+
+import { List, ListItem } from "@/components/list";
+import { PanelContainer } from "../shared";
+import { HymnCard } from "@/features/hymns/components/hymn-card";
 
 function HymnalWorship() {
   const [selectedHymnIds, setSelectedHymnIds] = useState<string[]>([]);
 
   function handleSearchedHymn(id: string) {
+    if (selectedHymnIds.includes(id)) return;
     setSelectedHymnIds((prev) => [...prev, id]);
   }
 
@@ -22,7 +27,7 @@ function HymnalWorship() {
             </Label>
             <HymnSearch id="hymn-search" onChange={handleSearchedHymn} />
           </div>
-          <Button variant="ghost" size="xxs" className="px-2">
+          <Button variant="text" size="xxs">
             Clear
           </Button>
         </div>
@@ -35,12 +40,13 @@ function HymnalWorship() {
       {selectedHymnIds.length === 0 && (
         <i className="text-black/50">No hymns for hymnal woship yet</i>
       )}
-
-      <ul>
-        {selectedHymnIds.map((id) => (
-          <li key={id}>{id}</li>
+      <List draggable onChange={setSelectedHymnIds}>
+        {selectedHymnIds.map((hymnId) => (
+          <ListItem key={hymnId} id={String(hymnId)}>
+            <HymnCard id={hymnId} />
+          </ListItem>
         ))}
-      </ul>
+      </List>
     </PanelContainer>
   );
 }

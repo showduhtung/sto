@@ -1,7 +1,7 @@
 import { Settings } from "lucide-react";
-import { Button } from "./components/button";
+import { Button } from "./components/button/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "./components/tabs";
-import { HymnalWorship, SermonPanel } from "./panels";
+import { HymnalWorship, SermonPanel } from "./ui/panels";
 
 function App() {
   return (
@@ -9,10 +9,10 @@ function App() {
       <div className="flex items-center justify-between">
         <img src="./logo.png" className="h-9" />
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="sm">
+          <Button variant="text" size="sm">
             Select a tutorial
           </Button>
-          <Button variant="ghost" className="flex gap-2 text-primary" size="sm">
+          <Button variant="text" className="flex gap-2" size="sm">
             <Settings width="18" height="18" />
             Settings
           </Button>

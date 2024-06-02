@@ -1,58 +1,57 @@
+import { useQuery } from "@tanstack/react-query";
+import { type KeyboardEvent, useRef, useState } from "react";
 import { useClickAway, useToggle } from "react-use";
+import { fetchHymnTitles } from "~/apis/hymns";
 import {
   Command,
   CommandGroup,
   CommandItem,
   CommandInput,
   CommandList,
+  type CommandInputProps,
 } from "@/components/command";
 
-import { fetchHymnTitles } from "~/apis/hymns";
-import { useQuery } from "@tanstack/react-query";
-import { type KeyboardEvent, useRef, useState } from "react";
-
 import { cn } from "@/lib/tailwind";
-import { InputProps } from "@/components/input";
 
-type HymnSearchProps = Omit<InputProps, "onChange"> & { onChange?: (id: string) => void };
+type HymnSearchProps = Omit<CommandInputProps, "onChange"> & { onChange?: (id: string) => void };
 
 function HymnSearch({ onChange }: HymnSearchProps) {
   const { data } = useQuery({ queryKey: ["hymn-titles"], queryFn: () => fetchHymnTitles("en") });
   const inputRef = useRef<HTMLInputElement>(null);
   const [open, toggle] = useToggle(false);
-  const [value, setValue] = useState("");
+  const [input, setInput] = useState("");
 
   useClickAway(inputRef, () => toggle(false));
 
   function handleKeyDown(event: KeyboardEvent<HTMLDivElement>) {
-    const input = inputRef.current;
-    if (!input) return;
+    if (!inputRef.current) return;
     if (!open) toggle(true); // Keep the options displayed when the user is typing
     if (event.key === "Escape") {
-      input.blur();
+      inputRef.current.blur();
       toggle(false);
+      setInput("");
     }
   }
 
-  function handleSelect({ title }: { title: string; id: string }) {
-    onChange?.(title);
+  function handleSelect({ id }: { title: string; id: string }) {
+    onChange?.(id);
     toggle(false);
-    setValue("");
+    setInput("");
   }
 
   return (
     <Command
       onKeyDown={handleKeyDown}
       className="overflow-visible"
-      filter={(value, search) => {
-        if (value.toLowerCase().includes(search.toLowerCase())) return 1;
+      filter={(val, search) => {
+        if (val.toLowerCase().includes(search.toLowerCase())) return 1;
         return 0;
-        // not sure why default filter fails after first search
+        // not sure why the list unsorts itself after first search without using a custom sort/filter
       }}
     >
       <CommandInput
-        value={value}
-        onValueChange={setValue}
+        value={input}
+        onValueChange={setInput}
         ref={inputRef}
         onClick={toggle}
         placeholder="Search hymns..."
@@ -75,7 +74,9 @@ function HymnSearch({ onChange }: HymnSearchProps) {
                     event.preventDefault();
                     event.stopPropagation();
                   }}
-                  onSelect={() => handleSelect({ id, title })}
+                  onSelect={() => {
+                    if (open) handleSelect({ id, title });
+                  }}
                   className="flex w-full items-center gap-2"
                 >
                   {title}

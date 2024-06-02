@@ -1,3 +1,3 @@
-type LanguageType = "en";
+type LanguageType = "en" | "zh" | "id";
 
 export type { LanguageType };

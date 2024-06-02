@@ -59,7 +59,7 @@ function SermonForm() {
         </div>
       </div>
       <div className="flex justify-between">
-        <Button variant="ghost" size="xs">
+        <Button variant="text" size="xs">
           Clear
         </Button>
         <div className="flex flex-col gap-2">
@@ -83,12 +83,12 @@ function SermonLineup() {
       <div className="flex justify-between">
         <p>Sermon Lineup (5)</p>
         <div className="flex gap-1">
-          <Button variant="ghost" size="xxs">
+          <Button variant="text" size="xxs">
             Clear
           </Button>
           <Button variant="outline" size="xxs" className="flex gap-2 border-primary px-2">
             <PlusIcon height="12" width="12" className="text-primary" />
-            <p className="text-primary">Add to lineup</p>
+            Add to lineup
           </Button>
         </div>
       </div>

@@ -1,7 +1,6 @@
 import * as React from "react";
 import { type DialogProps } from "@radix-ui/react-dialog";
 import { Command as CommandPrimitive } from "cmdk";
-import { Search } from "lucide-react";
 
 import { cn } from "@/lib/tailwind";
 import { Dialog, DialogContent } from "@/components/dialog";
@@ -35,9 +34,11 @@ const CommandDialog = ({ children, ...props }: CommandDialogProps) => {
   );
 };
 
+type CommandInputProps = React.ComponentPropsWithoutRef<typeof CommandPrimitive.Input>;
+
 const CommandInput = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Input>,
-  React.ComponentPropsWithoutRef<typeof CommandPrimitive.Input>
+  CommandInputProps
 >(({ className, ...props }, ref) => (
   <CommandPrimitive.Input
     ref={ref}
@@ -108,7 +109,7 @@ const CommandItem = React.forwardRef<
   <CommandPrimitive.Item
     ref={ref}
     className={cn(
-      "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50",
+      "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-accent data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50",
       className,
     )}
     {...props}
@@ -127,6 +128,7 @@ const CommandShortcut = ({ className, ...props }: React.HTMLAttributes<HTMLSpanE
 };
 CommandShortcut.displayName = "CommandShortcut";
 
+export type { CommandInputProps };
 export {
   Command,
   CommandDialog,
