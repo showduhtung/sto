@@ -1,14 +1,20 @@
 import { Settings } from "lucide-react";
-import { Button } from "./components/button/button";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "./components/tabs";
-import { HymnalWorship, SermonPanel } from "./ui/panels";
 
-function App() {
+import { HymnalWorship, SermonPanel } from "./panels";
+import { Button } from "@/components/button";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/tabs";
+import { ProjectorButton } from "@/features/projector/components/projector-button";
+import { Projector } from "./projector";
+
+function Controller() {
   return (
     <div className="flex h-screen flex-col gap-2 px-6 py-4">
       <div className="flex items-center justify-between">
         <img src="./logo.png" className="h-9" />
         <div className="flex items-center gap-2">
+          <ProjectorButton>
+            <Projector />
+          </ProjectorButton>
           <Button variant="text" size="sm">
             Select a tutorial
           </Button>
@@ -63,4 +69,4 @@ function SlidesContent() {
   return <div>Slides</div>;
 }
 
-export { App };
+export { Controller };
