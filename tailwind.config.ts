@@ -54,6 +54,9 @@ const config = {
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
       },
+      fontSize: {
+        xxs: "0.625rem",
+      },
     },
   },
   plugins: [
