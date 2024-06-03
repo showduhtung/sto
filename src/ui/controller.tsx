@@ -1,10 +1,8 @@
 import { Settings } from "lucide-react";
 
-import { HymnalWorship, SermonPanel } from "./panels";
+import { HymnalWorship, SermonPanel, SermonHymns } from "./panels";
 import { Button } from "@/components/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/tabs";
-import { ProjectorButton } from "@/features/projector/components/projector-button";
-import { Projector } from "./projector";
 
 function Controller() {
   return (
@@ -12,9 +10,6 @@ function Controller() {
       <div className="flex items-center justify-between">
         <img src="./logo.png" className="h-9" />
         <div className="flex items-center gap-2">
-          <ProjectorButton>
-            <Projector />
-          </ProjectorButton>
           <Button variant="text" size="sm">
             Select a tutorial
           </Button>
@@ -57,10 +52,6 @@ function Controller() {
       </div>
     </div>
   );
-}
-
-function SermonHymns() {
-  return <div>Sermon Hymns</div>;
 }
 function BibleContent() {
   return <div>Bible</div>;

@@ -13,10 +13,16 @@ import {
 
 import { cn } from "@/lib/tailwind";
 
-type HymnSearchProps = Omit<CommandInputProps, "onChange"> & { onChange?: (id: string) => void };
+type HymnSearchProps = Omit<CommandInputProps, "onChange"> & {
+  id: string;
+  onChange?: (id: string) => void;
+};
 
-function HymnSearch({ onChange }: HymnSearchProps) {
-  const { data } = useQuery({ queryKey: ["hymn-titles"], queryFn: () => fetchHymnTitles("en") });
+function HymnSearch({ id, onChange }: HymnSearchProps) {
+  const { data: titles = [] } = useQuery({
+    queryKey: ["hymn-titles"],
+    queryFn: () => fetchHymnTitles("en"),
+  });
   const inputRef = useRef<HTMLInputElement>(null);
   const [open, toggle] = useToggle(false);
   const [input, setInput] = useState("");
@@ -50,6 +56,7 @@ function HymnSearch({ onChange }: HymnSearchProps) {
       }}
     >
       <CommandInput
+        id={id}
         value={input}
         onValueChange={setInput}
         ref={inputRef}
@@ -66,7 +73,7 @@ function HymnSearch({ onChange }: HymnSearchProps) {
         >
           <CommandList>
             <CommandGroup>
-              {data?.map(({ id, title }) => (
+              {titles.map(({ id, title }) => (
                 <CommandItem
                   key={id}
                   value={title}

@@ -1,9 +1,14 @@
 import { type PropsWithChildren, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
-type WindowPortalProps = PropsWithChildren<{ open: boolean; onClose: () => void }>;
+type WindowPortalProps = PropsWithChildren<{
+  open: boolean;
+  onClose: () => void;
+  width?: number;
+  height?: number;
+}>;
 
-function WindowPortal({ children, open, onClose }: WindowPortalProps) {
+function WindowPortal({ children, open, onClose, width, height }: WindowPortalProps) {
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
   const externalWindow = useRef<Window | null>(null);
 
@@ -11,11 +16,15 @@ function WindowPortal({ children, open, onClose }: WindowPortalProps) {
     if (container === null) {
       externalWindow.current?.close();
       externalWindow.current = null;
-    } else {
-      externalWindow.current = window.open("", "", "width=600,height=400");
-      externalWindow.current!.addEventListener("beforeunload", onClose);
+    } else if (open) {
+      const hasActiveWindow = externalWindow.current !== null;
+      if (hasActiveWindow) return;
 
-      [...document.styleSheets].forEach((styleSheet) => {
+      externalWindow.current = window.open("", "", `width=${width},height=${height}`);
+      externalWindow.current!.addEventListener("beforeunload", onClose);
+      const { styleSheets } = document;
+
+      [...styleSheets].forEach((styleSheet) => {
         if (styleSheet.href) {
           const newLinkEl = externalWindow.current!.document.createElement("link");
           newLinkEl.rel = "stylesheet";
@@ -35,7 +44,7 @@ function WindowPortal({ children, open, onClose }: WindowPortalProps) {
     return () => {
       externalWindow.current?.removeEventListener("beforeunload", onClose);
     };
-  }, [container, onClose]);
+  }, [container, onClose, open, width, height]);
 
   useEffect(() => {
     if (!open) setContainer(null);
