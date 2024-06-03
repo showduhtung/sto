@@ -8,7 +8,6 @@ function WindowPortal({ children, open, onClose }: WindowPortalProps) {
   const externalWindow = useRef<Window | null>(null);
 
   useEffect(() => {
-    console.log({ container });
     if (container === null) {
       externalWindow.current?.close();
       externalWindow.current = null;
