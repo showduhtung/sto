@@ -2,13 +2,13 @@ import { Label } from "@/components/label";
 import { Switch } from "@/components/switch";
 import { Button } from "@/components/button";
 import { List, ListItem } from "@/components/list";
-import { HymnSearch, HymnCard, useWorshipHymns } from "@/features/hymns";
-
-import { PanelContainer } from "../shared";
+import { HymnSearch, HymnCard, useSermonHymns } from "@/features/hymns";
 import { useProjector } from "@/features/projector";
 
-function HymnalWorship() {
-  const { hymnIds, update: updateHymns, activeHymnId, setVerse, activeVerse } = useWorshipHymns();
+import { PanelContainer } from "../shared";
+
+function SermonHymns() {
+  const { hymnIds, update: updateHymns, activeHymnId, setVerse, activeVerse } = useSermonHymns();
   const { toggle } = useProjector();
 
   function handleSearchedHymn(id: string) {
@@ -17,7 +17,7 @@ function HymnalWorship() {
   }
   function handleVerseClicked(hymnId: string, verse: number) {
     setVerse(hymnId, verse);
-    toggle("HYMNAL_WORSHIP");
+    toggle("SERMON_HYMNS");
   }
 
   return (
@@ -57,4 +57,4 @@ function HymnalWorship() {
   );
 }
 
-export { HymnalWorship };
+export { SermonHymns };

@@ -1,10 +1,18 @@
 import { Button } from "@/components/button";
+import { cn } from "@/lib/tailwind";
 import { useQuery } from "@tanstack/react-query";
 import { ListMusicIcon } from "lucide-react";
 
 import { fetchHymn } from "~/apis/hymns";
 
-function HymnCard({ id }: { id: string }) {
+type HymnCardProps = {
+  id: string;
+  active: boolean;
+  onVerse: (id: string, idx: number) => void;
+  activeVerse: number;
+};
+
+function HymnCard({ id, active, onVerse, activeVerse }: HymnCardProps) {
   const { data, isLoading } = useQuery({
     queryKey: ["hymns", id],
     queryFn: () => fetchHymn(id, "en"),
@@ -14,17 +22,22 @@ function HymnCard({ id }: { id: string }) {
 
   const { num, title, verses } = data;
 
+  function handleVerse(idx: number) {
+    return () => onVerse(id, idx);
+  }
+
   return (
-    <div
-      key={num}
-      className="flex flex-col gap-4 rounded-md border border-primary/10 bg-white p-4 shadow-sm"
-    >
+    <div className="flex flex-col gap-4 rounded-md border border-primary/10 bg-white p-4 shadow-sm">
       <div className="flex items-center justify-between">
-        <Button variant="link" className="flex h-fit items-center gap-2 p-0 capitalize">
-          <p className="text-sm font-semibold text-primary">
+        <Button
+          variant="link"
+          className="flex h-fit items-center gap-2 p-0 capitalize"
+          onClick={handleVerse(0)}
+        >
+          <p className={cn("text-sm font-semibold", active ? "text-primary" : "text-black")}>
             {num}. {title}
           </p>
-          <ListMusicIcon className="text-primary" height="18" width="18" />
+          {active && <ListMusicIcon className="text-primary" height="18" width="18" />}
         </Button>
 
         <Button variant="text" size="xxs" color="danger" className="font-semibold">
@@ -38,7 +51,8 @@ function HymnCard({ id }: { id: string }) {
             size="xxs"
             className="w-8"
             variant="solid"
-            color={idx === 0 ? "primary" : "secondary"}
+            color={active && activeVerse === idx ? "primary" : "secondary"}
+            onClick={handleVerse(idx)}
           >
             {label}
           </Button>
