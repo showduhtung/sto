@@ -23,7 +23,7 @@ function HymnCard({ id, active, onVerse, activeVerse }: HymnCardProps) {
   const { num, title, verses } = data;
 
   function handleVerse(idx: number) {
-    return () => onVerse(id, idx);
+    onVerse(id, idx);
   }
 
   return (
@@ -32,7 +32,7 @@ function HymnCard({ id, active, onVerse, activeVerse }: HymnCardProps) {
         <Button
           variant="link"
           className="flex h-fit items-center gap-2 p-0 capitalize"
-          onClick={handleVerse(0)}
+          onClick={() => !active && handleVerse(0)}
         >
           <p className={cn("text-sm font-semibold", active ? "text-primary" : "text-black")}>
             {num}. {title}
@@ -52,7 +52,7 @@ function HymnCard({ id, active, onVerse, activeVerse }: HymnCardProps) {
             className="w-8"
             variant="solid"
             color={active && activeVerse === idx ? "primary" : "secondary"}
-            onClick={handleVerse(idx)}
+            onClick={() => handleVerse(idx)}
           >
             {label}
           </Button>
