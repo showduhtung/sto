@@ -1,21 +1,19 @@
 import { type LanguageType, HymnTitleModel, HymnModel } from "~/models";
 
 async function fetchHymn(id: string, language: LanguageType = "en") {
-  const response = await fetch(`server/data/hymns/${language}/${id}.json`);
+  const response = await fetch(`/data/hymns/${language}/${id}.json`);
   const parsed = await response.json();
   return HymnModel(parsed);
 }
 
 async function fetchHymns(ids: string[], language: LanguageType = "en") {
-  const responses = await Promise.all(
-    ids.map((id) => fetch(`server/data/hymns/${language}/${id}.json`)),
-  );
+  const responses = await Promise.all(ids.map((id) => fetch(`/data/hymns/${language}/${id}.json`)));
   const parsed = await Promise.all(responses.map((response) => response.json()));
   return parsed.map(HymnModel);
 }
 
 async function fetchHymnTitles(language: LanguageType = "en") {
-  const response = await fetch(`server/data/hymns/titles/${language}.json`);
+  const response = await fetch(`/data/hymns/titles/${language}.json`);
   const parsed = await response.json();
 
   const hymns = Object.entries(parsed)
