@@ -3,7 +3,6 @@ import { type LanguageType, HymnTitleModel, HymnModel } from "~/models";
 async function fetchHymn(id: string, language: LanguageType = "en") {
   const response = await fetch(`server/data/hymns/${language}/${id}.json`);
   const parsed = await response.json();
-  console.log(parsed);
   return HymnModel(parsed);
 }
 
