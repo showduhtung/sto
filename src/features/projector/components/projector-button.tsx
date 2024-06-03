@@ -10,6 +10,7 @@ function ProjectorButton({ children }: { children: React.ReactNode }) {
       <Button variant="text" size="sm" onClick={() => toggle()}>
         Open Projector
       </Button>
+      {JSON.stringify(open)}
 
       <WindowPortal open={open} onClose={() => toggle(false)}>
         {children}
