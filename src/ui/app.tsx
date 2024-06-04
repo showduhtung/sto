@@ -15,6 +15,7 @@ function App() {
     worshipHymns.close();
     toggle();
   }
+
   return (
     <>
       <Controller />

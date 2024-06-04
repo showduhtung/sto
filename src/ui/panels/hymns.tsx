@@ -3,8 +3,9 @@ import { Switch } from "@/components/switch";
 import { Button } from "@/components/button";
 import { List, ListItem } from "@/components/list";
 import { HymnSearch, HymnCard, useHymns, type HymnDisplayType } from "@/features/hymns";
+import { useUnmount } from "@/utilities";
 
-import { useUnmount, PanelContainer } from "../shared";
+import { PanelContainer } from "./components";
 
 function HymnPanel({ type }: { type: HymnDisplayType }) {
   const { hymnIds, close, add, reorganize } = useHymns(type);
@@ -33,7 +34,11 @@ function HymnPanel({ type }: { type: HymnDisplayType }) {
         </div>
       </div>
 
-      {hymnIds.length === 0 && <i className="text-black/50">No hymns for WHATWHAT yet</i>}
+      {hymnIds.length === 0 && (
+        <i className="text-black/50">
+          No hymns for {type === "SERMON_HYMNS" ? "sermon worship" : "hymnal worship"} yet
+        </i>
+      )}
       <List draggable onChange={reorganize}>
         {hymnIds.map((hymnId) => (
           <ListItem key={hymnId} id={String(hymnId)}>
