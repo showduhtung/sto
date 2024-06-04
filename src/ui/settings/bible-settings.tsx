@@ -5,7 +5,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/radio-group";
 import { Switch } from "@/components/switch";
 import { Slider } from "@/components/slider";
 
-import { SettingsContainer } from "../shared/settings-container";
+import { SettingsContainer } from "./components";
 
 function BibleSettings() {
   return (

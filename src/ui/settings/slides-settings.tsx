@@ -1,7 +1,7 @@
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/card";
 import { Label } from "@/components/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/select";
-import { SettingsContainer } from "../shared/settings-container";
+import { SettingsContainer } from "./components";
 
 function SlidesSettings() {
   return (

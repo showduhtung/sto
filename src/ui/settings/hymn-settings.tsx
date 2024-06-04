@@ -1,7 +1,7 @@
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/card";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/select";
 import { Label } from "@/components/label";
-import { SettingsContainer } from "../shared/settings-container";
+import { SettingsContainer } from "./components";
 import { Switch } from "@/components/switch";
 import { Slider } from "@/components/slider";
 

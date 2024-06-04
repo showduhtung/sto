@@ -2,7 +2,7 @@ import { Download, Upload } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/card";
 import { Label } from "@/components/label";
 import { Button } from "@/components/button";
-import { SettingsContainer } from "../shared/settings-container";
+import { SettingsContainer } from "./components";
 
 function MiscellaneousSettings() {
   return (
