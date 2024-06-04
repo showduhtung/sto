@@ -16,18 +16,29 @@ function Projector() {
 }
 
 function SermonHymnDisplay() {
-  const { hymnIds } = useSermonHymns();
-  return <p className="px-6 py-4 text-red-400">{JSON.stringify(hymnIds, null, 2)}</p>;
-}
-
-function WorshipHymnDisplay() {
-  const { hymnIds, activeHymnId } = useWorshipHymns();
+  const { hymnIds, activeHymnId, activeVerse } = useSermonHymns();
   return hymnIds.map((id) => (
     <p
       key={id}
       className={cn("px-6 py-4", id === activeHymnId && "text-[30px] font-bold text-primary")}
     >
       {id}
+      {` - ${activeVerse}`}
+    </p>
+  ));
+}
+
+function WorshipHymnDisplay() {
+  const { hymnIds, activeHymnId, activeVerse } = useWorshipHymns();
+  const { display } = useProjector();
+  return hymnIds.map((id) => (
+    <p
+      key={id}
+      className={cn("px-6 py-4", id === activeHymnId && "text-[30px] font-bold text-primary")}
+    >
+      {id}
+      {` - ${activeVerse}`}
+      {JSON.stringify({ display, activeHymnId })}
     </p>
   ));
 }
