@@ -1,5 +1,4 @@
-import { createSelectors } from "@/lib/zustand";
-import { create, type StateCreator } from "zustand";
+import { create, createStore, type StateCreator } from "zustand";
 import { persist } from "zustand/middleware";
 
 type HymnActions = {
@@ -24,7 +23,7 @@ const hymnStore: StateCreator<HymnState & HymnActions> = (set) => ({
   close: () => set(() => ({ activeHymnId: "", activeVerse: -1 })),
 });
 
-const useSermonHymns = createSelectors(create(persist(hymnStore, { name: "sermon-hymns" })));
-const useWorshipHymns = createSelectors(create(persist(hymnStore, { name: "worship-hymns" })));
+const useSermonHymns = create(persist(hymnStore, { name: "sermon-hymns" }));
+const useWorshipHymns = create(persist(hymnStore, { name: "worship-hymns" }));
 
 export { useSermonHymns, useWorshipHymns };
