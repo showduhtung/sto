@@ -33,7 +33,7 @@ function HymnCard({ id, active, onVerse, activeVerse, onRemove }: HymnCardProps)
         <Button
           variant="link"
           className="flex h-fit items-center gap-2 p-0 capitalize"
-          onClick={() => !active && handleVerse(0)}
+          onClick={() => handleVerse(-1)}
         >
           <p className={cn("text-sm font-semibold", active ? "text-primary" : "text-black")}>
             {num}. {title}

@@ -49,6 +49,12 @@ function SermonHymns() {
               active={activeHymnId === hymnId}
               onVerse={handleVerseClicked}
               activeVerse={activeVerse}
+              onRemove={() =>
+                updateHymns(
+                  "hymnIds",
+                  hymnIds.filter((id) => id !== hymnId),
+                )
+              }
             />
           </ListItem>
         ))}
