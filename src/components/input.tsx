@@ -1,7 +1,7 @@
 import * as React from "react";
-
 import { cn } from "@/lib/tailwind";
-export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
+
+type InputProps = React.InputHTMLAttributes<HTMLInputElement>;
 
 const Input = React.forwardRef<
   HTMLInputElement,
@@ -26,4 +26,5 @@ const Input = React.forwardRef<
 });
 Input.displayName = "Input";
 
+export type { InputProps };
 export { Input };

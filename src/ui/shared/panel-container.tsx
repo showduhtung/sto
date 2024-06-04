@@ -1,7 +1,6 @@
 import { cn } from "@/lib/tailwind";
-import { HTMLAttributes } from "react";
 
-function PanelContainer({ children, className, ...props }: HTMLAttributes<HTMLDivElement>) {
+function PanelContainer({ children, className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div className={cn("p-2", className)} {...props}>
       {children}

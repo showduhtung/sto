@@ -4,27 +4,29 @@ import { useQuery } from "@tanstack/react-query";
 import { ListMusicIcon } from "lucide-react";
 
 import { fetchHymn } from "~/apis/hymns";
+import { type HymnDisplayType, useHymns } from "../store";
+import { useProjector } from "@/features/projector";
 
-type HymnCardProps = {
-  id: string;
-  active: boolean;
-  onVerse: (id: string, idx: number) => void;
-  activeVerse: number;
-  onRemove: (id: string) => void;
-};
+type HymnCardProps = { id: string; type: HymnDisplayType };
 
-function HymnCard({ id, active, onVerse, activeVerse, onRemove }: HymnCardProps) {
+function HymnCard({ id, type }: HymnCardProps) {
+  const { activeHymnId, activeVerse, remove, setVerse } = useHymns(type);
+
   const { data, isLoading } = useQuery({
     queryKey: ["hymns", id],
     queryFn: () => fetchHymn(id, "en"),
   });
+  const { toggle } = useProjector();
+
   if (isLoading) return <div>Loading...</div>;
   if (!data) return <div>Not found</div>;
 
+  const isActive = id === activeHymnId;
   const { num, title, verses } = data;
 
   function handleVerse(idx: number) {
-    onVerse(id, idx);
+    setVerse(id, idx);
+    toggle(type);
   }
 
   return (
@@ -35,10 +37,10 @@ function HymnCard({ id, active, onVerse, activeVerse, onRemove }: HymnCardProps)
           className="flex h-fit items-center gap-2 p-0 capitalize"
           onClick={() => handleVerse(-1)}
         >
-          <p className={cn("text-sm font-semibold", active ? "text-primary" : "text-black")}>
+          <p className={cn("text-sm font-semibold", isActive ? "text-primary" : "text-black")}>
             {num}. {title}
           </p>
-          {active && <ListMusicIcon className="text-primary" height="18" width="18" />}
+          {isActive && <ListMusicIcon className="text-primary" height="18" width="18" />}
         </Button>
 
         <Button
@@ -46,7 +48,7 @@ function HymnCard({ id, active, onVerse, activeVerse, onRemove }: HymnCardProps)
           size="xxs"
           color="danger"
           className="font-semibold"
-          onClick={() => onRemove(id)}
+          onClick={() => remove(id)}
         >
           Remove
         </Button>
@@ -58,7 +60,7 @@ function HymnCard({ id, active, onVerse, activeVerse, onRemove }: HymnCardProps)
             size="xxs"
             className="w-8"
             variant="solid"
-            color={active && activeVerse === idx ? "primary" : "secondary"}
+            color={isActive && activeVerse === idx ? "primary" : "secondary"}
             onClick={() => handleVerse(idx)}
           >
             {label}
