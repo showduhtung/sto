@@ -1,11 +1,12 @@
-import { createSelectors } from "@/lib/zustand";
-import { create, type StateCreator } from "zustand";
+import { type StateCreator, create } from "zustand";
 import { persist } from "zustand/middleware";
 
 type HymnActions = {
-  update: <T extends keyof HymnState>(key: T, payload: HymnState[T]) => void;
-  setVerse: (hymnId: string, verse: number) => void;
+  add: (hymnId: string) => void;
   close: () => void;
+  remove: (hymnId: string) => void;
+  reorganize: (hymnIds: string[]) => void;
+  setVerse: (hymnId: string, verse: number) => void;
 };
 
 type HymnState = {
@@ -18,13 +19,32 @@ const hymnStore: StateCreator<HymnState & HymnActions> = (set) => ({
   hymnIds: [],
   activeHymnId: "",
   activeVerse: -1,
-  update: (key, payload) => set(() => ({ [key]: payload })),
+  add: (hymnId: string) => set(({ hymnIds }) => ({ hymnIds: [...hymnIds, hymnId] })),
+  reorganize: (hymnIds: string[]) => set(() => ({ hymnIds })),
+  remove: (hymnId: string) =>
+    set(({ hymnIds, activeHymnId }) => {
+      const clearActiveHymn = activeHymnId === hymnId ? { activeHymnId: "", activeVerse: -1 } : {};
+      const newHymnIds = hymnIds.filter((id) => id !== hymnId);
+
+      return { hymnIds: newHymnIds, ...clearActiveHymn };
+    }),
+
+  close: () => set(() => ({ activeHymnId: "", activeVerse: -1 })),
+
   setVerse: (activeHymnId: string, activeVerse: number) =>
     set(() => ({ activeHymnId, activeVerse })),
-  close: () => set(() => ({ activeHymnId: "", activeVerse: -1 })),
 });
 
-const useSermonHymns = createSelectors(create(persist(hymnStore, { name: "sermon-hymns" })));
-const useWorshipHymns = createSelectors(create(persist(hymnStore, { name: "worship-hymns" })));
+const useSermonHymns = create(persist(hymnStore, { name: "sermon-hymns" }));
+const useWorshipHymns = create(persist(hymnStore, { name: "worship-hymns" }));
 
-export { useSermonHymns, useWorshipHymns };
+const useHymns = (type: HymnDisplayType) => {
+  const sermonHymns = useSermonHymns();
+  const worshipHymns = useWorshipHymns();
+  return type === "SERMON_HYMNS" ? sermonHymns : worshipHymns;
+};
+
+type HymnDisplayType = "SERMON_HYMNS" | "HYMNAL_WORSHIP";
+
+export type { HymnDisplayType };
+export { useHymns };

@@ -1,4 +1,4 @@
-import { useSermonHymns, useWorshipHymns } from "@/features/hymns";
+import { useHymns } from "@/features/hymns";
 import { useProjector } from "@/features/projector";
 import { cn } from "@/lib/tailwind";
 
@@ -16,7 +16,7 @@ function Projector() {
 }
 
 function SermonHymnDisplay() {
-  const { hymnIds, activeHymnId, activeVerse } = useSermonHymns();
+  const { hymnIds, activeHymnId, activeVerse } = useHymns("SERMON_HYMNS");
   return hymnIds.map((id) => (
     <p
       key={id}
@@ -29,7 +29,7 @@ function SermonHymnDisplay() {
 }
 
 function WorshipHymnDisplay() {
-  const { hymnIds, activeHymnId, activeVerse } = useWorshipHymns();
+  const { hymnIds, activeHymnId, activeVerse } = useHymns("HYMNAL_WORSHIP");
   const { display } = useProjector();
   return hymnIds.map((id) => (
     <p

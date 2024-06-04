@@ -1,4 +1,3 @@
-import { createSelectors } from "@/lib/zustand";
 import { create } from "zustand";
 
 type ProjectorActions = {
@@ -12,16 +11,11 @@ type ProjectorState = {
   dimensions: { width: number; height: number };
 };
 
-const useProjector = createSelectors(
-  create<ProjectorState & ProjectorActions>((set) => ({
-    display: undefined,
-    dimensions: { width: 600, height: 400 },
-    toggle: (display) => {
-      console.log(display);
-      set(() => ({ display }));
-    },
-  })),
-);
+const useProjector = create<ProjectorState & ProjectorActions>((set) => ({
+  display: undefined,
+  dimensions: { width: 600, height: 400 },
+  toggle: (display) => set(() => ({ display })),
+}));
 
 export type { Displays };
 export { useProjector };
