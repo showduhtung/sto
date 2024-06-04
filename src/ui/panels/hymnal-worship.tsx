@@ -8,13 +8,14 @@ import { PanelContainer } from "../shared";
 import { useProjector } from "@/features/projector";
 
 function HymnalWorship() {
-  const { hymnIds, update: updateHymns, activeHymnId, setVerse, activeVerse } = useWorshipHymns();
+  const { hymnIds, update, activeHymnId, setVerse, activeVerse } = useWorshipHymns();
   const { toggle } = useProjector();
 
   function handleSearchedHymn(id: string) {
     if (hymnIds.includes(id)) return;
-    updateHymns("hymnIds", [...hymnIds, id]);
+    update("hymnIds", [...hymnIds, id]);
   }
+
   function handleVerseClicked(hymnId: string, verse: number) {
     setVerse(hymnId, verse);
     toggle("HYMNAL_WORSHIP");
@@ -40,8 +41,8 @@ function HymnalWorship() {
         </div>
       </div>
 
-      {hymnIds.length === 0 && <i className="text-black/50">No hymns for hymnal woship yet</i>}
-      <List draggable onChange={(newHymnIds) => updateHymns("hymnIds", newHymnIds)}>
+      {hymnIds.length === 0 && <i className="text-black/50">No hymns for hymnal worship yet</i>}
+      <List draggable onChange={(newHymnIds) => update("hymnIds", newHymnIds)}>
         {hymnIds.map((hymnId) => (
           <ListItem key={hymnId} id={String(hymnId)}>
             <HymnCard
@@ -49,6 +50,12 @@ function HymnalWorship() {
               active={activeHymnId === hymnId}
               onVerse={handleVerseClicked}
               activeVerse={activeVerse}
+              onRemove={() =>
+                update(
+                  "hymnIds",
+                  hymnIds.filter((id) => id !== hymnId),
+                )
+              }
             />
           </ListItem>
         ))}

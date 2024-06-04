@@ -10,9 +10,10 @@ type HymnCardProps = {
   active: boolean;
   onVerse: (id: string, idx: number) => void;
   activeVerse: number;
+  onRemove: (id: string) => void;
 };
 
-function HymnCard({ id, active, onVerse, activeVerse }: HymnCardProps) {
+function HymnCard({ id, active, onVerse, activeVerse, onRemove }: HymnCardProps) {
   const { data, isLoading } = useQuery({
     queryKey: ["hymns", id],
     queryFn: () => fetchHymn(id, "en"),
@@ -32,7 +33,7 @@ function HymnCard({ id, active, onVerse, activeVerse }: HymnCardProps) {
         <Button
           variant="link"
           className="flex h-fit items-center gap-2 p-0 capitalize"
-          onClick={() => !active && handleVerse(0)}
+          onClick={() => handleVerse(-1)}
         >
           <p className={cn("text-sm font-semibold", active ? "text-primary" : "text-black")}>
             {num}. {title}
@@ -40,7 +41,13 @@ function HymnCard({ id, active, onVerse, activeVerse }: HymnCardProps) {
           {active && <ListMusicIcon className="text-primary" height="18" width="18" />}
         </Button>
 
-        <Button variant="text" size="xxs" color="danger" className="font-semibold">
+        <Button
+          variant="text"
+          size="xxs"
+          color="danger"
+          className="font-semibold"
+          onClick={() => onRemove(id)}
+        >
           Remove
         </Button>
       </div>

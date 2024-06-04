@@ -16,7 +16,10 @@ const useProjector = createSelectors(
   create<ProjectorState & ProjectorActions>((set) => ({
     display: undefined,
     dimensions: { width: 600, height: 400 },
-    toggle: (display) => set(() => ({ display })),
+    toggle: (display) => {
+      console.log(display);
+      set(() => ({ display }));
+    },
   })),
 );
 
