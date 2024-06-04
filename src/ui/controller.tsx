@@ -1,8 +1,7 @@
-import { Settings } from "lucide-react";
-
 import { HymnalWorship, SermonPanel, SermonHymns } from "./panels";
 import { Button } from "@/components/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/tabs";
+import { SettingsModal } from "./settings";
 
 function Controller() {
   return (
@@ -13,10 +12,8 @@ function Controller() {
           <Button variant="text" size="sm">
             Select a tutorial
           </Button>
-          <Button variant="text" className="flex gap-2" size="sm">
-            <Settings width="18" height="18" />
-            Settings
-          </Button>
+
+          <SettingsModal />
         </div>
       </div>
 
