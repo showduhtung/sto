@@ -34,7 +34,11 @@ function HymnPanel({ type }: { type: HymnDisplayType }) {
         </div>
       </div>
 
-      {hymnIds.length === 0 && <i className="text-black/50">No hymns for WHATWHAT yet</i>}
+      {hymnIds.length === 0 && (
+        <i className="text-black/50">
+          No hymns for {type === "SERMON_HYMNS" ? "sermon worship" : "hymnal worship"} yet
+        </i>
+      )}
       <List draggable onChange={reorganize}>
         {hymnIds.map((hymnId) => (
           <ListItem key={hymnId} id={String(hymnId)}>

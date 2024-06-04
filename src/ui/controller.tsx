@@ -3,6 +3,13 @@ import { Button } from "@/components/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/tabs";
 import { SettingsModal } from "./settings";
 
+const tabs = [
+  { value: "hymnal_worship", label: "Hymnal Worship", content: <HymnalWorship /> },
+  { value: "sermon_hymns", label: "Sermon Hymns", content: <SermonHymns /> },
+  { value: "bible", label: "Bible", content: <BibleContent /> },
+  { value: "slides", label: "Slides", content: <SlidesContent /> },
+];
+
 function Controller() {
   return (
     <div className="flex h-screen flex-col gap-2 px-6 py-4">
@@ -12,7 +19,6 @@ function Controller() {
           <Button variant="text" size="sm">
             Select a tutorial
           </Button>
-
           <SettingsModal />
         </div>
       </div>
@@ -20,23 +26,17 @@ function Controller() {
       <div className="flex grow flex-col items-stretch gap-8 rounded-sm border border-primary px-4 py-2 lg:flex-row">
         <Tabs className="flex flex-1 flex-col" defaultValue="hymnal_worship">
           <TabsList>
-            <TabsTrigger value="hymnal_worship">Hymnal Worship</TabsTrigger>
-            <TabsTrigger value="sermon_hymns">Sermon Hymns</TabsTrigger>
-            <TabsTrigger value="bible">Bible</TabsTrigger>
-            <TabsTrigger value="slides">Slides</TabsTrigger>
+            {tabs.map(({ value, label }) => (
+              <TabsTrigger key={value} value={value}>
+                {label}
+              </TabsTrigger>
+            ))}
           </TabsList>
-          <TabsContent value="hymnal_worship">
-            <HymnalWorship />
-          </TabsContent>
-          <TabsContent value="sermon_hymns">
-            <SermonHymns />
-          </TabsContent>
-          <TabsContent value="bible">
-            <BibleContent />
-          </TabsContent>
-          <TabsContent value="slides">
-            <SlidesContent />
-          </TabsContent>
+          {tabs.map(({ value, content }) => (
+            <TabsContent key={value} value={value}>
+              {content}
+            </TabsContent>
+          ))}
         </Tabs>
         <div className="flex flex-1 flex-col">
           <SermonPanel />
