@@ -1,29 +1,56 @@
-import { SettingsContainer, SettingsSelect, SettingsSwitch } from "@/ui/shared";
+import {
+  SettingsCardContent,
+  SettingsContainer,
+  SettingsSelect,
+  SettingsSwitch,
+} from "@/ui/shared";
 import { languages } from "../utilities";
-import { SettingsCardContent } from "@/ui/shared";
+import { type LanguageState, useLanguages } from "../store";
 
 function LanguageSettings() {
-  // const { bilingual, primaryLanguageId, secondaryLanguageId } = useLanguages();
+  const { bilingual, primaryLanguageId, secondaryLanguageId, panelLanguageId, update } =
+    useLanguages();
+
+  function handleChange(key: keyof LanguageState) {
+    return (value: LanguageState[keyof LanguageState]) => {
+      update(key, value);
+    };
+  }
+
   return (
     <SettingsContainer>
       <SettingsCardContent title="Languages" description="Customize your language preferences.">
-        <SettingsSwitch label="Bilingual Mode" id="language-bilingual" />
+        <SettingsSwitch
+          label="Bilingual Mode"
+          id="language-bilingual"
+          checked={bilingual}
+          onCheckedChange={handleChange("bilingual")}
+        />
 
         <SettingsSelect
+          value={primaryLanguageId}
           label="Primary"
           options={languages.map(({ id, text }) => ({ value: id, label: text }))}
           placeholder="Select primary language"
-        />
-        <SettingsSelect
-          label="Secondary"
-          options={languages.map(({ id, text }) => ({ value: id, label: text }))}
-          placeholder="Select secondary language"
+          onValueChange={handleChange("primaryLanguageId")}
         />
 
+        {bilingual && (
+          <SettingsSelect
+            value={secondaryLanguageId}
+            label="Secondary"
+            options={languages.map(({ id, text }) => ({ value: id, label: text }))}
+            placeholder="Select secondary language"
+            onValueChange={handleChange("secondaryLanguageId")}
+          />
+        )}
+
         <SettingsSelect
+          value={panelLanguageId}
           label="Control Panel"
           options={languages.map(({ id, text }) => ({ value: id, label: text }))}
           placeholder="Select control panel language"
+          onValueChange={handleChange("panelLanguageId")}
         />
       </SettingsCardContent>
     </SettingsContainer>

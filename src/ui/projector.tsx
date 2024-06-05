@@ -31,6 +31,7 @@ function SermonHymnDisplay() {
 function WorshipHymnDisplay() {
   const { hymnIds, activeHymnId, activeVerse } = useHymns("HYMNAL_WORSHIP");
   const { display } = useProjector();
+
   return hymnIds.map((id) => (
     <p
       key={id}

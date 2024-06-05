@@ -1,8 +1,15 @@
-import { Button, ButtonProps } from "@/components/button";
+import { Button, type ButtonProps } from "@/components/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/card";
 import { Label } from "@/components/label";
 import { RadioGroup, RadioGroupItem, type RadioGroupProps } from "@/components/radio-group";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectProps,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/select";
 import { Slider, type SliderProps } from "@/components/slider";
 import { Switch, type SwitchProps } from "@/components/switch";
 import { cn } from "@/lib/tailwind";
@@ -79,17 +86,24 @@ function SettingsRadioGroups<T extends string>({
   );
 }
 
-type SettingsSelectProps<T extends string> = {
+type SettingsSelectProps<T extends string> = Omit<SelectProps, "onValueChange" | "value"> & {
   label: string;
   options: { value: T; label: string }[];
   placeholder?: string;
+  onValueChange?: (value: T) => void;
+  value?: T;
 };
 
-function SettingsSelect<T extends string>({ label, options, placeholder }: SettingsSelectProps<T>) {
+function SettingsSelect<T extends string>({
+  label,
+  options,
+  placeholder,
+  ...props
+}: SettingsSelectProps<T>) {
   return (
     <div className="flex items-center justify-between">
       <Label htmlFor={label + "-select"}>{label}</Label>
-      <Select>
+      <Select {...props}>
         <SelectTrigger className="w-80" id={label + "-select"}>
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
