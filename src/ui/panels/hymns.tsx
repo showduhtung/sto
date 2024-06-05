@@ -4,8 +4,7 @@ import { Button } from "@/components/button";
 import { List, ListItem } from "@/components/list";
 import { HymnSearch, HymnCard, useHymns, type HymnDisplayType } from "@/features/hymns";
 import { useUnmount } from "@/utilities";
-
-import { PanelContainer } from "./components";
+import { PanelContainer } from "../shared";
 
 function HymnPanel({ type }: { type: HymnDisplayType }) {
   const { hymnIds, close, add, reorganize } = useHymns(type);

@@ -1,10 +1,11 @@
+import { PlusIcon } from "lucide-react";
+import { useMedia } from "react-use";
+
 import { Button } from "@/components/button";
 import { Label } from "@/components/label";
 import { Switch } from "@/components/switch";
 import { Textarea } from "@/components/textarea";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/tabs";
-import { PlusIcon } from "lucide-react";
-import { useMedia } from "react-use";
 
 function SermonPanel() {
   const isLarge = useMedia("(min-width: 1024px)");

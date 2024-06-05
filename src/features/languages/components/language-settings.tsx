@@ -2,7 +2,14 @@ import { Switch } from "@/components/switch";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/card";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/select";
 import { Label } from "@/components/label";
-import { SettingsContainer } from "./components";
+import { SettingsContainer } from "@/ui/shared";
+
+const languages = [
+  { id: "en", text: "English", display: "EN" },
+  { id: "zh", text: "简体中文", display: "ZH" },
+  { id: "zh-simple", text: "繁體中文", display: "ZH" },
+  { id: "id", text: "Bahasa Indonesia", display: "ID" },
+];
 
 function LanguageSettings() {
   return (
@@ -26,10 +33,11 @@ function LanguageSettings() {
                 <SelectValue placeholder="Select primary language" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="en">English</SelectItem>
-                <SelectItem value="es">Español</SelectItem>
-                <SelectItem value="fr">Français</SelectItem>
-                <SelectItem value="de">Deutsch</SelectItem>
+                {languages.map((option) => (
+                  <SelectItem key={option.id} value={option.id}>
+                    {option.text}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
@@ -40,10 +48,11 @@ function LanguageSettings() {
                 <SelectValue placeholder="Select secondary language" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="en">English</SelectItem>
-                <SelectItem value="es">Español</SelectItem>
-                <SelectItem value="fr">Français</SelectItem>
-                <SelectItem value="de">Deutsch</SelectItem>
+                {languages.map((option) => (
+                  <SelectItem key={option.id} value={option.id}>
+                    {option.text}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
@@ -54,10 +63,11 @@ function LanguageSettings() {
                 <SelectValue placeholder="Select control panel language" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="en">English</SelectItem>
-                <SelectItem value="es">Español</SelectItem>
-                <SelectItem value="fr">Français</SelectItem>
-                <SelectItem value="de">Deutsch</SelectItem>
+                {languages.map((option) => (
+                  <SelectItem key={option.id} value={option.id}>
+                    {option.text}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>

@@ -1,7 +1,7 @@
 import { HymnalWorship, SermonPanel, SermonHymns } from "./panels";
 import { Button } from "@/components/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/tabs";
-import { SettingsModal } from "./settings";
+import { SettingsModal } from "./settings-modal";
 
 const tabs = [
   { value: "hymnal_worship", label: "Hymnal Worship", content: <HymnalWorship /> },

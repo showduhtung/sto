@@ -1,15 +1,15 @@
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/card";
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/select";
 import { Label } from "@/components/label";
-import { SettingsContainer } from "./components";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/select";
+import { SettingsContainer } from "@/ui/shared";
 
-function ProjectorSettings() {
+function SlidesSettings() {
   return (
     <SettingsContainer>
       <Card>
         <CardHeader>
-          <CardTitle>Dimensions</CardTitle>
-          <CardDescription>Customize the projector window.</CardDescription>
+          <CardTitle>Slides Color Scheme</CardTitle>
+          <CardDescription>Customize the (uploaded) slides color scheme.</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-4">
           <div className="flex items-center justify-between">
@@ -35,4 +35,4 @@ function ProjectorSettings() {
   );
 }
 
-export { ProjectorSettings };
+export { SlidesSettings };
