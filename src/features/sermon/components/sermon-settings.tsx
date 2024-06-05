@@ -4,7 +4,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/radio-group";
 import { Switch } from "@/components/switch";
 import { Slider } from "@/components/slider";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/select";
-import { SettingsContainer } from "../shared";
+import { SettingsContainer } from "@/ui/shared";
 
 function SermonSettings() {
   return (
