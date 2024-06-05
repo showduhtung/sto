@@ -12,8 +12,18 @@ function LanguageSettings() {
     useLanguages();
 
   function handleChange(key: keyof LanguageState) {
+    function swapLanguages() {
+      update("primaryLanguageId", secondaryLanguageId!);
+      update("secondaryLanguageId", primaryLanguageId);
+    }
+
     return (value: LanguageState[keyof LanguageState]) => {
-      update(key, value);
+      const shouldSwap =
+        (key === "primaryLanguageId" && value === secondaryLanguageId) ||
+        (key === "secondaryLanguageId" && value === primaryLanguageId);
+
+      if (shouldSwap) swapLanguages();
+      else update(key, value);
     };
   }
 
