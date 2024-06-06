@@ -14,7 +14,7 @@ function MiscellaneousSettings() {
         <SettingsButton label="Import Settings">
           <Download className="h-4 w-4" /> Import
         </SettingsButton>
-        <SettingsButton label="Reset to Default Settings">
+        <SettingsButton label="Reset to Default Settings" color="danger">
           <Upload className="h-4 w-4" /> Reset
         </SettingsButton>
       </SettingsCardContent>

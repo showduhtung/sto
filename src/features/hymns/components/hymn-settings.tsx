@@ -6,9 +6,11 @@ import {
   SettingsSwitch,
 } from "@/ui/shared";
 import { useState } from "react";
+import { useHymnSettings } from "../store";
 
 function HymnSettings() {
   const [[first, second], setState] = useState([[92], [22]]);
+  const { shouldWrapVerses, toggleWrapVerses } = useHymnSettings();
 
   function handleChange(idx: number) {
     return (value: [number]) => {
@@ -16,11 +18,16 @@ function HymnSettings() {
       else setState([first, value]);
     };
   }
+
   return (
     <SettingsContainer>
       <SettingsCardContent title="General" description="Select your general hymnal settings.">
         <SettingsSwitch label="Audio Playback" />
-        <SettingsSwitch label="Wrap Verses" />
+        <SettingsSwitch
+          label="Wrap Verses"
+          checked={shouldWrapVerses}
+          onCheckedChange={toggleWrapVerses}
+        />
         <SettingsSwitch label="Timestamp Tools (volunteers)" />
       </SettingsCardContent>
 

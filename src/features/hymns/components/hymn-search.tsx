@@ -22,7 +22,6 @@ function HymnSearch({ id, onChange }: HymnSearchProps) {
   const { data: titles = [] } = useQuery({
     queryKey: ["hymn-titles"],
     queryFn: () => fetchHymnTitles("en"),
-    staleTime: 60 * 5000, // 5 minute
   });
   const inputRef = useRef<HTMLInputElement>(null);
   const [open, toggle] = useToggle(false);

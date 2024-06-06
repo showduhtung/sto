@@ -3,10 +3,10 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 import { Label } from "@/components/label";
 import { RadioGroup, RadioGroupItem, type RadioGroupProps } from "@/components/radio-group";
 import {
+  type SelectProps,
   Select,
   SelectContent,
   SelectItem,
-  SelectProps,
   SelectTrigger,
   SelectValue,
 } from "@/components/select";
@@ -88,7 +88,7 @@ function SettingsRadioGroups<T extends string>({
 
 type SettingsSelectProps<T extends string> = Omit<SelectProps, "onValueChange" | "value"> & {
   label: string;
-  options: { value: T; label: string }[];
+  options: { value: T; label: string; disabled?: boolean }[];
   placeholder?: string;
   onValueChange?: (value: T) => void;
   value?: T;
@@ -108,9 +108,9 @@ function SettingsSelect<T extends string>({
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent>
-          {options.map(({ value, label: oLabel }) => (
-            <SelectItem value={value} key={oLabel + value}>
-              {oLabel}
+          {options.map(({ value, label: oLabel, ...rest }) => (
+            <SelectItem value={value} key={oLabel + value} {...rest}>
+              {oLabel} {rest.disabled}
             </SelectItem>
           ))}
         </SelectContent>

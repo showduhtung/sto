@@ -1,14 +1,11 @@
 import type { LanguageType } from "./language";
 
+type VerseAttribute = { label: string; num: number; html: string };
 type HymnAttribute = {
   lang: string;
   num: string;
   title: string;
-  verses: {
-    label: string;
-    num: number;
-    html: string;
-  }[];
+  verses: VerseAttribute[];
 };
 
 type HymnTitleAttribute = {
@@ -16,9 +13,11 @@ type HymnTitleAttribute = {
   title: string;
 };
 
+type HymnType = ReturnType<typeof HymnModel>;
+
 function HymnModel(data: HymnAttribute) {
   return {
-    lang: "en" as LanguageType,
+    lang: data.lang as LanguageType,
     num: String(data.num),
     title: String(data.title),
     verses: data.verses.map((verse) => ({
@@ -36,4 +35,5 @@ function HymnTitleModel(data: HymnTitleAttribute) {
   };
 }
 
+export type { HymnType };
 export { HymnModel, HymnTitleModel };

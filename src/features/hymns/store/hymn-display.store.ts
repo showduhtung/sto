@@ -19,18 +19,19 @@ const hymnStore: StateCreator<HymnState & HymnActions> = (set) => ({
   hymnIds: [],
   activeHymnId: "",
   activeVerse: -1,
+  shouldWrap: false,
   add: (hymnId: string) => set(({ hymnIds }) => ({ hymnIds: [...hymnIds, hymnId] })),
   reorganize: (hymnIds: string[]) => set(() => ({ hymnIds })),
-  remove: (hymnId: string) =>
+  remove: (hymnId: string) => {
     set(({ hymnIds, activeHymnId }) => {
       const clearActiveHymn = activeHymnId === hymnId ? { activeHymnId: "", activeVerse: -1 } : {};
       const newHymnIds = hymnIds.filter((id) => id !== hymnId);
 
       return { hymnIds: newHymnIds, ...clearActiveHymn };
-    }),
+    });
+  },
 
   close: () => set(() => ({ activeHymnId: "", activeVerse: -1 })),
-
   setVerse: (activeHymnId: string, activeVerse: number) =>
     set(() => ({ activeHymnId, activeVerse })),
 });
@@ -38,13 +39,7 @@ const hymnStore: StateCreator<HymnState & HymnActions> = (set) => ({
 const useSermonHymns = create(persist(hymnStore, { name: "sermon-hymns" }));
 const useWorshipHymns = create(persist(hymnStore, { name: "worship-hymns" }));
 
-const useHymns = (type: HymnDisplayType) => {
-  const sermonHymns = useSermonHymns();
-  const worshipHymns = useWorshipHymns();
-  return type === "SERMON_HYMNS" ? sermonHymns : worshipHymns;
-};
-
 type HymnDisplayType = "SERMON_HYMNS" | "HYMNAL_WORSHIP";
 
 export type { HymnDisplayType };
-export { useHymns };
+export { useSermonHymns, useWorshipHymns };

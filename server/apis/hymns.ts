@@ -1,9 +1,20 @@
-import { type LanguageType, HymnTitleModel, HymnModel } from "~/models";
+import { type LanguageType, HymnTitleModel, HymnModel, type HymnType } from "~/models";
 
-async function fetchHymn(id: string, language: LanguageType = "en") {
-  const response = await fetch(`server/data/hymns/${language}/${id}.json`);
-  const parsed = await response.json();
-  return HymnModel(parsed);
+async function fetchHymn(id: string, languages: LanguageType[] = ["en"]) {
+  const hashed = languages.reduce(
+    (acc, lang) => ({ ...acc, [lang]: false }),
+    {} as Record<LanguageType, boolean>,
+  );
+
+  const responses = {} as Record<LanguageType, HymnType>;
+
+  for (const language of Object.keys(hashed)) {
+    const response = await fetch(`server/data/hymns/${language}/${id}.json`);
+    const parsed = await response.json();
+    responses[language as LanguageType] = HymnModel(parsed);
+  }
+
+  return languages.map((language) => responses[language]);
 }
 
 async function fetchHymns(ids: string[], language: LanguageType = "en") {
