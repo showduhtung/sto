@@ -9,13 +9,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/dialog";
-import { LanguageSettings } from "./settings/language-settings";
-import { ProjectorSettings } from "./settings/projector-settings";
-import { HymnSettings } from "./settings/hymn-settings";
-import { SermonSettings } from "./settings/sermon-settings";
+
+import { LanguageSettings } from "@/features/languages";
+import { HymnSettings } from "@/features/hymns";
+import { BibleSettings } from "@/features/bible";
+import { ProjectorSettings } from "@/features/projector";
+import { SermonSettings } from "@/features/sermon";
+
 import { MiscellaneousSettings } from "./settings/miscellaneous-settings";
-import { BibleSettings } from "./settings/bible-settings";
-import { SlidesSettings } from "./settings/slides-settings";
+import { SlidesSettings } from "../features/slides/components/slides-settings";
 
 const tabs = [
   { value: "language", label: "Language", content: <LanguageSettings /> },

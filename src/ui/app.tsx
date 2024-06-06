@@ -1,9 +1,8 @@
 import { WindowPortal } from "@/components/portal";
 import { useProjector } from "@/features/projector";
-
-import { Controller } from "./controller";
-import { Projector } from "./projector";
 import { useHymns } from "@/features/hymns";
+import { Projector } from "./projector";
+import { Controller } from "./controller";
 
 function App() {
   const { display, toggle, dimensions } = useProjector();
