@@ -1,4 +1,4 @@
-import { WindowPortal } from "@/components/portal";
+import { WindowPortal } from "@/components/window";
 import { useProjector } from "@/features/projector";
 import { useHymns } from "@/features/hymns";
 import { Projector } from "./projector";
