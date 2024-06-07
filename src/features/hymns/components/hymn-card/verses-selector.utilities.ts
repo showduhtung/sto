@@ -3,23 +3,22 @@ import { type HymnDisplayType, useHymns } from "../../store";
 
 function useKeyboardNavigation(id: string, type: HymnDisplayType, max: number) {
   const { activeHymnId, activeVerse, setVerse, hymnIds } = useHymns(type);
-  const currIdx = hymnIds.indexOf(activeHymnId);
 
   const navigate = useCallback(
     (direction: number) => {
+      const currIdx = hymnIds.indexOf(activeHymnId);
+      const nextHymnId = hymnIds[currIdx + direction];
       const edge = direction === -1 ? 0 : max;
-      const nextHymnIdx = hymnIds[currIdx + direction];
 
       return () => {
         if (id !== activeHymnId) return;
-        if (max === undefined) return;
 
         if (activeVerse === -1) setVerse(activeHymnId, direction === -1 ? max : 0);
         else if (activeVerse !== edge) setVerse(activeHymnId, activeVerse + direction);
-        else if (nextHymnIdx) setVerse(nextHymnIdx || "", -1);
+        else if (nextHymnId) setVerse(nextHymnId || "", -1);
       };
     },
-    [activeHymnId, activeVerse, hymnIds, id, max, setVerse, currIdx],
+    [activeHymnId, activeVerse, hymnIds, id, max, setVerse],
   );
 
   useEffect(() => {
