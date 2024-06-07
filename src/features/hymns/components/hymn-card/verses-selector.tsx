@@ -37,10 +37,11 @@ function VersesSelector({ id, type, onVerseChange }: VersesSelectorProps) {
     ? syncVerses(shouldWrapVerses, activeVerse, [primary.verses.length, secondary.verses.length])
     : [activeVerse];
 
+  const shouldShowSecondary = bilingual && secondary.verses.length !== primary.verses.length;
   return (
     <div className="flex flex-col gap-2">
       <div className="flex gap-1">
-        {bilingual && <p className="mr-2 uppercase">{`${primary.lang}:`} </p>}
+        {shouldShowSecondary && <p className="mr-2 uppercase">{`${primary.lang}:`} </p>}
         {primary.verses.map(({ label }, idx) => (
           <Button
             key={label}
@@ -55,8 +56,8 @@ function VersesSelector({ id, type, onVerseChange }: VersesSelectorProps) {
         ))}
       </div>
       <div className="flex gap-1">
-        {bilingual && <p className="mr-2 uppercase">{`${secondary.lang}:`} </p>}
-        {bilingual &&
+        {shouldShowSecondary && <p className="mr-2 uppercase">{`${secondary.lang}:`} </p>}
+        {shouldShowSecondary &&
           secondary.verses.map(({ label }, idx) => (
             <Button
               key={label}
