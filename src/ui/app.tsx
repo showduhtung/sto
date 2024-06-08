@@ -1,24 +1,18 @@
-import { WindowPortal } from "@/components/portal";
+import { WindowPortal } from "@/components/window";
+
+import { useClose } from "@/utilities";
 import { useProjector } from "@/features/projector";
-import { useHymns } from "@/features/hymns";
 import { Projector } from "./projector";
 import { Controller } from "./controller";
 
 function App() {
-  const { display, toggle, dimensions } = useProjector();
-  const sermonHymns = useHymns("SERMON_HYMNS");
-  const worshipHymns = useHymns("HYMNAL_WORSHIP");
-
-  function clear() {
-    sermonHymns.close();
-    worshipHymns.close();
-    toggle();
-  }
+  const [open, close] = useClose();
+  const { dimensions } = useProjector();
 
   return (
     <>
       <Controller />
-      <WindowPortal open={Boolean(display)} onClose={clear} {...dimensions}>
+      <WindowPortal open={open} onClose={close} {...dimensions}>
         <Projector />
       </WindowPortal>
     </>

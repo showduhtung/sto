@@ -4,28 +4,37 @@ import { useQuery } from "@tanstack/react-query";
 import { ListMusicIcon } from "lucide-react";
 
 import { fetchHymn } from "~/apis/hymns";
-import { type HymnDisplayType, useHymns } from "../store";
 import { useProjector } from "@/features/projector";
+import { languageMap, useLanguages } from "@/features/languages";
+
+import { type HymnDisplayType, useHymns } from "../../store";
+import { VersesSelector } from "./verses-selector";
+import { useEffect } from "react";
 
 type HymnCardProps = { id: string; type: HymnDisplayType };
 
 function HymnCard({ id, type }: HymnCardProps) {
-  const { activeHymnId, activeVerse, remove, setVerse } = useHymns(type);
+  const { activeHymnId, remove, setActive } = useHymns(type);
+  const { toggle } = useProjector();
+  const { panelLanguageId } = useLanguages();
 
   const { data, isLoading } = useQuery({
-    queryKey: ["hymns", id],
-    queryFn: () => fetchHymn(id, "en"),
+    queryKey: ["hymns", id, languageMap[panelLanguageId]],
+    queryFn: () => fetchHymn(id, [languageMap[panelLanguageId]]),
   });
-  const { toggle } = useProjector();
+
+  useEffect(() => {
+    return () => setActive("", -1);
+  }, [setActive, id]);
 
   if (isLoading) return <div>Loading...</div>;
   if (!data) return <div>Not found</div>;
 
   const isActive = id === activeHymnId;
-  const { num, title, verses } = data;
+  const [{ num, title }] = data;
 
   function handleVerse(idx: number) {
-    setVerse(id, idx);
+    setActive(id, idx);
     toggle(type);
   }
 
@@ -38,7 +47,7 @@ function HymnCard({ id, type }: HymnCardProps) {
           onClick={() => handleVerse(-1)}
         >
           <p className={cn("text-sm font-semibold", isActive ? "text-primary" : "text-black")}>
-            {num}. {title}
+            {`${num}. ${title}`}
           </p>
           {isActive && <ListMusicIcon className="text-primary" height="18" width="18" />}
         </Button>
@@ -53,20 +62,7 @@ function HymnCard({ id, type }: HymnCardProps) {
           Remove
         </Button>
       </div>
-      <div className="flex gap-1">
-        {verses.map(({ label }, idx) => (
-          <Button
-            key={label}
-            size="xxs"
-            className="w-8"
-            variant="solid"
-            color={isActive && activeVerse === idx ? "primary" : "secondary"}
-            onClick={() => handleVerse(idx)}
-          >
-            {label}
-          </Button>
-        ))}
-      </div>
+      <VersesSelector id={id} type={type} onVerseChange={handleVerse} />
     </div>
   );
 }

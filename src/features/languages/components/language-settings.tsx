@@ -13,7 +13,7 @@ function LanguageSettings() {
 
   function handleChange(key: keyof LanguageState) {
     function swapLanguages() {
-      update("primaryLanguageId", secondaryLanguageId!);
+      update("primaryLanguageId", secondaryLanguageId);
       update("secondaryLanguageId", primaryLanguageId);
     }
 
@@ -40,7 +40,7 @@ function LanguageSettings() {
         <SettingsSelect
           value={primaryLanguageId}
           label="Primary"
-          options={languages.map(({ id, text }) => ({ value: id, label: text }))}
+          options={languages}
           placeholder="Select primary language"
           onValueChange={handleChange("primaryLanguageId")}
         />
@@ -49,7 +49,7 @@ function LanguageSettings() {
           <SettingsSelect
             value={secondaryLanguageId}
             label="Secondary"
-            options={languages.map(({ id, text }) => ({ value: id, label: text }))}
+            options={languages}
             placeholder="Select secondary language"
             onValueChange={handleChange("secondaryLanguageId")}
           />
@@ -58,7 +58,7 @@ function LanguageSettings() {
         <SettingsSelect
           value={panelLanguageId}
           label="Control Panel"
-          options={languages.map(({ id, text }) => ({ value: id, label: text }))}
+          options={languages.map((lang, id) => (id === 0 ? lang : { ...lang, disabled: true }))} // currently disable everything but English
           placeholder="Select control panel language"
           onValueChange={handleChange("panelLanguageId")}
         />
