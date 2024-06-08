@@ -9,11 +9,12 @@ import { languageMap, useLanguages } from "@/features/languages";
 
 import { type HymnDisplayType, useHymns } from "../../store";
 import { VersesSelector } from "./verses-selector";
+import { useEffect } from "react";
 
 type HymnCardProps = { id: string; type: HymnDisplayType };
 
 function HymnCard({ id, type }: HymnCardProps) {
-  const { activeHymnId, remove, setVerse } = useHymns(type);
+  const { activeHymnId, remove, setActive } = useHymns(type);
   const { toggle } = useProjector();
   const { panelLanguageId } = useLanguages();
 
@@ -22,6 +23,10 @@ function HymnCard({ id, type }: HymnCardProps) {
     queryFn: () => fetchHymn(id, [languageMap[panelLanguageId]]),
   });
 
+  useEffect(() => {
+    return () => setActive("", -1);
+  }, [setActive, id]);
+
   if (isLoading) return <div>Loading...</div>;
   if (!data) return <div>Not found</div>;
 
@@ -29,7 +34,7 @@ function HymnCard({ id, type }: HymnCardProps) {
   const [{ num, title }] = data;
 
   function handleVerse(idx: number) {
-    setVerse(id, idx);
+    setActive(id, idx);
     toggle(type);
   }
 

@@ -2,6 +2,7 @@ import { HymnalWorship, SermonPanel, SermonHymns } from "./panels";
 import { Button } from "@/components/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/tabs";
 import { SettingsModal } from "./settings-modal";
+import { useClose } from "@/utilities";
 
 const tabs = [
   { value: "hymnal_worship", label: "Hymnal Worship", content: <HymnalWorship /> },
@@ -11,6 +12,7 @@ const tabs = [
 ];
 
 function Controller() {
+  const [open, close] = useClose();
   return (
     <div className="flex h-screen flex-col gap-2 px-6 py-4">
       <div className="flex items-center justify-between">
@@ -43,7 +45,7 @@ function Controller() {
         </div>
       </div>
       <div className="h-9">
-        <Button variant="outline" size="sm" disabled>
+        <Button variant="outline" size="sm" disabled={!open} onClick={close}>
           Turn off
         </Button>
       </div>

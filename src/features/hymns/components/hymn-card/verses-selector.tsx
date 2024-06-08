@@ -38,6 +38,7 @@ function VersesSelector({ id, type, onVerseChange }: VersesSelectorProps) {
     : [activeVerse];
 
   const shouldShowSecondary = bilingual && secondary.verses.length !== primary.verses.length;
+
   return (
     <div className="flex flex-col gap-2">
       <div className="flex gap-1">
