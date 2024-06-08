@@ -1,7 +1,7 @@
 import { useProjector } from "@/features/projector";
 import { useHymns } from "@/features/hymns";
 
-function useClose() {
+function useWindow() {
   const { display, toggle } = useProjector();
   const sermonHymns = useHymns("SERMON_HYMNS");
   const worshipHymns = useHymns("HYMNAL_WORSHIP");
@@ -11,7 +11,7 @@ function useClose() {
     worshipHymns.close();
     toggle();
   }
-  return [Boolean(display), clear] as const;
+  return { open: Boolean(display), clear, display };
 }
 
-export { useClose };
+export { useWindow };

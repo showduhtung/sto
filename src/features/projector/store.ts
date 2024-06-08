@@ -4,7 +4,7 @@ type ProjectorActions = {
   toggle: (display?: Displays) => void;
 };
 
-type Displays = "SERMON_HYMNS" | "HYMNAL_WORSHIP" | "BIBLE";
+type Displays = "SERMON_HYMNS" | "HYMNAL_WORSHIP" | "BIBLE" | "SERMON";
 
 type ProjectorState = {
   display: Displays | undefined;

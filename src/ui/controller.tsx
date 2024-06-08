@@ -1,18 +1,18 @@
-import { HymnalWorship, SermonPanel, SermonHymns } from "./panels";
+import { HymnalWorship, SermonPanel, SermonHymns, BibleSelector } from "./panels";
 import { Button } from "@/components/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/tabs";
 import { SettingsModal } from "./settings-modal";
-import { useClose } from "@/utilities";
+import { useWindow } from "@/utilities";
 
 const tabs = [
   { value: "hymnal_worship", label: "Hymnal Worship", content: <HymnalWorship /> },
   { value: "sermon_hymns", label: "Sermon Hymns", content: <SermonHymns /> },
-  { value: "bible", label: "Bible", content: <BibleContent /> },
+  { value: "bible", label: "Bible", content: <BibleSelector /> },
   { value: "slides", label: "Slides", content: <SlidesContent /> },
 ];
 
 function Controller() {
-  const [open, close] = useClose();
+  const { open, clear, display } = useWindow();
   return (
     <div className="flex h-screen flex-col gap-2 px-6 py-4">
       <div className="flex items-center justify-between">
@@ -44,17 +44,16 @@ function Controller() {
           <SermonPanel />
         </div>
       </div>
-      <div className="h-9">
-        <Button variant="outline" size="sm" disabled={!open} onClick={close}>
+      <div className="flex h-9 items-center gap-4">
+        <Button variant="outline" size="sm" disabled={!open} onClick={clear}>
           Turn off
         </Button>
+        {display}
       </div>
     </div>
   );
 }
-function BibleContent() {
-  return <div>Bible</div>;
-}
+
 function SlidesContent() {
   return <div>Slides</div>;
 }
