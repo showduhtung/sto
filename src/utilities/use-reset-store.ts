@@ -1,13 +1,15 @@
 import { useHymns } from "@/features/hymns";
+import { useCallback } from "react";
 
 function useResetActiveStates() {
-  const sermonHymns = useHymns("SERMON_HYMNS");
-  const worshipHymns = useHymns("HYMNAL_WORSHIP");
+  const { clear: clearSermonHymns } = useHymns("SERMON_HYMNS");
+  const { clear: clearWorshipHymns } = useHymns("HYMNAL_WORSHIP");
 
-  function reset() {
-    sermonHymns.clear();
-    worshipHymns.clear();
-  }
+  const reset = useCallback(() => {
+    clearSermonHymns();
+    clearWorshipHymns();
+  }, [clearSermonHymns, clearWorshipHymns]);
+
   return { reset };
 }
 

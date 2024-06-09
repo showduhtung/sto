@@ -2,7 +2,7 @@ import { HymnalWorship, SermonPanel, SermonHymns, BibleSelector } from "./panels
 import { Button } from "@/components/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/tabs";
 import { SettingsModal } from "./settings-modal";
-import { useExitApp } from "@/utilities";
+import { useUnmount } from "@/utilities";
 import { useProjector } from "@/features/projector";
 
 const tabs = [
@@ -14,7 +14,7 @@ const tabs = [
 
 function Controller() {
   const { display, toggle } = useProjector();
-  useExitApp();
+  useUnmount();
 
   return (
     <div className="flex h-screen flex-col gap-2 px-6 py-4">

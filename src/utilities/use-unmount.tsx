@@ -2,7 +2,7 @@ import { useCallback, useEffect } from "react";
 import { useProjector } from "@/features/projector";
 import { useResetActiveStates } from "./use-reset-store";
 
-function useExitApp() {
+function useUnmount() {
   const { toggle } = useProjector();
   const { reset } = useResetActiveStates();
 
@@ -17,4 +17,4 @@ function useExitApp() {
   }, [clear]);
 }
 
-export { useExitApp };
+export { useUnmount };
