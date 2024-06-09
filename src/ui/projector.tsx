@@ -1,8 +1,12 @@
 import { useProjector } from "@/features/projector";
-import { HymnDisplay, BibleDisplay } from "./projector-page";
+import { HymnDisplay, BibleDisplay } from "./projector-displays";
+import { useResetActiveStates, useUnmount } from "@/utilities";
 
 function Projector() {
   const { display } = useProjector();
+  const { reset } = useResetActiveStates();
+
+  useUnmount(reset);
 
   switch (display) {
     case "SERMON_HYMNS":

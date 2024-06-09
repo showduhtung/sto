@@ -2,7 +2,7 @@ import { HymnalWorship, SermonPanel, SermonHymns, BibleSelector } from "./panels
 import { Button } from "@/components/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/tabs";
 import { SettingsModal } from "./settings-modal";
-import { useWindow } from "@/utilities";
+import { useResetActiveStates, useUnmount, useWindow } from "@/utilities";
 
 const tabs = [
   { value: "hymnal_worship", label: "Hymnal Worship", content: <HymnalWorship /> },
@@ -13,6 +13,9 @@ const tabs = [
 
 function Controller() {
   const { open, clear, display } = useWindow();
+  const { reset } = useResetActiveStates();
+  useUnmount(reset);
+  
   return (
     <div className="flex h-screen flex-col gap-2 px-6 py-4">
       <div className="flex items-center justify-between">

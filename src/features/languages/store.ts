@@ -26,10 +26,9 @@ const useLanguagesStore = create(persist(languageStore, { name: "languages" }));
 const useLanguages = () => {
   const store = useLanguagesStore();
   const { primaryLanguageId, secondaryLanguageId, bilingual } = store;
+  const [primary, secondary] = [languageMap[primaryLanguageId], languageMap[secondaryLanguageId]];
 
-  const languages = bilingual
-    ? [languageMap[primaryLanguageId], languageMap[secondaryLanguageId]]
-    : [languageMap[primaryLanguageId]];
+  const languages = bilingual ? [primary, secondary] : [primary];
 
   return { ...store, languages };
 };

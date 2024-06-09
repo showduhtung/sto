@@ -3,7 +3,7 @@ import { persist } from "zustand/middleware";
 
 type HymnActions = {
   add: (hymnId: string) => void;
-  close: () => void;
+  clear: () => void;
   remove: (hymnId: string) => void;
   reorganize: (hymnIds: string[]) => void;
   setActive: (hymnId: string, verse: number) => void;
@@ -31,7 +31,7 @@ const hymnStore: StateCreator<HymnState & HymnActions> = (set) => ({
     });
   },
 
-  close: () => set(() => ({ activeHymnId: "", activeVerse: -1 })),
+  clear: () => set(() => ({ activeHymnId: "", activeVerse: -1 })),
   setActive: (activeHymnId: string, activeVerse: number) => {
     set(() => ({ activeHymnId, activeVerse }));
   },

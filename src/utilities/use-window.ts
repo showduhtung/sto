@@ -1,14 +1,12 @@
 import { useProjector } from "@/features/projector";
-import { useHymns } from "@/features/hymns";
+import { useResetActiveStates } from "./use-reset-store";
 
 function useWindow() {
   const { display, toggle } = useProjector();
-  const sermonHymns = useHymns("SERMON_HYMNS");
-  const worshipHymns = useHymns("HYMNAL_WORSHIP");
+  const { reset } = useResetActiveStates();
 
   function clear() {
-    sermonHymns.close();
-    worshipHymns.close();
+    reset();
     toggle();
   }
   return { open: Boolean(display), clear, display };

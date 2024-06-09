@@ -13,12 +13,13 @@ import { useUnmount } from "@/utilities";
 type HymnCardProps = { id: string; type: HymnDisplayType };
 
 function HymnCard({ id, type }: HymnCardProps) {
-  const { activeHymnId, remove, setActive } = useHymns(type);
+  const { activeHymnId, remove, setActive, clear } = useHymns(type);
   const { toggle } = useProjector();
   const { panelLanguageId } = useLanguages();
-  const { data, isLoading } = useHymnQuery(activeHymnId, [languageMap[panelLanguageId]]);
 
-  useUnmount(() => setActive("", -1));
+  const { data, isLoading } = useHymnQuery(id, [languageMap[panelLanguageId]]);
+
+  useUnmount(clear);
 
   if (isLoading) return <div>Loading...</div>;
   if (!data) return <div>Not found</div>;

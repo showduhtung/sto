@@ -1,6 +1,6 @@
 import { type LanguageType, HymnTitleModel, HymnModel, type HymnType } from "~/models";
 
-async function fetchHymn(id: string, languages: LanguageType[] = ["en"]) {
+async function fetchHymnById(id: string, languages: LanguageType[] = ["en"]) {
   const hashed = languages.reduce(
     (acc, lang) => ({ ...acc, [lang]: false }),
     {} as Record<LanguageType, boolean>,
@@ -49,4 +49,4 @@ async function fetchHymnTitles(language: LanguageType = "en") {
   return hymns;
 }
 
-export { fetchHymnTitles, fetchHymns, fetchHymn };
+export { fetchHymnTitles, fetchHymns, fetchHymnById };

@@ -33,6 +33,7 @@
     "react-use": "^17.5.0",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
+    "textfit": "^2.4.0",
     "vaul": "^0.9.1",
     "vite-plugin-static-copy": "^1.0.5",
     "zustand": "^4.5.2"
