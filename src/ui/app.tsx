@@ -1,18 +1,16 @@
 import { WindowPortal } from "@/components/window";
 
-import { useWindow } from "@/utilities";
 import { useProjector } from "@/features/projector";
 import { Projector } from "./projector";
 import { Controller } from "./controller";
 
 function App() {
-  const { open, clear } = useWindow();
-  const { dimensions } = useProjector();
+  const { dimensions, display, toggle } = useProjector();
 
   return (
     <>
       <Controller />
-      <WindowPortal open={open} onClose={clear} {...dimensions}>
+      <WindowPortal open={Boolean(display)} onClose={() => toggle()} {...dimensions}>
         <Projector />
       </WindowPortal>
     </>

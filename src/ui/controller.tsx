@@ -2,7 +2,8 @@ import { HymnalWorship, SermonPanel, SermonHymns, BibleSelector } from "./panels
 import { Button } from "@/components/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/tabs";
 import { SettingsModal } from "./settings-modal";
-import { useResetActiveStates, useUnmount, useWindow } from "@/utilities";
+import { useExitApp } from "@/utilities";
+import { useProjector } from "@/features/projector";
 
 const tabs = [
   { value: "hymnal_worship", label: "Hymnal Worship", content: <HymnalWorship /> },
@@ -12,10 +13,9 @@ const tabs = [
 ];
 
 function Controller() {
-  const { open, clear, display } = useWindow();
-  const { reset } = useResetActiveStates();
-  useUnmount(reset);
-  
+  const { display, toggle } = useProjector();
+  useExitApp();
+
   return (
     <div className="flex h-screen flex-col gap-2 px-6 py-4">
       <div className="flex items-center justify-between">
@@ -48,7 +48,7 @@ function Controller() {
         </div>
       </div>
       <div className="flex h-9 items-center gap-4">
-        <Button variant="outline" size="sm" disabled={!open} onClick={clear}>
+        <Button variant="outline" size="sm" disabled={!display} onClick={() => toggle()}>
           Turn off
         </Button>
         {display}

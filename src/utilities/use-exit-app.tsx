@@ -1,14 +1,15 @@
 import { useCallback, useEffect } from "react";
 import { useProjector } from "@/features/projector";
+import { useResetActiveStates } from "./use-reset-store";
 
-function useUnmount(fn: () => void | (() => void)[]) {
+function useExitApp() {
   const { toggle } = useProjector();
+  const { reset } = useResetActiveStates();
 
   const clear = useCallback(() => {
     toggle();
-    if (Array.isArray(fn)) fn.forEach((f) => f());
-    else fn();
-  }, [toggle, fn]);
+    reset();
+  }, [toggle, reset]);
 
   useEffect(() => {
     window.addEventListener("beforeunload", clear);
@@ -16,4 +17,4 @@ function useUnmount(fn: () => void | (() => void)[]) {
   }, [clear]);
 }
 
-export { useUnmount };
+export { useExitApp };

@@ -1,5 +1,4 @@
 export * from "./create-safe-context";
 export * from "./use-subscription";
-export * from "./use-unmount";
-export * from "./use-window";
+export * from "./use-exit-app";
 export * from "./use-reset-store";

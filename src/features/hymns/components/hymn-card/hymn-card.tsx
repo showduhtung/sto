@@ -8,7 +8,7 @@ import { languageMap, useLanguages } from "@/features/languages";
 import { type HymnDisplayType, useHymns } from "../../store";
 import { VersesSelector } from "./verses-selector";
 import { useHymnQuery } from "../../apis";
-import { useUnmount } from "@/utilities";
+import { useEffect } from "react";
 
 type HymnCardProps = { id: string; type: HymnDisplayType };
 
@@ -16,10 +16,9 @@ function HymnCard({ id, type }: HymnCardProps) {
   const { activeHymnId, remove, setActive, clear } = useHymns(type);
   const { toggle } = useProjector();
   const { panelLanguageId } = useLanguages();
-
   const { data, isLoading } = useHymnQuery(id, [languageMap[panelLanguageId]]);
 
-  useUnmount(clear);
+  useEffect(() => clear(), [clear]);
 
   if (isLoading) return <div>Loading...</div>;
   if (!data) return <div>Not found</div>;
