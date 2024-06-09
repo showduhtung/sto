@@ -12,7 +12,7 @@ import { useHymnQuery } from "../../apis";
 type HymnCardProps = { id: string; type: HymnDisplayType };
 
 function HymnCard({ id, type }: HymnCardProps) {
-  const { activeHymnId, remove, setActive, clear } = useHymns(type);
+  const { activeHymnId, remove, setActive } = useHymns(type);
   const { toggle } = useProjector();
   const { panelLanguageId } = useLanguages();
   const { data, isLoading } = useHymnQuery(id, [languageMap[panelLanguageId]]);
