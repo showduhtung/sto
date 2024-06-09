@@ -3,13 +3,10 @@ import { Switch } from "@/components/switch";
 import { Button } from "@/components/button";
 import { List, ListItem } from "@/components/list";
 import { HymnSearch, HymnCard, useHymns, type HymnDisplayType } from "@/features/hymns";
-import { useUnmount } from "@/utilities";
 import { PanelContainer } from "../shared";
 
 function HymnPanel({ type }: { type: HymnDisplayType }) {
-  const { hymnIds, close, add, reorganize } = useHymns(type);
-
-  useUnmount(close);
+  const { hymnIds, add, reorganize } = useHymns(type);
 
   function handleSearchedHymn(id: string) {
     if (!hymnIds.includes(id)) add(id);
@@ -27,7 +24,7 @@ function HymnPanel({ type }: { type: HymnDisplayType }) {
             Clear
           </Button>
         </div>
-        <div className="flex items-center gap-2 md:gap-1">
+        <div className="flex items-center gap-3">
           <Label htmlFor="audio-playback">Audio Playback</Label>
           <Switch id="audio-playback" />
         </div>

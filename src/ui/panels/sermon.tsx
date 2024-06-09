@@ -6,6 +6,7 @@ import { Label } from "@/components/label";
 import { Switch } from "@/components/switch";
 import { Textarea } from "@/components/textarea";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/tabs";
+import { Translated } from "@/features/languages";
 
 function SermonPanel() {
   const isLarge = useMedia("(min-width: 1024px)");
@@ -43,19 +44,27 @@ function SermonForm() {
     <div className="flex flex-col gap-2 py-2">
       <div className="flex flex-col gap-4">
         <div>
-          <Label htmlFor="sermon-title">Sermon Title</Label>
+          <Label htmlFor="sermon-title">
+            <Translated id="sermon.title" />
+          </Label>
           <Textarea id="sermon-title" rows={1} />
         </div>
         <div>
-          <Label htmlFor="sermon-title-translation">Title Translation</Label>
+          <Label htmlFor="sermon-title-translation">
+            <Translated id="sermon.title_translation" />
+          </Label>
           <Textarea id="sermon-title-translation" rows={1} />
         </div>
         <div>
-          <Label htmlFor="sermon-subtitle">Subtitle</Label>
+          <Label htmlFor="sermon-subtitle">
+            <Translated id="sermon.subtitle" />
+          </Label>
           <Textarea id="sermon-subtitle" rows={1} />
         </div>
         <div>
-          <Label htmlFor="sermon-subtitle-translation">Subtitle Translation</Label>
+          <Label htmlFor="sermon-subtitle-translation">
+            <Translated id="sermon.subtitle_translation" />
+          </Label>
           <Textarea id="sermon-subtitle-translation" rows={1} />
         </div>
       </div>

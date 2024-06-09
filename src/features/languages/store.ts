@@ -1,6 +1,7 @@
 import { type StateCreator, create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { RegionalLanguageId } from "./utilities";
+import { languageMap } from "./utilities";
+import type { DialectType } from "~/models";
 
 type _LanguageActions = {
   update: <T extends keyof LanguageState>(key: T, value: LanguageState[T]) => void;
@@ -8,9 +9,9 @@ type _LanguageActions = {
 
 type LanguageState = {
   bilingual: boolean;
-  primaryLanguageId: RegionalLanguageId;
-  secondaryLanguageId: RegionalLanguageId;
-  panelLanguageId: RegionalLanguageId;
+  primaryLanguageId: DialectType;
+  secondaryLanguageId: DialectType;
+  panelLanguageId: DialectType;
 };
 
 const languageStore: StateCreator<LanguageState & _LanguageActions> = (set) => ({
@@ -21,7 +22,17 @@ const languageStore: StateCreator<LanguageState & _LanguageActions> = (set) => (
   update: (key, value) => set({ [key]: value }),
 });
 
-const useLanguages = create(persist(languageStore, { name: "languages" }));
+const useLanguagesStore = create(persist(languageStore, { name: "languages" }));
+
+const useLanguages = () => {
+  const store = useLanguagesStore();
+  const { primaryLanguageId, secondaryLanguageId, bilingual } = store;
+  const [primary, secondary] = [languageMap[primaryLanguageId], languageMap[secondaryLanguageId]];
+
+  const languages = bilingual ? [primary, secondary] : [primary];
+
+  return { ...store, languages };
+};
 
 export type { LanguageState };
 export { useLanguages };

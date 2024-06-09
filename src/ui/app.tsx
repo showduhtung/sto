@@ -1,21 +1,27 @@
 import { WindowPortal } from "@/components/window";
 
-import { useClose } from "@/utilities";
 import { useProjector } from "@/features/projector";
 import { Projector } from "./projector";
 import { Controller } from "./controller";
+import { useResetActiveStates } from "@/utilities";
+import { LanguageProvider } from "@/features/languages";
 
 function App() {
-  const [open, close] = useClose();
-  const { dimensions } = useProjector();
+  const { dimensions, display, toggle } = useProjector();
+  const { reset } = useResetActiveStates();
+
+  function handleClose() {
+    toggle();
+    reset();
+  }
 
   return (
-    <>
+    <LanguageProvider>
       <Controller />
-      <WindowPortal open={open} onClose={close} {...dimensions}>
+      <WindowPortal open={Boolean(display)} onClose={handleClose} {...dimensions}>
         <Projector />
       </WindowPortal>
-    </>
+    </LanguageProvider>
   );
 }
 

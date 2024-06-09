@@ -1,47 +1,25 @@
-import { useHymns } from "@/features/hymns";
 import { useProjector } from "@/features/projector";
-import { cn } from "@/lib/tailwind";
+import { HymnDisplay, BibleDisplay } from "./projector-displays";
 
 function Projector() {
   const { display } = useProjector();
 
   switch (display) {
     case "SERMON_HYMNS":
-      return <SermonHymnDisplay />;
+      return <HymnDisplay type="SERMON_HYMNS" />;
     case "HYMNAL_WORSHIP":
-      return <WorshipHymnDisplay />;
+      return <HymnDisplay type="HYMNAL_WORSHIP" />;
+    case "BIBLE":
+      return <BibleDisplay />;
+    case "SERMON":
+      return <SermonDisplay />;
     default:
       return <div>Unknown display</div>;
   }
 }
 
-function SermonHymnDisplay() {
-  const { hymnIds, activeHymnId, activeVerse } = useHymns("SERMON_HYMNS");
-  return hymnIds.map((id) => (
-    <p
-      key={id}
-      className={cn("px-6 py-4", id === activeHymnId && "text-[30px] font-bold text-primary")}
-    >
-      {id}
-      {` - ${activeVerse}`}
-    </p>
-  ));
-}
-
-function WorshipHymnDisplay() {
-  const { hymnIds, activeHymnId, activeVerse } = useHymns("HYMNAL_WORSHIP");
-  const { display } = useProjector();
-
-  return hymnIds.map((id) => (
-    <p
-      key={id}
-      className={cn("px-6 py-4", id === activeHymnId && "text-[30px] font-bold text-primary")}
-    >
-      {id}
-      {` - ${activeVerse}`}
-      {JSON.stringify({ display, activeHymnId })}
-    </p>
-  ));
+function SermonDisplay() {
+  return <div>Sermon</div>;
 }
 
 export { Projector };
