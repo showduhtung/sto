@@ -3,7 +3,7 @@ import { fetchHymn } from "~/apis/hymns";
 
 import { Button } from "@/components/button";
 import { type HymnDisplayType, useHymns } from "../../store";
-import { languageMap, useLanguages } from "@/features/languages";
+import { useLanguages } from "@/features/languages";
 import { syncVerses } from "../../utilities";
 import { useKeyboardNavigation } from "./verses-selector.utilities";
 
@@ -15,12 +15,8 @@ type VersesSelectorProps = {
 
 function VersesSelector({ id, type, onVerseChange }: VersesSelectorProps) {
   const { activeHymnId, activeVerse, shouldWrapVerses } = useHymns(type);
-  const { primaryLanguageId, secondaryLanguageId, bilingual } = useLanguages();
+  const { languages, bilingual } = useLanguages();
   const isActive = id === activeHymnId;
-
-  const languages = bilingual
-    ? [languageMap[primaryLanguageId], languageMap[secondaryLanguageId]]
-    : [languageMap[primaryLanguageId]];
 
   const { data = [], isLoading } = useQuery({
     queryKey: ["hymns", id, languages.join(",")],

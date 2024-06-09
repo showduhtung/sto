@@ -27,7 +27,7 @@ function HymnPanel({ type }: { type: HymnDisplayType }) {
             Clear
           </Button>
         </div>
-        <div className="flex items-center gap-2 md:gap-1">
+        <div className="flex items-center gap-3">
           <Label htmlFor="audio-playback">Audio Playback</Label>
           <Switch id="audio-playback" />
         </div>
