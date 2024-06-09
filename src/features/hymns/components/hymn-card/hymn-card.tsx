@@ -1,15 +1,14 @@
 import { Button } from "@/components/button";
 import { cn } from "@/lib/tailwind";
-import { useQuery } from "@tanstack/react-query";
 import { ListMusicIcon } from "lucide-react";
 
-import { fetchHymn } from "~/apis/hymns";
 import { useProjector } from "@/features/projector";
 import { languageMap, useLanguages } from "@/features/languages";
 
 import { type HymnDisplayType, useHymns } from "../../store";
 import { VersesSelector } from "./verses-selector";
-import { useEffect } from "react";
+import { useHymnQuery } from "../../apis";
+import { useUnmount } from "@/utilities";
 
 type HymnCardProps = { id: string; type: HymnDisplayType };
 
@@ -17,15 +16,9 @@ function HymnCard({ id, type }: HymnCardProps) {
   const { activeHymnId, remove, setActive } = useHymns(type);
   const { toggle } = useProjector();
   const { panelLanguageId } = useLanguages();
+  const { data, isLoading } = useHymnQuery(activeHymnId, [languageMap[panelLanguageId]]);
 
-  const { data, isLoading } = useQuery({
-    queryKey: ["hymns", id, languageMap[panelLanguageId]],
-    queryFn: () => fetchHymn(id, [languageMap[panelLanguageId]]),
-  });
-
-  useEffect(() => {
-    return () => setActive("", -1);
-  }, [setActive, id]);
+  useUnmount(() => setActive("", -1));
 
   if (isLoading) return <div>Loading...</div>;
   if (!data) return <div>Not found</div>;
@@ -57,7 +50,10 @@ function HymnCard({ id, type }: HymnCardProps) {
           size="xxs"
           color="danger"
           className="font-semibold"
-          onClick={() => remove(id)}
+          onClick={() => {
+            remove(id);
+            setActive("", -1);
+          }}
         >
           Remove
         </Button>
