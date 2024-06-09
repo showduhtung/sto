@@ -75,7 +75,7 @@ function DraggableItem({ children, id }: DraggableItemProps) {
       style={style}
       {...attributes}
       {...listeners}
-      className={cn(isDragging ? "cursor-grabbing opacity-70" : "cursor-default")}
+      className={cn(isDragging ? "cursor-grabbing" : "cursor-default")}
     >
       {children}
     </div>

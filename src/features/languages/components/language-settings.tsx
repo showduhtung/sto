@@ -58,7 +58,7 @@ function LanguageSettings() {
         <SettingsSelect
           value={panelLanguageId}
           label="Control Panel"
-          options={languages.map((lang, id) => (id === 0 ? lang : { ...lang, disabled: true }))} // currently disable everything but English
+          options={languages.map((lang) => ({ ...lang, disabled: false }))}
           placeholder="Select control panel language"
           onValueChange={handleChange("panelLanguageId")}
         />
