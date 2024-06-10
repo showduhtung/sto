@@ -10,7 +10,7 @@ import { useHymnSettings } from "../store";
 
 function HymnSettings() {
   const [[first, second], setState] = useState([[92], [22]]);
-  const { shouldWrapVerses, toggleWrapVerses } = useHymnSettings();
+  const { shouldWrapVerses, update, audioPlayback } = useHymnSettings();
 
   function handleChange(idx: number) {
     return (value: [number]) => {
@@ -22,11 +22,15 @@ function HymnSettings() {
   return (
     <SettingsContainer>
       <SettingsCardContent title="General" description="Select your general hymnal settings.">
-        <SettingsSwitch label="Audio Playback" />
+        <SettingsSwitch
+          label="Audio Playback"
+          checked={audioPlayback}
+          onCheckedChange={(checked) => update("audioPlayback", checked)}
+        />
         <SettingsSwitch
           label="Wrap Verses"
           checked={shouldWrapVerses}
-          onCheckedChange={toggleWrapVerses}
+          onCheckedChange={(checked) => update("shouldWrapVerses", checked)}
         />
         <SettingsSwitch label="Timestamp Tools (volunteers)" />
       </SettingsCardContent>

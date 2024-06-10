@@ -3,12 +3,17 @@ import { persist } from "zustand/middleware";
 
 type HymnSettingsState = {
   shouldWrapVerses: boolean; // if bilingual and incongruent number of verses, should wrap verses?
+  audioPlayback: boolean;
 };
-type HymnSettingsActions = { toggleWrapVerses: () => void };
+
+type HymnSettingsActions = {
+  update: <T extends keyof HymnSettingsState>(key: T, value: HymnSettingsState[T]) => void;
+};
 
 const hymnSettingsStore: StateCreator<HymnSettingsState & HymnSettingsActions> = (set) => ({
+  audioPlayback: false,
   shouldWrapVerses: false,
-  toggleWrapVerses: () => set(({ shouldWrapVerses }) => ({ shouldWrapVerses: !shouldWrapVerses })),
+  update: (key, value) => set({ [key]: value }),
 });
 
 const useHymnSettings = create(persist(hymnSettingsStore, { name: "hymn-settings" }));
