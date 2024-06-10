@@ -19,7 +19,7 @@ function Controller() {
   return (
     <div className="flex h-screen flex-col gap-2 px-6 py-4">
       <div className="flex items-center justify-between">
-        <img src="./logo.png" className="h-9" />
+        <img src="./logo.png" className="h-9" alt="true jesus church" />
         <div className="flex items-center gap-2">
           <Button variant="text" size="sm">
             Select a tutorial

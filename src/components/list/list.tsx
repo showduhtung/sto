@@ -17,9 +17,9 @@ function List({ children, draggable, className, onChange, ...props }: ListProps)
   return (
     <ListContextProvider value={{ state: { draggable } }}>
       <Wrapper onChange={onChange}>
-        <ul className={cn("flex flex-col gap-2", className)} {...props} role="application">
+        <div className={cn("flex flex-col gap-2", className)} {...props} role="application">
           {children}
-        </ul>
+        </div>
       </Wrapper>
     </ListContextProvider>
   );
@@ -33,7 +33,7 @@ function ListItem({ children, className, ...props }: ListItemProps) {
   const Wrapper = state.draggable ? DraggableItem : Fragment;
   return (
     <Wrapper {...props}>
-      <li className={className}>{children}</li>
+      <div className={className}>{children}</div>
     </Wrapper>
   );
 }
