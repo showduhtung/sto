@@ -29,7 +29,7 @@ function Controller() {
       </div>
 
       <div className="flex grow flex-col items-stretch gap-8 rounded-sm border border-primary px-4 py-2 lg:flex-row">
-        <Tabs className="flex flex-1 flex-col" defaultValue="hymnal_worship">
+        <Tabs className="flex flex-[1.2] flex-col 2xl:flex-1" defaultValue="hymnal_worship">
           <TabsList>
             {tabs.map(({ value, label }) => (
               <TabsTrigger key={value} value={value}>
@@ -43,7 +43,7 @@ function Controller() {
             </TabsContent>
           ))}
         </Tabs>
-        <div className="flex flex-1 flex-col">
+        <div className="flex flex-[0.8] flex-col 2xl:flex-1">
           <SermonPanel />
         </div>
       </div>

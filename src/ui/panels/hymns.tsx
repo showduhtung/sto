@@ -6,7 +6,7 @@ import { HymnSearch, HymnCard, useHymns, type HymnDisplayType } from "@/features
 import { PanelContainer } from "../shared";
 
 function HymnPanel({ type }: { type: HymnDisplayType }) {
-  const { hymnIds, add, reorganize } = useHymns(type);
+  const { hymnIds, add, reorganize, audioPlayback, update } = useHymns(type);
 
   function handleSearchedHymn(id: string) {
     if (!hymnIds.includes(id)) add(id);
@@ -26,7 +26,11 @@ function HymnPanel({ type }: { type: HymnDisplayType }) {
         </div>
         <div className="flex items-center gap-3">
           <Label htmlFor="audio-playback">Audio Playback</Label>
-          <Switch id="audio-playback" />
+          <Switch
+            id="audio-playback"
+            checked={audioPlayback}
+            onCheckedChange={(checked) => update("audioPlayback", checked)}
+          />
         </div>
       </div>
 
