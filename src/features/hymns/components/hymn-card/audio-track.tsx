@@ -8,7 +8,7 @@ function AudioTrack({
   className,
   type,
 }: React.HTMLAttributes<HTMLDivElement> & { type: HymnDisplayType }) {
-  const { activeHymnId } = useHymns(type);
+  const { activeHymnId: _activeHymnId } = useHymns(type);
 
   return (
     <div className="flex flex-col gap-4">
