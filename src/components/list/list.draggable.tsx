@@ -1,18 +1,6 @@
 import { type CSSProperties, type PropsWithChildren, useEffect } from "react";
-import {
-  DndContext,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-  type DragEndEvent,
-} from "@dnd-kit/core";
-import {
-  SortableContext,
-  arrayMove,
-  sortableKeyboardCoordinates,
-  useSortable,
-} from "@dnd-kit/sortable";
+import { DndContext, PointerSensor, useSensor, useSensors, type DragEndEvent } from "@dnd-kit/core";
+import { SortableContext, arrayMove, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { SubscriptionProvider, useSubscription, useSubscriptionProvider } from "@/utilities";
 import { cn } from "@/lib/tailwind";
@@ -22,10 +10,7 @@ type DraggableProps = PropsWithChildren<{ onChange: (items: string[]) => void }>
 function DraggableProvider({ onChange, children }: DraggableProps) {
   const { values, subscribe, unsubscribe, update } = useSubscription();
 
-  const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
-  );
+  const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 8 } }));
 
   function handleDragEnd({ active, over }: DragEndEvent) {
     const isOverNewItem = over && active.id !== over?.id;

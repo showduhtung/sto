@@ -7,7 +7,7 @@ function CardAccordion({ children, open }: CardAccordionProps) {
   return (
     <Accordion type="single" value={open ? "item-1" : ""}>
       <AccordionItem value="item-1" className="border-none">
-        <AccordionContent>{children}</AccordionContent>
+        <AccordionContent className="pb-0">{children}</AccordionContent>
       </AccordionItem>
     </Accordion>
   );
