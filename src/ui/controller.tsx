@@ -1,13 +1,22 @@
-import { HymnalWorship, SermonPanel, SermonHymns, BibleSelector } from "./panels";
 import { Button } from "@/components/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/tabs";
-import { SettingsModal } from "./settings-modal";
+
 import { useUnmount } from "@/utilities";
+
 import { useProjector } from "@/features/projector";
+import { HymnPanel } from "@/features/hymns";
+import { BibleSelector } from "@/features/bible";
+import { SermonPanel } from "@/features/sermon";
+
+import { SettingsModal } from "./settings-modal";
 
 const tabs = [
-  { value: "hymnal_worship", label: "Hymnal Worship", content: <HymnalWorship /> },
-  { value: "sermon_hymns", label: "Sermon Hymns", content: <SermonHymns /> },
+  {
+    value: "hymnal_worship",
+    label: "Hymnal Worship",
+    content: <HymnPanel type="HYMNAL_WORSHIP" />,
+  },
+  { value: "sermon_hymns", label: "Sermon Hymns", content: <HymnPanel type="SERMON_HYMNS" /> },
   { value: "bible", label: "Bible", content: <BibleSelector /> },
   { value: "slides", label: "Slides", content: <SlidesContent /> },
 ];

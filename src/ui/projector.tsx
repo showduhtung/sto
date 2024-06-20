@@ -1,5 +1,6 @@
+import { BibleDisplay } from "@/features/bible";
+import { HymnDisplay } from "@/features/hymns";
 import { useProjector } from "@/features/projector";
-import { HymnDisplay, BibleDisplay } from "./projector-displays";
 
 function Projector() {
   const { display } = useProjector();

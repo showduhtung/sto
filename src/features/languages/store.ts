@@ -3,7 +3,7 @@ import { persist } from "zustand/middleware";
 import { languageMap } from "./utilities";
 import type { DialectType } from "~/models";
 
-type _LanguageActions = {
+type LanguageActions = {
   update: <T extends keyof LanguageState>(key: T, value: LanguageState[T]) => void;
 };
 
@@ -14,7 +14,7 @@ type LanguageState = {
   panelLanguageId: DialectType;
 };
 
-const languageStore: StateCreator<LanguageState & _LanguageActions> = (set) => ({
+const languageStore: StateCreator<LanguageState & LanguageActions> = (set) => ({
   bilingual: false,
   primaryLanguageId: "en",
   secondaryLanguageId: "zh",

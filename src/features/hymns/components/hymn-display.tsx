@@ -1,8 +1,8 @@
-import { type HymnDisplayType, useHymns } from "../../features/hymns/store";
+import { type HymnDisplayType, useHymns } from "../store";
 import { useLanguages } from "@/features/languages";
-import { ProjectorContainer } from "../shared";
 import { useHymnQuery } from "@/features/hymns/apis";
 import { cn } from "@/lib/tailwind";
+import { ProjectorContainer } from "@/ui/shared";
 
 function HymnDisplay({ type }: { type: HymnDisplayType }) {
   const { activeHymnId, activeVerse, hymnIds } = useHymns(type);
