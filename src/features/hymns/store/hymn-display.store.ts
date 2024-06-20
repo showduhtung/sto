@@ -19,7 +19,6 @@ const hymnStore: StateCreator<HymnState & HymnActions> = (set) => ({
   hymnIds: [],
   activeHymnId: "",
   activeVerse: -1,
-  shouldWrap: false,
   add: (hymnId: string) => set(({ hymnIds }) => ({ hymnIds: [...hymnIds, hymnId] })),
   reorganize: (hymnIds: string[]) => set(() => ({ hymnIds })),
   remove: (hymnId: string) => {

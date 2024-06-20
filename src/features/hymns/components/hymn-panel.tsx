@@ -3,7 +3,7 @@ import { Switch } from "@/components/switch";
 import { Button } from "@/components/button";
 import { List, ListItem } from "@/components/list";
 import { HymnSearch, HymnCard, useHymns, type HymnDisplayType } from "@/features/hymns";
-import { PanelContainer } from "../shared";
+import { PanelContainer } from "../../../ui/shared";
 
 function HymnPanel({ type }: { type: HymnDisplayType }) {
   const { hymnIds, add, reorganize, audioPlayback, update } = useHymns(type);
@@ -50,12 +50,4 @@ function HymnPanel({ type }: { type: HymnDisplayType }) {
   );
 }
 
-function SermonHymns() {
-  return <HymnPanel type="SERMON_HYMNS" />;
-}
-
-function HymnalWorship() {
-  return <HymnPanel type="HYMNAL_WORSHIP" />;
-}
-
-export { SermonHymns, HymnalWorship };
+export { HymnPanel };
