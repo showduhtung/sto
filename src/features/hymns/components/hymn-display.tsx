@@ -3,10 +3,11 @@ import { useLanguages } from "@/features/languages";
 import { useHymnQuery } from "@/features/hymns/apis";
 import { cn } from "@/lib/tailwind";
 import { ProjectorContainer } from "@/ui/shared";
+import { syncVerses } from "../utilities";
 
 function HymnDisplay({ type }: { type: HymnDisplayType }) {
-  const { activeHymnId, activeVerse, hymnIds } = useHymns(type);
-  const { languages } = useLanguages();
+  const { activeHymnId, activeVerse, hymnIds, shouldWrapVerses } = useHymns(type);
+  const { languages, bilingual } = useLanguages();
   const { data, isLoading } = useHymnQuery(activeHymnId, languages);
 
   if (activeVerse === -1)
@@ -32,6 +33,11 @@ function HymnDisplay({ type }: { type: HymnDisplayType }) {
   const titles = data.map((hymn) => hymn.title);
   const verses = data.map((hymn) => hymn.verses);
 
+  const [primary, secondary] = data;
+  const [activePrimaryVerseIdx, activeSecondaryVerseIdx] = bilingual
+    ? syncVerses(shouldWrapVerses, activeVerse, [primary.verses.length, secondary.verses.length])
+    : [activeVerse];
+
   return (
     <ProjectorContainer>
       {JSON.stringify(languages)}
@@ -46,7 +52,7 @@ function HymnDisplay({ type }: { type: HymnDisplayType }) {
 
         <div className="flex gap-8">
           {verses.map((verses, idx) => {
-            const verse = verses[activeVerse];
+            const verse = verses[idx === 0 ? activePrimaryVerseIdx : activeSecondaryVerseIdx];
             return (
               <div key={idx}>
                 <div dangerouslySetInnerHTML={{ __html: verse.html }} />
