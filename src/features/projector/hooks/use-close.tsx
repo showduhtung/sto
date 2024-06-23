@@ -1,7 +1,9 @@
 import { useHymns } from "@/features/hymns";
+import { useProjector } from "@/features/projector";
 import { useCallback } from "react";
 
-function useResetActiveStates() {
+function useClose() {
+  const { toggle } = useProjector();
   const { clear: clearSermonHymns } = useHymns("SERMON_HYMNS");
   const { clear: clearWorshipHymns } = useHymns("HYMNAL_WORSHIP");
 
@@ -10,7 +12,12 @@ function useResetActiveStates() {
     clearWorshipHymns();
   }, [clearSermonHymns, clearWorshipHymns]);
 
-  return { reset };
+  const close = useCallback(() => {
+    toggle();
+    reset();
+  }, [toggle, reset]);
+
+  return { close };
 }
 
-export { useResetActiveStates };
+export { useClose };
