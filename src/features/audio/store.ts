@@ -1,5 +1,6 @@
 import { type StateCreator, create } from "zustand";
 import type { HymnId } from "~/models";
+import { persist } from "zustand/middleware";
 
 type AudioActions = {
   add: (hymnId: HymnId) => void;
@@ -8,11 +9,11 @@ type AudioActions = {
   update: <T extends keyof AudioSetting>({
     key,
     value,
-    id,
+    hymnId,
   }: {
     key: T;
     value: AudioSetting[T];
-    id: HymnId;
+    hymnId: HymnId;
   }) => void;
 };
 
@@ -46,16 +47,16 @@ const audioStore: StateCreator<AudioState & AudioActions> = (set) => ({
   remove: (hymnId: HymnId) =>
     set(({ audios }) => ({ audios: audios.filter((audio) => audio.hymnId !== hymnId) })),
 
-  update: ({ key, value, id }) =>
+  update: ({ key, value, hymnId }) =>
     set(({ audios }) => {
       const newAudios = audios.map((audio) => {
-        return audio.hymnId === id ? { ...audio, [key]: value } : audio;
+        return audio.hymnId === hymnId ? { ...audio, [key]: value } : audio;
       });
       return { audios: newAudios };
     }),
 });
 
-const useAudio = create(audioStore);
+const useAudio = create(persist(audioStore, { name: "sto-audios" }));
 
 export { useAudio };
 

@@ -8,14 +8,14 @@ import { useHymnQuery } from "../../apis";
 import { useHymnContext } from "../../context";
 
 function VersesSelector({ onVerseChange }: { onVerseChange: (idx: number) => void }) {
-  const { id, type } = useHymnContext();
+  const { hymnId, type } = useHymnContext();
   const { activeHymnId, activeVerse, shouldWrapVerses } = useHymn(type);
   const { languages, bilingual } = useLanguage();
-  const isActive = id === activeHymnId;
+  const isActive = hymnId === activeHymnId;
 
-  const { data = [], isLoading } = useHymnQuery({ hymnId: id, languages });
+  const { data = [], isLoading } = useHymnQuery({ hymnId, languages });
 
-  useKeyboardNavigation(id, type, Math.max(...data.map(({ verses }) => verses.length)) - 1);
+  useKeyboardNavigation(hymnId, type, Math.max(...data.map(({ verses }) => verses.length)) - 1);
 
   if (isLoading) return <div>Loading...</div>;
   if (data.length === 0) return <div>Not found</div>;

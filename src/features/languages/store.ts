@@ -22,7 +22,7 @@ const languageStore: StateCreator<LanguageState & LanguageActions> = (set) => ({
   update: (key, value) => set({ [key]: value }),
 });
 
-const useLanguagesStore = create(persist(languageStore, { name: "languages" }));
+const useLanguagesStore = create(persist(languageStore, { name: "sto-languages" }));
 
 const useLanguage = () => {
   const store = useLanguagesStore();

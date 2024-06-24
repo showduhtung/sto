@@ -48,7 +48,7 @@ function HymnPanel({ type }: { type: HymnDisplayType }) {
       <List draggable onChange={(items) => reorganize(items as HymnId[])}>
         {hymnIds.map((id) => (
           <ListItem key={id} id={String(id)}>
-            <HymnCard id={id} type={type} />
+            <HymnCard hymnId={id} type={type} />
           </ListItem>
         ))}
       </List>
