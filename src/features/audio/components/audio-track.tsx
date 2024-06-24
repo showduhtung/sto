@@ -9,30 +9,25 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { ActionIcon } from "@/components/button";
 import { Slider } from "@/components/slider";
 
-import { useHymns, type HymnDisplayType } from "@/features/hymns";
+import { useHymn, useHymnContext } from "@/features/hymns";
 import { useAudioQuery } from "../apis";
 
-function AudioSettings({ hymnId, type }: { hymnId: string; type: HymnDisplayType }) {
-  const { data, isLoading } = useAudioQuery(hymnId);
+function TrackSettings() {
+  const { id, type } = useHymnContext();
+  const { data, isLoading } = useAudioQuery(id);
 
-  const { hymns } = useHymns(type);
-  console.log({ hymns });
-
-  const hymn = hymns.find(({ id }) => id === hymnId)!;
-
-  const store = hymn.audio;
-  console.log({ store });
+  const { hymnIds } = useHymn(type);
 
   if (isLoading) return <div>Loading...</div>;
   if (!data) return <div>Not found</div>;
 
   return (
     <div className="flex items-center gap-2">
-      <Select defaultValue="Piano">
-        <SelectTrigger className="h-8 w-24 focus:ring-0 focus:ring-transparent">
+      <Select defaultValue={data[0].name}>
+        <SelectTrigger className="h-8 w-40 focus:ring-0 focus:ring-transparent">
           <SelectValue />
         </SelectTrigger>
-        <SelectContent className="w-24 min-w-24">
+        <SelectContent className="min-w-24">
           {data.map(({ name }) => (
             <SelectItem key={name} value={name}>
               {name}
@@ -69,7 +64,7 @@ function AudioButtons() {
   const duration = useRef(0);
 
   return (
-    <div className="flex items-center gap-4 px-1">
+    <div className="flex items-center gap-4 pl-1">
       <ActionIcon onClick={toggle}>
         {isPlaying ? (
           <Pause className="h-4 w-4 fill-primary stroke-primary" />
@@ -97,16 +92,13 @@ function AudioButtons() {
   );
 }
 
-function AudioTrack({
-  className,
-  type,
-  hymnId,
-}: React.HTMLAttributes<HTMLDivElement> & { type: HymnDisplayType; hymnId: string }) {
-  const { activeHymnId: _activeHymnId } = useHymns(type);
+function AudioTrack({ className }: React.HTMLAttributes<HTMLDivElement>) {
+  const { type } = useHymnContext();
+  const { activeHymnId: _activeHymnId } = useHymn(type);
 
   return (
-    <div className={cn("flex flex-col gap-4 rounded-sm bg-zinc-100", className)}>
-      <AudioSettings hymnId={hymnId} type={type} />
+    <div className={cn("flex flex-col gap-4 rounded-sm bg-zinc-100 px-4 pb-2 pt-4", className)}>
+      <TrackSettings />
       <AudioButtons />
     </div>
   );
@@ -143,4 +135,4 @@ function timestampToSecs(timestamp: string) {
   return minutes * 60 + seconds;
 }
 
-export { AudioTrack };
+export { AudioTrack, AudioButtons, TrackSettings };

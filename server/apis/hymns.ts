@@ -1,6 +1,6 @@
-import { type LanguageType, HymnTitleModel, HymnModel, type HymnType } from "~/models";
+import { type LanguageType, HymnTitleModel, HymnModel, type HymnType, type HymnId } from "~/models";
 
-async function fetchHymnById(id: string, languages: LanguageType[] = ["en"]) {
+async function fetchHymnById(id: HymnId, languages: LanguageType[] = ["en"]) {
   const hashed = languages.reduce(
     (acc, lang) => ({ ...acc, [lang]: false }),
     {} as Record<LanguageType, boolean>,
@@ -17,7 +17,7 @@ async function fetchHymnById(id: string, languages: LanguageType[] = ["en"]) {
   return languages.map((language) => responses[language]);
 }
 
-async function fetchHymns(ids: string[], language: LanguageType = "en") {
+async function fetchHymns(ids: HymnId[], language: LanguageType = "en") {
   const responses = await Promise.all(
     ids.map((id) => fetch(`server/data/hymns/${language}/${id}.json`)),
   );

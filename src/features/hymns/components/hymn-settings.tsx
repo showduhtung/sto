@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   SettingsCardContent,
   SettingsContainer,
@@ -5,12 +6,11 @@ import {
   SettingsSelect,
   SettingsSwitch,
 } from "@/ui/shared";
-import { useState } from "react";
 import { useHymnSettings } from "../store";
 
 function HymnSettings() {
   const [[first, second], setState] = useState([[92], [22]]);
-  const { shouldWrapVerses, update, audioPlayback, timestampTools } = useHymnSettings();
+  const { audioPlayback, timestampTools, shouldWrapVerses, update } = useHymnSettings();
 
   function handleChange(idx: number) {
     return (value: [number]) => {

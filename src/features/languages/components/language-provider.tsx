@@ -1,12 +1,12 @@
 import { startTransition, Suspense, useEffect, useState, type ReactNode } from "react";
 import { IntlProvider } from "react-intl";
-import { useLanguages } from "@/features/languages";
+import { useLanguage } from "@/features/languages";
 import { useLanguageQuery } from "../apis";
 import type { DialectType } from "~/models";
 
 function LanguageProvider({ children }: { children: ReactNode }) {
   const [lang, setLang] = useState<DialectType>("en");
-  const { panelLanguageId } = useLanguages();
+  const { panelLanguageId } = useLanguage();
 
   const { data } = useLanguageQuery(lang);
 

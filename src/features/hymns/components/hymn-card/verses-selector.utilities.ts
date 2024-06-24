@@ -1,11 +1,14 @@
 import { useCallback, useEffect } from "react";
-import { type HymnDisplayType, useHymns } from "../../store";
+import type { HymnId } from "~/models";
+import { type HymnDisplayType, useHymn } from "../../store";
 
-function useKeyboardNavigation(id: string, type: HymnDisplayType, max: number) {
-  const { activeHymnId, activeVerse, setActive, hymnIds } = useHymns(type);
+function useKeyboardNavigation(id: HymnId, type: HymnDisplayType, max: number) {
+  const { activeHymnId, activeVerse, setActive, hymnIds } = useHymn(type);
 
   const navigate = useCallback(
     (direction: number) => {
+      if (activeHymnId === "") return;
+
       const currIdx = hymnIds.indexOf(activeHymnId);
       const nextHymnId = hymnIds[currIdx + direction];
       const edge = direction === -1 ? 0 : max;
@@ -24,7 +27,7 @@ function useKeyboardNavigation(id: string, type: HymnDisplayType, max: number) {
   useEffect(() => {
     function keydown(event: KeyboardEvent) {
       if (shouldIgnoreKey(event)) return;
-      const keydowns: Record<string, () => void> = {
+      const keydowns: Record<string, (() => void) | undefined> = {
         ArrowLeft: navigate(-1),
         ArrowUp: navigate(-1),
         ArrowRight: navigate(1),

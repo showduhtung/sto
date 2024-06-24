@@ -1,31 +1,34 @@
-import { Button } from "@/components/button";
-import { cn } from "@/lib/tailwind";
 import { ListMusicIcon } from "lucide-react";
 
+import type { HymnId } from "~/models";
+import { cn } from "@/lib/tailwind";
+
 import { useProjector } from "@/features/projector";
-import { languageMap, useLanguages } from "@/features/languages";
+import { languageMap, useLanguage } from "@/features/languages";
+import { AudioButtons, TrackSettings, TimestampTools, useAudio } from "@/features/audio";
 
+import { Button } from "@/components/button";
 import { VersesSelector } from "./verses-selector";
-import { AudioTrack } from "./audio-track";
-import { CardAccordion } from "./card-accordion";
-
-import { type HymnDisplayType, useHymns } from "../../store";
+import { CardAccordionSection } from "./card-accordion-section";
+import { type HymnDisplayType, useHymn, useHymnSettings } from "../../store";
 import { useHymnQuery } from "../../apis";
-import { TimestampTools } from "./timestamp-tools";
+import { HymnContextProvider, useHymnContext } from "../../context";
 
-type HymnCardProps = { id: string; type: HymnDisplayType };
-
-function HymnCard({ id, type }: HymnCardProps) {
-  const { activeHymnId, remove, setActive, audioPlayback, timestampTools } = useHymns(type);
+function HymnCard({ id, type }: { id: HymnId; type: HymnDisplayType }) {
+  const { activeHymnId, remove, setActive, audioPlayback } = useHymn(type);
+  const { remove: removeAudio } = useAudio();
   const { toggle } = useProjector();
-  const { panelLanguageId } = useLanguages();
-  const { data, isLoading } = useHymnQuery(id, [languageMap[panelLanguageId]]);
+  const { panelLanguageId } = useLanguage();
+
+  const { data, isLoading } = useHymnQuery({
+    hymnId: id,
+    languages: [languageMap[panelLanguageId]],
+  });
 
   if (isLoading) return <div>Loading...</div>;
   if (!data) return <div>Not found</div>;
 
   const isActive = id === activeHymnId;
-  const showAudio = audioPlayback && isActive;
   const [{ num, title }] = data;
 
   function handleVerse(idx: number) {
@@ -33,46 +36,71 @@ function HymnCard({ id, type }: HymnCardProps) {
     toggle(type);
   }
 
+  function handleRemove() {
+    remove(id);
+    removeAudio(id);
+    setActive("", -1);
+  }
+
   return (
-    <div className="flex flex-col gap-4 rounded-md border border-primary/10 bg-white pt-4 shadow-sm">
-      <div className="flex items-center justify-between px-4">
-        <Button
-          variant="link"
-          className="flex h-fit items-center gap-2 p-0 capitalize"
-          onClick={() => handleVerse(-1)}
-        >
-          <p className={cn("text-sm font-semibold", isActive ? "text-primary" : "text-black")}>
-            {`${num}. ${title}`}
-          </p>
-          {audioPlayback && <ListMusicIcon className="text-primary" height="18" width="18" />}
-        </Button>
+    <HymnContextProvider value={{ id, type }}>
+      <div className="rounded-md border border-primary/10 bg-white shadow-sm">
+        <div className="flex flex-col gap-4 p-4">
+          <div className="flex items-center justify-between">
+            <Button
+              variant="link"
+              className="flex h-fit items-center gap-2 p-0 capitalize"
+              onClick={() => handleVerse(-1)}
+            >
+              <p className={cn("text-sm font-semibold", isActive ? "text-primary" : "text-black")}>
+                {`${num}. ${title}`}
+              </p>
+              {audioPlayback && <ListMusicIcon className="text-primary" height="18" width="18" />}
+            </Button>
 
-        <Button
-          variant="text"
-          size="xxs"
-          color="danger"
-          className="font-semibold"
-          onClick={() => {
-            remove(id);
-            setActive("", -1);
-          }}
-        >
-          Remove
-        </Button>
+            <Button
+              variant="text"
+              size="xxs"
+              color="danger"
+              className="font-semibold"
+              onClick={handleRemove}
+            >
+              Remove
+            </Button>
+          </div>
+
+          <VersesSelector onVerseChange={handleVerse} />
+        </div>
+        <AudioSettings />
+      </div>
+    </HymnContextProvider>
+  );
+}
+
+function AudioSettings() {
+  const { id, type } = useHymnContext();
+  const { activeHymnId } = useHymn(type);
+  const { audioPlayback, timestampTools } = useHymnSettings();
+
+  const isActive = id === activeHymnId;
+
+  return (
+    <CardAccordionSection open={audioPlayback} className="flex flex-col bg-zinc-100 p-4">
+      <div className="flex h-10 items-center">
+        <TrackSettings />
       </div>
 
-      <div className="px-4">
-        <VersesSelector id={id} type={type} onVerseChange={handleVerse} />
-      </div>
-      <div>
-        <CardAccordion open={showAudio}>
-          <AudioTrack className="px-4 pb-2 pt-4" type={type} />
-        </CardAccordion>
-        <CardAccordion open={showAudio && timestampTools}>
-          <TimestampTools className="px-4 pb-4 pt-2" />
-        </CardAccordion>
-      </div>
-    </div>
+      <CardAccordionSection open={audioPlayback && isActive} className="flex h-10 items-center">
+        <AudioButtons />
+      </CardAccordionSection>
+
+      <CardAccordionSection
+        open={audioPlayback && isActive && timestampTools}
+        className="mb-[-4px] flex h-10 items-center"
+      >
+        <TimestampTools />
+      </CardAccordionSection>
+    </CardAccordionSection>
   );
 }
 
