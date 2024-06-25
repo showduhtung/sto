@@ -1,4 +1,4 @@
-import { type ElementRef, forwardRef, useEffect, useImperativeHandle, useRef } from "react";
+import { type ElementRef, forwardRef, useEffect, useRef } from "react";
 import type { HymnId } from "~/models";
 import { type HymnDisplayType } from "@/features/hymns";
 import { useAudioQuery } from "../apis";
@@ -12,7 +12,11 @@ const AudioSound = forwardRef<
   const { loaded } = useAudio(type);
   const internalRef = useRef<HTMLAudioElement | null>(null);
 
-  useImperativeHandle(ref, () => internalRef.current as HTMLAudioElement); // useImerativeHandle is a hook that defines the value of the forwarded ref as the current value of the ref
+  function combineRefs(node: HTMLAudioElement | null) {
+    internalRef.current = node;
+    if (typeof ref === "function") ref(node);
+    else if (ref) ref.current = node;
+  }
 
   useEffect(() => {
     if (!internalRef.current) return;
@@ -32,7 +36,7 @@ const AudioSound = forwardRef<
   if (!tracks) return <div>Not found</div>;
 
   const { url } = tracks[activeTrackIdx];
-  return <audio ref={internalRef} src={url} {...props} />;
+  return <audio ref={combineRefs} src={url} {...props} />;
 });
 
 export { AudioSound };

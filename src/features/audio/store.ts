@@ -1,7 +1,6 @@
 import { type StateCreator, create } from "zustand";
 import type { HymnId } from "~/models";
-import { persist } from "zustand/middleware";
-import { createRef, type RefObject } from "react";
+import { type RefObject } from "react";
 import type { HymnDisplayType } from "../hymns";
 
 type AudioActions = {
@@ -29,7 +28,8 @@ const audioStore: StateCreator<AudioState & AudioActions> = (set, get) => ({
   audios: [],
   add: (hymnId: HymnId) =>
     set(({ audios }) => {
-      const ref = createRef<HTMLAudioElement>();
+      // const ref = createRef<HTMLAudioElement>();
+      const ref = { current: null } as RefObject<HTMLAudioElement>;
 
       if (ref.current) {
         ref.current.volume = 0.5;
@@ -83,8 +83,8 @@ const audioStore: StateCreator<AudioState & AudioActions> = (set, get) => ({
     })),
 });
 
-const useSermonAudio = create(persist(audioStore, { name: "sto-sermon-audio" }));
-const useWorshipAudio = create(persist(audioStore, { name: "sto-worship-audio" }));
+const useSermonAudio = create(audioStore);
+const useWorshipAudio = create(audioStore);
 
 const useAudio = (type: HymnDisplayType) => {
   const sermonAudio = useSermonAudio();
