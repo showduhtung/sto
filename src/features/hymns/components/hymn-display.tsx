@@ -2,7 +2,7 @@ import type { HymnId } from "~/models";
 import { cn } from "@/lib/tailwind";
 import { useLanguage } from "@/features/languages";
 import { useHymnQuery } from "@/features/hymns";
-// import { AudioSounds } from "@/features/audio";
+import { useAudio, AudioSound } from "@/features/audio";
 import { ProjectorContainer } from "@/ui/shared";
 import { syncVerses } from "../utilities";
 import { type HymnDisplayType, useHymn } from "../store";
@@ -10,6 +10,7 @@ import { type HymnDisplayType, useHymn } from "../store";
 function HymnDisplay({ type }: { type: HymnDisplayType }) {
   const { activeHymnId, activeVerse, shouldWrapVerses, hymnIds } = useHymn(type);
   const { languages, bilingual } = useLanguage();
+  const { audios } = useAudio(type);
 
   const { data, isLoading } = useHymnQuery({
     hymnId: activeHymnId as HymnId,
@@ -44,10 +45,11 @@ function HymnDisplay({ type }: { type: HymnDisplayType }) {
 
   return (
     <ProjectorContainer>
-      {/* {hymns.map(({ id }) => (
-        <AudioSounds key={id} id={id} type={type} />
-      ))} */}
+      {audios.map((audio) => (
+        <AudioSound key={audio.hymnId} {...audio} type={type} />
+      ))}
       {JSON.stringify(languages)}
+
       <div className="flex h-full flex-col gap-8 rounded-md bg-slate-300 px-6 py-4">
         <div className="flex gap-2">
           {data.map(({ title }, idx) => (

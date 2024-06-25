@@ -9,7 +9,7 @@ import { useAudio } from "@/features/audio";
 
 function HymnPanel({ type }: { type: HymnDisplayType }) {
   const { hymnIds, add, reorganize, audioPlayback, update } = useHymn(type);
-  const { add: addAudio } = useAudio();
+  const { add: addAudio } = useAudio(type);
 
   function handleSearchedHymn(id: HymnId) {
     if (!hymnIds.includes(id)) {

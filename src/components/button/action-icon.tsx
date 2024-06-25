@@ -11,7 +11,7 @@ const ActionIcon = forwardRef<
     <Comp
       ref={ref}
       className={cn(
-        "button-press-effect h-fit w-fit p-0 data-[disabled=true]:pointer-events-none",
+        "button-press-effect h-fit w-fit rounded-md p-2 hover:bg-primary/20 data-[disabled=true]:pointer-events-none",
         className,
       )}
       {...props}

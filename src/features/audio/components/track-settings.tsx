@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Checkbox } from "@/components/checkbox";
 import { Label } from "@/components/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/select";
@@ -5,33 +6,44 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useHymnContext } from "@/features/hymns";
 import { useAudioQuery } from "../apis";
 import { useAudio } from "../store";
+import { convertNumberToDecimalDisplay } from "../utilities";
 
 function TrackSettings() {
-  const { hymnId } = useHymnContext();
+  const [playbackRate, setPlaybackRate] = useState(1);
+  const { hymnId, type } = useHymnContext();
   const { data, isLoading } = useAudioQuery(hymnId);
-  const { audios } = useAudio();
-
-  const audio = audios.find((audio) => audio.hymnId === hymnId);
+  const { audios, setActive } = useAudio(type);
 
   if (isLoading) return <div>Loading...</div>;
-  if (!audio || !data) return <div>No audio found</div>;
+  if (!data) return <div>No audio found</div>;
+
+  const { activeTrackIdx, ref } = audios.find((audio) => audio.hymnId === hymnId)!;
 
   return (
     <div className="flex items-center gap-2">
-      <Select defaultValue={data[0].name}>
+      <Select
+        defaultValue={String(activeTrackIdx)}
+        onValueChange={(val) => setActive(hymnId, Number(val))}
+      >
         <SelectTrigger className="h-8 w-40 focus:ring-0 focus:ring-transparent">
           <SelectValue />
         </SelectTrigger>
         <SelectContent className="min-w-24">
-          {data.map(({ name }) => (
-            <SelectItem key={name} value={name}>
+          {data.map(({ name }, idx) => (
+            <SelectItem key={name} value={String(idx)}>
               {name}
             </SelectItem>
           ))}
         </SelectContent>
       </Select>
 
-      <Select defaultValue="1.0">
+      <Select
+        defaultValue={convertNumberToDecimalDisplay(playbackRate)}
+        onValueChange={(val) => {
+          if (ref.current) ref.current.playbackRate = Number(val);
+          setPlaybackRate(Number(val));
+        }}
+      >
         <SelectTrigger className="h-8 w-20 focus:ring-0 focus:ring-transparent">
           <SelectValue />
         </SelectTrigger>

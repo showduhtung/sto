@@ -1,123 +1,97 @@
 import { type StateCreator, create } from "zustand";
 import type { HymnId } from "~/models";
 import { persist } from "zustand/middleware";
+import { createRef, type RefObject } from "react";
+import type { HymnDisplayType } from "../hymns";
 
 type AudioActions = {
   add: (hymnId: HymnId) => void;
   remove: (hymnId: HymnId) => void;
-
-  update: <T extends keyof AudioSetting>({
-    key,
-    value,
-    hymnId,
-  }: {
-    key: T;
-    value: AudioSetting[T];
-    hymnId: HymnId;
-  }) => void;
+  pauseAll: () => void;
+  play: (hymnId: HymnId, isPlaying: boolean) => void;
+  setActive: (hymnId: HymnId, activeTrackIdx: number) => void;
+  reset: () => void;
+  loaded: (hymnId: HymnId, activeTrackIdx: number) => void;
 };
 
 type AudioSetting = {
-  isPlaying: boolean;
-  playbackRate: number;
-  status: "loading" | "success" | "error";
-  activeTrackIdx: number;
   hymnId: HymnId;
+  activeTrackIdx: number;
+  ref: RefObject<HTMLAudioElement>;
+  status: "loading" | "loaded" | "error";
 };
 
 type AudioState = {
   audios: AudioSetting[];
 };
 
-const audioStore: StateCreator<AudioState & AudioActions> = (set) => ({
+const audioStore: StateCreator<AudioState & AudioActions> = (set, get) => ({
   audios: [],
   add: (hymnId: HymnId) =>
     set(({ audios }) => {
-      const newAudio = {
-        hymnId,
-        isPlaying: false,
-        playbackRate: 1.0,
-        status: "loading" as const,
-        activeTrackIdx: 0,
-      };
+      const ref = createRef<HTMLAudioElement>();
 
+      if (ref.current) {
+        ref.current.volume = 0.5;
+        ref.current.playbackRate = 1.0;
+      }
+      const newAudio = { hymnId, activeTrackIdx: 0, ref, status: "loading" as const };
       return { audios: [...audios, newAudio] };
     }),
 
-  remove: (hymnId: HymnId) =>
-    set(({ audios }) => ({ audios: audios.filter((audio) => audio.hymnId !== hymnId) })),
+  loaded: (hymnId: HymnId, activeTrackIdx: number) =>
+    set(({ audios }) => ({
+      audios: audios.map((audio) =>
+        audio.hymnId === hymnId ? { ...audio, activeTrackIdx, status: "loaded" } : audio,
+      ),
+    })),
 
-  update: ({ key, value, hymnId }) =>
-    set(({ audios }) => {
-      const newAudios = audios.map((audio) => {
-        return audio.hymnId === hymnId ? { ...audio, [key]: value } : audio;
-      });
-      return { audios: newAudios };
+  remove: (hymnId: HymnId) =>
+    set(({ audios }) => ({
+      audios: audios.filter((audio) => audio.hymnId !== hymnId),
+    })),
+
+  play: (id: HymnId, isPlaying: boolean) =>
+    get().audios.forEach(({ ref, hymnId }) => {
+      if (hymnId !== id) return;
+      if (isPlaying) ref.current?.play();
+      else ref.current?.pause();
     }),
+
+  pauseAll: () =>
+    get().audios.forEach(({ ref }) => {
+      if (!ref.current) return;
+      ref.current?.pause();
+      ref.current.currentTime = 0;
+    }),
+
+  reset: () =>
+    get().audios.forEach(({ ref }) => {
+      if (!ref.current) return;
+
+      ref.current.pause();
+      ref.current.currentTime = 0;
+      ref.current.volume = 0.5;
+      ref.current.playbackRate = 1.0;
+    }),
+
+  setActive: (hymnId: HymnId, activeTrackIdx: number) =>
+    set(({ audios }) => ({
+      audios: audios.map((audio) =>
+        audio.hymnId === hymnId ? { ...audio, activeTrackIdx } : audio,
+      ),
+    })),
 });
 
-const useAudio = create(persist(audioStore, { name: "sto-audios" }));
+const useSermonAudio = create(persist(audioStore, { name: "sto-sermon-audio" }));
+const useWorshipAudio = create(persist(audioStore, { name: "sto-worship-audio" }));
 
+const useAudio = (type: HymnDisplayType) => {
+  const sermonAudio = useSermonAudio();
+  const worshipAudio = useWorshipAudio();
+
+  return type === "SERMON_HYMNS" ? sermonAudio : worshipAudio;
+};
+
+export type { AudioSetting };
 export { useAudio };
-
-// src: track.url,
-// timestamps: track.timestamps,
-// isPlaying: false,
-// currentTime: 0,
-// duration: 0,
-// canPlay: false,
-// playbackRate: 1.0,
-// error: null,
-
-// {
-// 	"4": {
-// 			"src": "https://d9qryu57vn5tu.cloudfront.net/en-us/best-2023/4 - I Love Thy Kingsom, Lord (Piano 5v).m4a",
-// 			"timestamps": [
-// 					8.9,
-// 					28.2,
-// 					47.5,
-// 					66.8,
-// 					86
-// 			],
-// 			"isPlaying": false,
-// 			"currentTime": 0,
-// 			"duration": 109.226667,
-// 			"canPlay": true,
-// 			"playbackRate": 1,
-// 			"error": null
-// 	},
-// 	"5": {
-// 			"src": "https://d9qryu57vn5tu.cloudfront.net/en-us/best-2023/5 - This Is My Father_s World (Piano).m4a",
-// 			"timestamps": [
-// 					10.5,
-// 					33,
-// 					56,
-// 					79.4,
-// 					102.1,
-// 					125.3
-// 			],
-// 			"isPlaying": false,
-// 			"currentTime": 0,
-// 			"duration": 151.594667,
-// 			"canPlay": true,
-// 			"playbackRate": 1,
-// 			"error": null
-// 	},
-// 	"6": {
-// 			"src": "https://d9qryu57vn5tu.cloudfront.net/en-us/best-2023/6 - The Spacious Firmament on High (Piano).m4a",
-// 			"timestamps": [
-// 					6.32,
-// 					33.24,
-// 					59.82,
-// 					86.39,
-// 					113.22,
-// 					140.1
-// 			],
-// 			"isPlaying": false,
-// 			"currentTime": 0,
-// 			"duration": 0,
-// 			"canPlay": false,
-// 			"playbackRate": 1,
-// 			"error": null
-// 	}
-// }
