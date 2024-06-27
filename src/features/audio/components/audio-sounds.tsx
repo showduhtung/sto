@@ -12,15 +12,14 @@ type AudioSoundProps = {
 
 function AudioSound({ type, hymnId, activeTrackIdx }: AudioSoundProps) {
   const { data: tracks, isLoading } = useAudioQuery(hymnId);
-  const { audios, setDuration } = useAudio(type);
-
-  const { ref, duration } = audios.find(({ hymnId: id }) => id === hymnId)!;
+  const { audios, load } = useAudio(type);
+  const { ref } = audios.find(({ hymnId: id }) => id === hymnId)!;
 
   useEffect(() => {
     if (!ref.current) return;
 
     function handleLoadedMetadata() {
-      setDuration(hymnId, ref.current?.duration || 0);
+      load(hymnId);
     }
 
     ref.current.addEventListener("loadedmetadata", handleLoadedMetadata);
@@ -30,18 +29,13 @@ function AudioSound({ type, hymnId, activeTrackIdx }: AudioSoundProps) {
       if (!current) return;
       current.removeEventListener("loadedmetadata", handleLoadedMetadata);
     };
-  }, [ref, setDuration, hymnId]);
+  }, [ref, load, hymnId]);
 
   if (isLoading) return <div>Loading...</div>;
   if (!tracks) return <div>Not found</div>;
 
   const { url } = tracks[activeTrackIdx];
-  return (
-    <>
-      {duration}
-      <audio key={url} ref={ref} src={url} preload="auto" />
-    </>
-  );
+  return <audio key={url} ref={ref} src={url} preload="auto" />;
 }
 
 export { AudioSound };

@@ -12,14 +12,17 @@ import { convertNumberToDecimalDisplay } from "../utilities";
 function MediaControlButtons() {
   const { hymnId, type } = useHymnContext();
   const { audios } = useAudio(type);
-  const { ref, duration } = audios.find((ref) => ref.hymnId === hymnId)!;
+  const { ref, status } = audios.find((ref) => ref.hymnId === hymnId)!;
 
   const [volume, setVolume] = useState(0.5);
   const [isPlaying, toggle] = useToggle(false);
   const [currentTime, setCurrentTime] = useState(0);
+  const [anotherDuration, setAnotherDuration] = useState(0);
 
   useEffect(() => {
     if (!ref.current) return;
+    if (status !== "loaded") return;
+    setAnotherDuration(ref.current.duration);
 
     function handleTimeUpdate() {
       if (!ref.current) return;
@@ -40,7 +43,7 @@ function MediaControlButtons() {
       current.removeEventListener("timeupdate", handleTimeUpdate);
       current.removeEventListener("ended", handleEnded);
     };
-  }, [ref, toggle]);
+  }, [ref, toggle, status]);
 
   return (
     <div className="flex items-center gap-2 pl-1">
@@ -72,7 +75,7 @@ function MediaControlButtons() {
       </div>
 
       <div className="w-24 px-2">
-        {`${secsToTimestamp(currentTime)} / ${secsToTimestamp(duration)}`}
+        {`${secsToTimestamp(currentTime)} / ${secsToTimestamp(anotherDuration)}`}
       </div>
 
       <div className="flex gap-1">

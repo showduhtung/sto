@@ -12,18 +12,20 @@ function TrackSettings() {
   const [playbackRate, setPlaybackRate] = useState(1);
   const { hymnId, type } = useHymnContext();
   const { data, isLoading } = useAudioQuery(hymnId);
-  const { audios, setActive } = useAudio(type);
+  const { audios, setActive, unload } = useAudio(type);
 
   if (isLoading) return <div>Loading...</div>;
   if (!data) return <div>No audio found</div>;
   const { activeTrackIdx, ref } = audios.find((audio) => audio.hymnId === hymnId)!;
 
+  function handleTrackChange(val: string) {
+    setActive(hymnId, Number(val));
+    unload(hymnId);
+  }
+
   return (
     <div className="flex items-center gap-2">
-      <Select
-        defaultValue={String(activeTrackIdx)}
-        onValueChange={(val) => setActive(hymnId, Number(val))}
-      >
+      <Select defaultValue={String(activeTrackIdx)} onValueChange={handleTrackChange}>
         <SelectTrigger className="h-8 w-40 focus:ring-0 focus:ring-transparent">
           <SelectValue />
         </SelectTrigger>
