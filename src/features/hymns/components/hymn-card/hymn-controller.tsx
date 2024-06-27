@@ -10,12 +10,15 @@ import { Button } from "@/components/button";
 import { VersesSelector } from "./verses-selector";
 import { useHymnQuery } from "../../apis";
 import { useHymn } from "../../store";
-import { useHymnContext } from "../../context";
+import { useHymnCardContext, useHymnContext } from "../../context";
 
 function HymnController({ active }: { active: boolean }) {
-  const { hymnId, type } = useHymnContext();
-  const { remove, setActive, audioPlayback, activeHymnId } = useHymn(type);
-  const { remove: removeAudio, pauseAll: pauseAudios, audios } = useAudio(type);
+  const { hymnId } = useHymnCardContext();
+  const { type } = useHymnContext();
+
+  const { remove, setActive, audioPlayback, activeHymnId } = useHymn();
+  const { remove: removeAudio, pauseAll: pauseLocalAudios } = useAudio();
+
   const { panelLanguageId } = useLanguage();
   const { toggle } = useProjector();
 
@@ -26,12 +29,13 @@ function HymnController({ active }: { active: boolean }) {
 
   if (isLoading) return <div>Loading...</div>;
   if (!data) return <div>Not found</div>;
+
   const [{ num, title }] = data;
 
   function handleVerse(idx: number) {
     setActive(hymnId, idx);
     toggle(type);
-    if (activeHymnId !== hymnId) pauseAudios();
+    if (activeHymnId !== hymnId) pauseLocalAudios();
   }
 
   function handleRemove() {

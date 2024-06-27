@@ -2,9 +2,8 @@ import { Button } from "@/components/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/tabs";
 
 import { useProjector, useClose } from "@/features/projector";
-import { HymnPanel } from "@/features/hymns";
+import { HymnContextProvider, HymnPanel } from "@/features/hymns";
 import { BibleSelector } from "@/features/bible";
-import { SermonPanel } from "@/features/sermon";
 
 import { SettingsModal } from "./settings-modal";
 
@@ -12,9 +11,21 @@ const tabs = [
   {
     value: "hymnal_worship",
     label: "Hymnal Worship",
-    content: <HymnPanel type="HYMNAL_WORSHIP" />,
+    content: (
+      <HymnContextProvider value={{ type: "HYMNAL_WORSHIP" }}>
+        <HymnPanel />
+      </HymnContextProvider>
+    ),
   },
-  { value: "sermon_hymns", label: "Sermon Hymns", content: <HymnPanel type="SERMON_HYMNS" /> },
+  {
+    value: "sermon_hymns",
+    label: "Sermon Hymns",
+    content: (
+      <HymnContextProvider value={{ type: "SERMON_HYMNS" }}>
+        <HymnPanel />
+      </HymnContextProvider>
+    ),
+  },
   { value: "bible", label: "Bible", content: <BibleSelector /> },
   { value: "slides", label: "Slides", content: <SlidesContent /> },
 ];
@@ -34,8 +45,22 @@ function Controller() {
           <SettingsModal />
         </div>
       </div>
+      <Tabs className="flex flex-[1.2] flex-col 2xl:flex-1" defaultValue="hymnal_worship">
+        <TabsList>
+          {tabs.map(({ value, label }) => (
+            <TabsTrigger key={value} value={value}>
+              {label}
+            </TabsTrigger>
+          ))}
+        </TabsList>
+        {tabs.map(({ value, content }) => (
+          <TabsContent key={value} value={value}>
+            {content}
+          </TabsContent>
+        ))}
+      </Tabs>
 
-      <div className="flex grow flex-col items-stretch gap-8 rounded-sm border border-primary px-4 py-2 lg:flex-row">
+      {/* <div className="flex grow flex-col items-stretch gap-8 rounded-sm border border-primary px-4 py-2 lg:flex-row">
         <Tabs className="flex flex-[1.2] flex-col 2xl:flex-1" defaultValue="hymnal_worship">
           <TabsList>
             {tabs.map(({ value, label }) => (
@@ -53,7 +78,7 @@ function Controller() {
         <div className="flex flex-[0.8] flex-col 2xl:flex-1">
           <SermonPanel />
         </div>
-      </div>
+      </div> */}
       <div className="flex h-9 items-center gap-4">
         <Button variant="outline" size="sm" disabled={!display} onClick={() => close()}>
           Turn off

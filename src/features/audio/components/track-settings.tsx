@@ -3,16 +3,16 @@ import { Checkbox } from "@/components/checkbox";
 import { Label } from "@/components/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/select";
 
-import { useHymnContext } from "@/features/hymns";
+import { useHymnCardContext } from "@/features/hymns";
 import { useAudioQuery } from "../apis";
 import { useAudio } from "../store";
 import { convertNumberToDecimalDisplay } from "../utilities";
 
 function TrackSettings() {
   const [playbackRate, setPlaybackRate] = useState(1);
-  const { hymnId, type } = useHymnContext();
+  const { hymnId } = useHymnCardContext();
   const { data, isLoading } = useAudioQuery(hymnId);
-  const { audios, setActive, unload } = useAudio(type);
+  const { audios, setActive, unload } = useAudio();
 
   if (isLoading) return <div>Loading...</div>;
   if (!data) return <div>No audio found</div>;

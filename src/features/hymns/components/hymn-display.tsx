@@ -5,12 +5,12 @@ import { useHymnQuery } from "@/features/hymns";
 import { useAudio, AudioSound } from "@/features/audio";
 import { ProjectorContainer } from "@/ui/shared";
 import { syncVerses } from "../utilities";
-import { type HymnDisplayType, useHymn } from "../store";
+import { useHymn } from "../store";
 
-function HymnDisplay({ type }: { type: HymnDisplayType }) {
-  const { activeHymnId, activeVerse, shouldWrapVerses, hymnIds } = useHymn(type);
+function HymnDisplay() {
   const { languages, bilingual } = useLanguage();
-  const { audios } = useAudio(type);
+  const { activeHymnId, activeVerse, shouldWrapVerses, hymnIds } = useHymn();
+  const { audios } = useAudio();
 
   const { data, isLoading } = useHymnQuery({
     hymnId: activeHymnId as HymnId,
@@ -46,7 +46,7 @@ function HymnDisplay({ type }: { type: HymnDisplayType }) {
   return (
     <ProjectorContainer>
       {audios.map(({ ref: _ref, ...props }) => (
-        <AudioSound key={props.hymnId + String(props.activeTrackIdx)} type={type} {...props} />
+        <AudioSound key={props.hymnId + String(props.activeTrackIdx)} {...props} />
       ))}
       {JSON.stringify(languages)}
 

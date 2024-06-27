@@ -1,7 +1,8 @@
 import { type HymnDisplayType, useSermonHymns, useWorshipHymns } from "./hymn.store";
 import { useHymnSettings } from "./hymn-settings.store";
+import { useHymnContext } from "../context";
 
-function useHymn(type: HymnDisplayType) {
+function useBaseHymn(type: HymnDisplayType) {
   const sermonHymns = useSermonHymns();
   const worshipHymns = useWorshipHymns();
   const settings = useHymnSettings();
@@ -10,8 +11,14 @@ function useHymn(type: HymnDisplayType) {
     SERMON_HYMNS: sermonHymns,
     HYMNAL_WORSHIP: worshipHymns,
   };
+
   return { ...hymns[type], ...settings };
 }
 
+function useHymn() {
+  const { type } = useHymnContext();
+  return useBaseHymn(type);
+}
+
 export type { HymnDisplayType };
-export { useHymn, useHymnSettings };
+export { useBaseHymn, useHymnSettings, useHymn };

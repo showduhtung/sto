@@ -1,19 +1,19 @@
 import type { HymnId } from "~/models";
 
 import { AudioController } from "@/features/audio";
-import { type HymnDisplayType, useHymn } from "../../store";
-import { HymnContextProvider } from "../../context";
+import { useHymn } from "../../store";
+import { HymnCardContextProvider } from "../../context";
 import { HymnController } from "./hymn-controller";
 
-function HymnCard({ hymnId, type }: { hymnId: HymnId; type: HymnDisplayType }) {
-  const { activeHymnId } = useHymn(type);
+function HymnCard({ hymnId }: { hymnId: HymnId }) {
+  const { activeHymnId } = useHymn();
   return (
-    <HymnContextProvider value={{ hymnId, type }}>
+    <HymnCardContextProvider value={{ hymnId }}>
       <div className="rounded-md border border-primary/10 bg-white shadow-sm">
         <HymnController active={hymnId === activeHymnId} />
         <AudioController active={hymnId === activeHymnId} />
       </div>
-    </HymnContextProvider>
+    </HymnCardContextProvider>
   );
 }
 

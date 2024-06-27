@@ -5,17 +5,17 @@ import { useKeyboardNavigation } from "./verses-selector.utilities";
 import { useHymn } from "../../store";
 import { syncVerses } from "../../utilities";
 import { useHymnQuery } from "../../apis";
-import { useHymnContext } from "../../context";
+import { useHymnCardContext } from "../../context";
 
 function VersesSelector({ onVerseChange }: { onVerseChange: (idx: number) => void }) {
-  const { hymnId, type } = useHymnContext();
-  const { activeHymnId, activeVerse, shouldWrapVerses } = useHymn(type);
+  const { hymnId } = useHymnCardContext();
+  const { activeHymnId, activeVerse, shouldWrapVerses } = useHymn();
   const { languages, bilingual } = useLanguage();
   const isActive = hymnId === activeHymnId;
 
   const { data = [], isLoading } = useHymnQuery({ hymnId, languages });
 
-  useKeyboardNavigation(hymnId, type, Math.max(...data.map(({ verses }) => verses.length)) - 1);
+  useKeyboardNavigation(hymnId, Math.max(...data.map(({ verses }) => verses.length)) - 1);
 
   if (isLoading) return <div>Loading...</div>;
   if (data.length === 0) return <div>Not found</div>;

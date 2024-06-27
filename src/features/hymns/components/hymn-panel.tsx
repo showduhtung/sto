@@ -1,16 +1,17 @@
 import type { HymnId } from "~/models";
-import { HymnSearch, HymnCard, useHymn, type HymnDisplayType } from "@/features/hymns";
+import { HymnSearch, HymnCard, useHymn, useHymnContext } from "@/features/hymns";
 import { PanelContainer } from "@/ui/shared";
 import { Label } from "@/components/label";
 import { Switch } from "@/components/switch";
 import { Button } from "@/components/button";
 import { List, ListItem } from "@/components/list";
-import { useAudio } from "@/features/audio";
+import { useBaseAudio } from "@/features/audio";
 import { useEffect } from "react";
 
-function HymnPanel({ type }: { type: HymnDisplayType }) {
-  const { hymnIds, add, reorganize, audioPlayback, update } = useHymn(type);
-  const { add: addAudio, audios } = useAudio(type);
+function HymnPanel() {
+  const { type } = useHymnContext();
+  const { hymnIds, add, reorganize, audioPlayback, update } = useHymn();
+  const { add: addAudio, audios } = useBaseAudio(type);
 
   function handleSearchedHymn(id: HymnId) {
     if (!hymnIds.includes(id)) {
@@ -65,7 +66,7 @@ function HymnPanel({ type }: { type: HymnDisplayType }) {
         <List draggable onChange={(items) => reorganize(items as HymnId[])}>
           {hymnIds.map((id) => (
             <ListItem key={id} id={String(id)}>
-              <HymnCard hymnId={id} type={type} />
+              <HymnCard hymnId={id} />
             </ListItem>
           ))}
         </List>

@@ -1,7 +1,6 @@
 import { createRef, type MutableRefObject } from "react";
 import { type StateCreator, create } from "zustand";
 import type { HymnId } from "~/models";
-import type { HymnDisplayType } from "../hymns";
 
 type AudioActions = {
   add: (payload: HymnId | HymnId[]) => void;
@@ -95,12 +94,5 @@ const audioStore: StateCreator<AudioState & AudioActions> = (set, get) => ({
 const useSermonAudio = create(audioStore);
 const useWorshipAudio = create(audioStore);
 
-const useAudio = (type: HymnDisplayType) => {
-  const sermonAudio = useSermonAudio();
-  const worshipAudio = useWorshipAudio();
-
-  return type === "SERMON_HYMNS" ? sermonAudio : worshipAudio;
-};
-
 export type { AudioSetting };
-export { useAudio };
+export { useSermonAudio, useWorshipAudio };

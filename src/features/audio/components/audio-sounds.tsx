@@ -1,18 +1,16 @@
 import { useEffect } from "react";
 import type { HymnId } from "~/models";
-import { type HymnDisplayType } from "@/features/hymns";
 import { useAudioQuery } from "../apis";
 import { useAudio } from "../store";
 
 type AudioSoundProps = {
   hymnId: HymnId;
   activeTrackIdx: number;
-  type: HymnDisplayType;
 };
 
-function AudioSound({ type, hymnId, activeTrackIdx }: AudioSoundProps) {
+function AudioSound({ hymnId, activeTrackIdx }: AudioSoundProps) {
   const { data: tracks, isLoading } = useAudioQuery(hymnId);
-  const { audios, load } = useAudio(type);
+  const { audios, load } = useAudio();
   const { ref } = audios.find(({ hymnId: id }) => id === hymnId)!;
 
   useEffect(() => {

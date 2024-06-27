@@ -2,10 +2,22 @@ import type { HymnId } from "~/models";
 import { createSafeContext } from "@/utilities";
 import type { HymnDisplayType } from "./store";
 
-type HymnMetadata = { hymnId: HymnId; type: HymnDisplayType };
+type HymnCardContext = { hymnId: HymnId };
 
-const [HymnContextProvider, useHymnContext] = createSafeContext<HymnMetadata>(
+const [HymnCardContextProvider, useBaseHymnCardContext] = createSafeContext<HymnCardContext>(
+  "useHymnCardContext should be wrapped in a HymnCardContextProvider",
+);
+
+function useHymnCardContext() {
+  const { type } = useHymnContext();
+  const { hymnId } = useBaseHymnCardContext();
+  return { hymnId, type };
+}
+
+type HymnContext = { type: HymnDisplayType };
+
+const [HymnContextProvider, useHymnContext] = createSafeContext<HymnContext>(
   "useHymnContext should be wrapped in a HymnContextProvider",
 );
 
-export { HymnContextProvider, useHymnContext };
+export { HymnCardContextProvider, useHymnCardContext, HymnContextProvider, useHymnContext };

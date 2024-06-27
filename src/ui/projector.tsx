@@ -1,5 +1,5 @@
 import { BibleDisplay } from "@/features/bible";
-import { HymnDisplay } from "@/features/hymns";
+import { HymnContextProvider, HymnDisplay } from "@/features/hymns";
 import { useProjector } from "@/features/projector";
 
 function Projector() {
@@ -7,9 +7,17 @@ function Projector() {
 
   switch (display) {
     case "SERMON_HYMNS":
-      return <HymnDisplay type="SERMON_HYMNS" />;
+      return (
+        <HymnContextProvider value={{ type: "SERMON_HYMNS" }}>
+          <HymnDisplay />
+        </HymnContextProvider>
+      );
     case "HYMNAL_WORSHIP":
-      return <HymnDisplay type="HYMNAL_WORSHIP" />;
+      return (
+        <HymnContextProvider value={{ type: "HYMNAL_WORSHIP" }}>
+          <HymnDisplay />
+        </HymnContextProvider>
+      );
     case "BIBLE":
       return <BibleDisplay />;
     case "SERMON":

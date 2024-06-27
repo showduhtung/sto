@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useToggle } from "react-use";
 import { Pause, Play, Square, Volume, Volume2Icon } from "lucide-react";
 
-import { useHymnContext } from "@/features/hymns";
+import { useHymnCardContext } from "@/features/hymns";
 import { ActionIcon } from "@/components/button";
 import { Slider } from "@/components/slider";
 
@@ -10,8 +10,8 @@ import { useAudio } from "../store";
 import { convertNumberToDecimalDisplay } from "../utilities";
 
 function MediaControlButtons() {
-  const { hymnId, type } = useHymnContext();
-  const { audios } = useAudio(type);
+  const { hymnId } = useHymnCardContext();
+  const { audios } = useAudio();
   const { ref, status } = audios.find((ref) => ref.hymnId === hymnId)!;
 
   const [volume, setVolume] = useState(0.5);
