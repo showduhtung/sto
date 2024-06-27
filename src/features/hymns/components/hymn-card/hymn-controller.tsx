@@ -14,8 +14,8 @@ import { useHymnContext } from "../../context";
 
 function HymnController({ active }: { active: boolean }) {
   const { hymnId, type } = useHymnContext();
-  const { remove, setActive, audioPlayback } = useHymn(type);
-  const { remove: removeAudio, pauseAll: pauseAudios } = useAudio(type);
+  const { remove, setActive, audioPlayback, activeHymnId } = useHymn(type);
+  const { remove: removeAudio, pauseAll: pauseAudios, audios } = useAudio(type);
   const { panelLanguageId } = useLanguage();
   const { toggle } = useProjector();
 
@@ -31,7 +31,7 @@ function HymnController({ active }: { active: boolean }) {
   function handleVerse(idx: number) {
     setActive(hymnId, idx);
     toggle(type);
-    pauseAudios();
+    if (activeHymnId !== hymnId) pauseAudios();
   }
 
   function handleRemove() {

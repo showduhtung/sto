@@ -6,10 +6,11 @@ import { Switch } from "@/components/switch";
 import { Button } from "@/components/button";
 import { List, ListItem } from "@/components/list";
 import { useAudio } from "@/features/audio";
+import { useEffect } from "react";
 
 function HymnPanel({ type }: { type: HymnDisplayType }) {
   const { hymnIds, add, reorganize, audioPlayback, update } = useHymn(type);
-  const { add: addAudio } = useAudio(type);
+  const { add: addAudio, audios } = useAudio(type);
 
   function handleSearchedHymn(id: HymnId) {
     if (!hymnIds.includes(id)) {
@@ -17,6 +18,14 @@ function HymnPanel({ type }: { type: HymnDisplayType }) {
       addAudio(id);
     }
   }
+
+  useEffect(() => {
+    // check if all audios are loaded
+    // this useEffect is necessary because hymns are persisted in localStorage, but audios are not
+    const allLoaded = audios.length === hymnIds.length;
+    if (allLoaded) return;
+    addAudio(hymnIds.filter((id) => !audios.find(({ hymnId }) => hymnId === id)));
+  }, [audios, hymnIds, addAudio]);
 
   return (
     <PanelContainer className="flex flex-col gap-2">
@@ -40,18 +49,27 @@ function HymnPanel({ type }: { type: HymnDisplayType }) {
         </div>
       </div>
 
-      {hymnIds.length === 0 && (
+      {!hymnIds.length && (
         <i className="text-black/50">
           No hymns for {type === "SERMON_HYMNS" ? "sermon worship" : "hymnal worship"} yet
         </i>
       )}
-      <List draggable onChange={(items) => reorganize(items as HymnId[])}>
-        {hymnIds.map((id) => (
-          <ListItem key={id} id={String(id)}>
-            <HymnCard hymnId={id} type={type} />
-          </ListItem>
-        ))}
-      </List>
+      {Boolean(hymnIds.length) && !audios.length && (
+        <i className="text-black/50">
+          Audios for {type === "SERMON_HYMNS" ? "sermon worship" : "hymnal worship"} are still
+          loading...
+        </i>
+      )}
+
+      {Boolean(hymnIds.length) && Boolean(audios.length) && (
+        <List draggable onChange={(items) => reorganize(items as HymnId[])}>
+          {hymnIds.map((id) => (
+            <ListItem key={id} id={String(id)}>
+              <HymnCard hymnId={id} type={type} />
+            </ListItem>
+          ))}
+        </List>
+      )}
     </PanelContainer>
   );
 }

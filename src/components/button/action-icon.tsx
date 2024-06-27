@@ -4,7 +4,7 @@ import { cn } from "@/lib/tailwind";
 
 const ActionIcon = forwardRef<
   ElementRef<"button">,
-  HTMLAttributes<HTMLButtonElement> & { asChild?: boolean }
+  HTMLAttributes<HTMLButtonElement> & { asChild?: boolean; disabled?: boolean }
 >(({ className, asChild, ...props }, ref) => {
   const Comp = asChild ? Slot : "button";
   return (
@@ -13,7 +13,9 @@ const ActionIcon = forwardRef<
       className={cn(
         "button-press-effect h-fit w-fit rounded-md p-2 hover:bg-primary/20 data-[disabled=true]:pointer-events-none",
         className,
+        props.disabled && "opacity-50",
       )}
+      data-disabled={props.disabled}
       {...props}
     />
   );

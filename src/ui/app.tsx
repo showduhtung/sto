@@ -1,10 +1,10 @@
+import { useEffect } from "react";
 import { WindowPortal } from "@/components/window";
 
 import { useProjector, useClose } from "@/features/projector";
 import { Projector } from "./projector";
 import { Controller } from "./controller";
 import { LanguageProvider } from "@/features/languages";
-import { useEffect } from "react";
 
 function App() {
   const { dimensions, display } = useProjector();

@@ -1,23 +1,22 @@
+import { createRef, type MutableRefObject } from "react";
 import { type StateCreator, create } from "zustand";
 import type { HymnId } from "~/models";
-import { type RefObject } from "react";
 import type { HymnDisplayType } from "../hymns";
 
 type AudioActions = {
-  add: (hymnId: HymnId) => void;
+  add: (payload: HymnId | HymnId[]) => void;
   remove: (hymnId: HymnId) => void;
   pauseAll: () => void;
   play: (hymnId: HymnId, isPlaying: boolean) => void;
   setActive: (hymnId: HymnId, activeTrackIdx: number) => void;
-  reset: () => void;
-  loaded: (hymnId: HymnId, activeTrackIdx: number) => void;
+  setDuration: (hymnid: HymnId, duration: number) => void;
 };
 
 type AudioSetting = {
   hymnId: HymnId;
   activeTrackIdx: number;
-  ref: RefObject<HTMLAudioElement>;
-  status: "loading" | "loaded" | "error";
+  ref: MutableRefObject<HTMLAudioElement | null>;
+  duration: number;
 };
 
 type AudioState = {
@@ -26,25 +25,23 @@ type AudioState = {
 
 const audioStore: StateCreator<AudioState & AudioActions> = (set, get) => ({
   audios: [],
-  add: (hymnId: HymnId) =>
+  add: (payload: HymnId | HymnId[]) => {
     set(({ audios }) => {
-      // const ref = createRef<HTMLAudioElement>();
-      const ref = { current: null } as RefObject<HTMLAudioElement>;
+      function addAudio(hymnId: HymnId) {
+        const ref = createRef<HTMLAudioElement>();
 
-      if (ref.current) {
-        ref.current.volume = 0.5;
-        ref.current.playbackRate = 1.0;
+        if (ref.current) {
+          ref.current.volume = 0.5;
+          ref.current.playbackRate = 1.0;
+        }
+
+        return { hymnId, activeTrackIdx: 0, ref, duration: 0 };
       }
-      const newAudio = { hymnId, activeTrackIdx: 0, ref, status: "loading" as const };
-      return { audios: [...audios, newAudio] };
-    }),
 
-  loaded: (hymnId: HymnId, activeTrackIdx: number) =>
-    set(({ audios }) => ({
-      audios: audios.map((audio) =>
-        audio.hymnId === hymnId ? { ...audio, activeTrackIdx, status: "loaded" } : audio,
-      ),
-    })),
+      if (Array.isArray(payload)) return { audios: payload.map(addAudio) };
+      return { audios: [...audios, addAudio(payload)] };
+    });
+  },
 
   remove: (hymnId: HymnId) =>
     set(({ audios }) => ({
@@ -65,21 +62,28 @@ const audioStore: StateCreator<AudioState & AudioActions> = (set, get) => ({
       ref.current.currentTime = 0;
     }),
 
-  reset: () =>
-    get().audios.forEach(({ ref }) => {
-      if (!ref.current) return;
-
-      ref.current.pause();
-      ref.current.currentTime = 0;
-      ref.current.volume = 0.5;
-      ref.current.playbackRate = 1.0;
-    }),
-
   setActive: (hymnId: HymnId, activeTrackIdx: number) =>
     set(({ audios }) => ({
-      audios: audios.map((audio) =>
-        audio.hymnId === hymnId ? { ...audio, activeTrackIdx } : audio,
-      ),
+      audios: audios.map((audio) => {
+        if (audio.hymnId !== hymnId) return audio;
+
+        const ref = createRef<HTMLAudioElement>();
+        const { current } = audio.ref;
+
+        if (current && ref.current) {
+          ref.current.volume = current.volume;
+          ref.current.playbackRate = current.playbackRate;
+        }
+
+        return { ...audio, activeTrackIdx, ref };
+      }),
+    })),
+  setDuration: (hymnId: HymnId, duration: number) =>
+    set(({ audios }) => ({
+      audios: audios.map((audio) => {
+        if (audio.hymnId !== hymnId) return audio;
+        return { ...audio, duration };
+      }),
     })),
 });
 

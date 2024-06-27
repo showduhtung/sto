@@ -45,8 +45,8 @@ function HymnDisplay({ type }: { type: HymnDisplayType }) {
 
   return (
     <ProjectorContainer>
-      {audios.map((audio) => (
-        <AudioSound key={audio.hymnId} {...audio} type={type} />
+      {audios.map(({ ref: _ref, ...props }) => (
+        <AudioSound key={props.hymnId + String(props.activeTrackIdx)} type={type} {...props} />
       ))}
       {JSON.stringify(languages)}
 

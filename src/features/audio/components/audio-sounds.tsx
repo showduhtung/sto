@@ -1,44 +1,47 @@
-import { type ElementRef, forwardRef, useEffect, useRef } from "react";
+import { useEffect } from "react";
 import type { HymnId } from "~/models";
 import { type HymnDisplayType } from "@/features/hymns";
 import { useAudioQuery } from "../apis";
 import { useAudio } from "../store";
 
-const AudioSound = forwardRef<
-  ElementRef<"audio">,
-  { hymnId: HymnId; activeTrackIdx: number; type: HymnDisplayType }
->(({ type, hymnId, activeTrackIdx, ...props }, ref) => {
-  const { data: tracks, isLoading } = useAudioQuery(hymnId);
-  const { loaded } = useAudio(type);
-  const internalRef = useRef<HTMLAudioElement | null>(null);
+type AudioSoundProps = {
+  hymnId: HymnId;
+  activeTrackIdx: number;
+  type: HymnDisplayType;
+};
 
-  function combineRefs(node: HTMLAudioElement | null) {
-    internalRef.current = node;
-    if (typeof ref === "function") ref(node);
-    else if (ref) ref.current = node;
-  }
+function AudioSound({ type, hymnId, activeTrackIdx }: AudioSoundProps) {
+  const { data: tracks, isLoading } = useAudioQuery(hymnId);
+  const { audios, setDuration } = useAudio(type);
+
+  const { ref, duration } = audios.find(({ hymnId: id }) => id === hymnId)!;
 
   useEffect(() => {
-    if (!internalRef.current) return;
+    if (!ref.current) return;
 
     function handleLoadedMetadata() {
-      loaded(hymnId, activeTrackIdx);
+      setDuration(hymnId, ref.current?.duration || 0);
     }
-    internalRef.current.addEventListener("loadedmetadata", handleLoadedMetadata);
+
+    ref.current.addEventListener("loadedmetadata", handleLoadedMetadata);
 
     return () => {
-      if (!internalRef.current) return;
-      internalRef.current.removeEventListener("loadedmetadata", handleLoadedMetadata);
+      const { current } = ref;
+      if (!current) return;
+      current.removeEventListener("loadedmetadata", handleLoadedMetadata);
     };
-  }, [internalRef, loaded, hymnId, activeTrackIdx]);
+  }, [ref, setDuration, hymnId]);
 
   if (isLoading) return <div>Loading...</div>;
   if (!tracks) return <div>Not found</div>;
 
   const { url } = tracks[activeTrackIdx];
-  return <audio ref={combineRefs} src={url} {...props} />;
-});
+  return (
+    <>
+      {duration}
+      <audio key={url} ref={ref} src={url} preload="auto" />
+    </>
+  );
+}
 
 export { AudioSound };
-
-// https://stackoverflow.com/a/62238917/12154807

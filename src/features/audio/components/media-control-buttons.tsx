@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useToggle } from "react-use";
 import { Pause, Play, Square, Volume, Volume2Icon } from "lucide-react";
 
@@ -12,54 +12,35 @@ import { convertNumberToDecimalDisplay } from "../utilities";
 function MediaControlButtons() {
   const { hymnId, type } = useHymnContext();
   const { audios } = useAudio(type);
-  const { ref, status } = audios.find((ref) => ref.hymnId === hymnId)!;
+  const { ref, duration } = audios.find((ref) => ref.hymnId === hymnId)!;
 
   const [volume, setVolume] = useState(0.5);
   const [isPlaying, toggle] = useToggle(false);
-
-  const secondsElapsed = useRef(0);
-  const duration = useRef(0);
+  const [currentTime, setCurrentTime] = useState(0);
 
   useEffect(() => {
     if (!ref.current) return;
-    if (status !== "loaded") return;
 
-    // synchronizes audio ref with media player state
-
-    function updateCurrentTime() {
-      // updateSecsElapsed(ref.current.currentTime);
-    }
-    function storeMetadata() {
-      // notifyMetadataLoaded({
-      //   duration: ref.current.duration,
-      // });
+    function handleTimeUpdate() {
+      if (!ref.current) return;
+      setCurrentTime(ref.current.currentTime);
     }
 
-    function play() {
-      toggle(true);
-    }
-    function pause() {
+    function handleEnded() {
       toggle(false);
+      setCurrentTime(0);
     }
 
-    function stop() {
-      toggle(false);
-    }
-
-    ref.current.addEventListener("play", play);
-    ref.current.addEventListener("pause", pause);
-    ref.current.addEventListener("timeupdate", updateCurrentTime);
-
-    ref.current.addEventListener("ended", stop);
+    ref.current.addEventListener("timeupdate", handleTimeUpdate);
+    ref.current.addEventListener("ended", handleEnded);
 
     return () => {
-      if (!ref.current) return;
-      ref.current.removeEventListener("timeupdate", updateCurrentTime);
-      ref.current.removeEventListener("play", play);
-      ref.current.removeEventListener("pause", pause);
-      ref.current.removeEventListener("ended", stop);
+      const { current } = ref;
+      if (!current) return;
+      current.removeEventListener("timeupdate", handleTimeUpdate);
+      current.removeEventListener("ended", handleEnded);
     };
-  }, [ref, toggle, status]);
+  }, [ref, toggle]);
 
   return (
     <div className="flex items-center gap-2 pl-1">
@@ -68,6 +49,7 @@ function MediaControlButtons() {
           onClick={() => {
             if (isPlaying) ref.current?.pause();
             else ref.current?.play();
+            toggle(!isPlaying);
           }}
         >
           {isPlaying ? (
@@ -81,15 +63,16 @@ function MediaControlButtons() {
             if (!ref.current) return;
             ref.current.currentTime = 0;
             ref.current.pause();
+            toggle(false);
           }}
+          disabled={!isPlaying}
         >
           <Square className="h-4 w-4 fill-primary stroke-primary" />
         </ActionIcon>
       </div>
 
-      <div className="px-2">
-        {secondsElapsed ? secsToTimestamp(secondsElapsed.current) : "0:00"} /{" "}
-        {duration ? secsToTimestamp(duration.current) : "--"}
+      <div className="w-24 px-2">
+        {`${secsToTimestamp(currentTime)} / ${secsToTimestamp(duration)}`}
       </div>
 
       <div className="flex gap-1">
@@ -124,14 +107,6 @@ function secsToTimestamp(secs: number) {
   const minutes = Math.floor(secs / 60);
   const seconds = String(roundedSecs % 60).padStart(2, "0");
   return `${minutes}:${seconds}`;
-}
-
-// Assumes timestamp in the format of mm:ss
-function _timestampToSecs(timestamp: string) {
-  const [minutesStr, secondsStr] = timestamp.split(":");
-  const minutes = parseInt(minutesStr, 10);
-  const seconds = parseInt(secondsStr, 10);
-  return minutes * 60 + seconds;
 }
 
 export { MediaControlButtons };

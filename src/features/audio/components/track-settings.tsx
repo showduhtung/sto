@@ -16,7 +16,6 @@ function TrackSettings() {
 
   if (isLoading) return <div>Loading...</div>;
   if (!data) return <div>No audio found</div>;
-
   const { activeTrackIdx, ref } = audios.find((audio) => audio.hymnId === hymnId)!;
 
   return (
@@ -56,8 +55,10 @@ function TrackSettings() {
         </SelectContent>
       </Select>
       <div className="flex items-center gap-2 pl-4">
-        <Label htmlFor="audio-sync">Sync with Audio</Label>
-        <Checkbox id="audio-sync" defaultChecked={true} />
+        <Label className="text-black/50" htmlFor="audio-sync">
+          Sync with Audio
+        </Label>
+        <Checkbox id="audio-sync" defaultChecked={false} disabled />
       </div>
     </div>
   );
