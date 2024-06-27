@@ -13,10 +13,18 @@ function AudioSound() {
   return (
     <audio
       key={url}
-      ref={ref}
+      ref={(node) => {
+        ref.current = node;
+
+        if (!ref.current) return;
+        ref.current.volume = 0.5;
+      }}
       src={url}
       preload="auto"
-      onLoadedMetadata={() => update("status", "loaded")}
+      onLoadedMetadata={() => {
+        update("status", "loaded");
+        update("duration", ref.current?.duration || 0);
+      }}
     />
   );
 }

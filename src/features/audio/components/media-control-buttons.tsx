@@ -8,14 +8,13 @@ import { convertNumberToDecimalDisplay } from "../utilities";
 import { useAudio } from "../context";
 
 function MediaControlButtons() {
-  const { ref, status } = useAudio();
+  const { ref, status, duration } = useAudio();
   const [knobs, setKnobs] = useState({
     volume: 0.5,
     isPlaying: false,
     currentTime: 0,
-    duration: 0,
   });
-  const { volume, isPlaying, currentTime, duration } = knobs;
+  const { volume, isPlaying, currentTime } = knobs;
 
   useEffect(() => {
     if (!ref.current) return;
@@ -23,8 +22,6 @@ function MediaControlButtons() {
       setKnobs({ ...knobs, isPlaying: false, currentTime: 0 });
       return;
     }
-
-    setKnobs({ ...knobs, duration: ref.current.duration });
 
     function handleTimeUpdate() {
       if (!ref.current) return;

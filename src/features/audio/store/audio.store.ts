@@ -9,12 +9,14 @@ type AudioState = {
   activeTrackIdx: number;
   ref: MutableRefObject<HTMLAudioElement | null>;
   status: "loading" | "loaded"; // this state is used to determine whether the audio is ready for attached event listeners
+  duration: number;
 };
 
 const audioStore: StateCreator<AudioState & AudioActions> = (set) => ({
   activeTrackIdx: 0,
   ref: { current: null },
   status: "loading",
+  duration: 0,
 
   update: (key, value) => set({ [key]: value }),
 });
