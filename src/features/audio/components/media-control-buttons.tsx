@@ -1,37 +1,38 @@
 import { useEffect, useState } from "react";
-import { useToggle } from "react-use";
 import { Pause, Play, Square, Volume, Volume2Icon } from "lucide-react";
 
-import { useHymnCardContext } from "@/features/hymns";
 import { ActionIcon } from "@/components/button";
 import { Slider } from "@/components/slider";
 
-import { useAudio } from "../store";
 import { convertNumberToDecimalDisplay } from "../utilities";
+import { useAudio } from "../context";
 
 function MediaControlButtons() {
-  const { hymnId } = useHymnCardContext();
-  const { audios } = useAudio();
-  const { ref, status } = audios.find((ref) => ref.hymnId === hymnId)!;
-
-  const [volume, setVolume] = useState(0.5);
-  const [isPlaying, toggle] = useToggle(false);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [anotherDuration, setAnotherDuration] = useState(0);
+  const { ref, status } = useAudio();
+  const [knobs, setKnobs] = useState({
+    volume: 0.5,
+    isPlaying: false,
+    currentTime: 0,
+    duration: 0,
+  });
+  const { volume, isPlaying, currentTime, duration } = knobs;
 
   useEffect(() => {
     if (!ref.current) return;
-    if (status !== "loaded") return;
-    setAnotherDuration(ref.current.duration);
+    if (status !== "loaded") {
+      setKnobs({ ...knobs, isPlaying: false, currentTime: 0 });
+      return;
+    }
+
+    setKnobs({ ...knobs, duration: ref.current.duration });
 
     function handleTimeUpdate() {
       if (!ref.current) return;
-      setCurrentTime(ref.current.currentTime);
+      setKnobs({ ...knobs, currentTime: ref.current.currentTime });
     }
 
     function handleEnded() {
-      toggle(false);
-      setCurrentTime(0);
+      setKnobs({ ...knobs, isPlaying: false, currentTime: 0 });
     }
 
     ref.current.addEventListener("timeupdate", handleTimeUpdate);
@@ -43,7 +44,7 @@ function MediaControlButtons() {
       current.removeEventListener("timeupdate", handleTimeUpdate);
       current.removeEventListener("ended", handleEnded);
     };
-  }, [ref, toggle, status]);
+  }, [ref, status, knobs]);
 
   return (
     <div className="flex items-center gap-2 pl-1">
@@ -52,7 +53,7 @@ function MediaControlButtons() {
           onClick={() => {
             if (isPlaying) ref.current?.pause();
             else ref.current?.play();
-            toggle(!isPlaying);
+            setKnobs({ ...knobs, isPlaying: !isPlaying });
           }}
         >
           {isPlaying ? (
@@ -66,7 +67,7 @@ function MediaControlButtons() {
             if (!ref.current) return;
             ref.current.currentTime = 0;
             ref.current.pause();
-            toggle(false);
+            setKnobs({ ...knobs, isPlaying: false, currentTime: 0 });
           }}
           disabled={!isPlaying}
         >
@@ -75,7 +76,7 @@ function MediaControlButtons() {
       </div>
 
       <div className="w-24 px-2">
-        {`${secsToTimestamp(currentTime)} / ${secsToTimestamp(anotherDuration)}`}
+        {`${secsToTimestamp(currentTime)} / ${secsToTimestamp(duration)}`}
       </div>
 
       <div className="flex gap-1">
@@ -93,7 +94,7 @@ function MediaControlButtons() {
             step={0.1}
             onValueChange={([num]) => {
               if (ref.current) ref.current.volume = num;
-              setVolume(num);
+              setKnobs({ ...knobs, volume: num });
             }}
             defaultValue={[volume]}
             size="sm"

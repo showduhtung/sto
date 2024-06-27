@@ -4,20 +4,20 @@ import type { HymnDisplayType } from "./store";
 
 type HymnCardContext = { hymnId: HymnId };
 
-const [HymnCardContextProvider, useBaseHymnCardContext] = createSafeContext<HymnCardContext>(
-  "useHymnCardContext should be wrapped in a HymnCardContextProvider",
+const [HymnContextProvider, useBaseHymnCardContext] = createSafeContext<HymnCardContext>(
+  "useHymnContext should be wrapped in a HymnContextProvider",
 );
 
-function useHymnCardContext() {
-  const { type } = useHymnContext();
+function useHymnContext() {
+  const { type } = useHymnTypeContext();
   const { hymnId } = useBaseHymnCardContext();
   return { hymnId, type };
 }
 
 type HymnContext = { type: HymnDisplayType };
 
-const [HymnContextProvider, useHymnContext] = createSafeContext<HymnContext>(
-  "useHymnContext should be wrapped in a HymnContextProvider",
+const [HymnTypeContextProvider, useHymnTypeContext] = createSafeContext<HymnContext>(
+  "useHymnTypeContext should be wrapped in a HymnTypeContextProvider",
 );
 
-export { HymnCardContextProvider, useHymnCardContext, HymnContextProvider, useHymnContext };
+export { HymnContextProvider, useHymnContext, HymnTypeContextProvider, useHymnTypeContext };

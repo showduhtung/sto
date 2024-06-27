@@ -1,8 +1,8 @@
 import type { HymnId } from "~/models";
 import { cn } from "@/lib/tailwind";
 import { useLanguage } from "@/features/languages";
-import { useHymnQuery } from "@/features/hymns";
-import { useAudio, AudioSound } from "@/features/audio";
+import { HymnContextProvider, useHymnQuery } from "@/features/hymns";
+import { useAudios, AudioSound, AudioContextProvider } from "@/features/audio";
 import { ProjectorContainer } from "@/ui/shared";
 import { syncVerses } from "../utilities";
 import { useHymn } from "../store";
@@ -10,7 +10,7 @@ import { useHymn } from "../store";
 function HymnDisplay() {
   const { languages, bilingual } = useLanguage();
   const { activeHymnId, activeVerse, shouldWrapVerses, hymnIds } = useHymn();
-  const { audios } = useAudio();
+  const { audios } = useAudios();
 
   const { data, isLoading } = useHymnQuery({
     hymnId: activeHymnId as HymnId,
@@ -45,9 +45,14 @@ function HymnDisplay() {
 
   return (
     <ProjectorContainer>
-      {audios.map(({ ref: _ref, ...props }) => (
-        <AudioSound key={props.hymnId + String(props.activeTrackIdx)} {...props} />
+      {audios.map(({ hymnId, store }) => (
+        <HymnContextProvider key={hymnId} value={{ hymnId }}>
+          <AudioContextProvider value={{ store }}>
+            <AudioSound />
+          </AudioContextProvider>
+        </HymnContextProvider>
       ))}
+
       {JSON.stringify(languages)}
 
       <div className="flex h-full flex-col gap-8 rounded-md bg-slate-300 px-6 py-4">

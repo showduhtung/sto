@@ -5,10 +5,10 @@ import { useKeyboardNavigation } from "./verses-selector.utilities";
 import { useHymn } from "../../store";
 import { syncVerses } from "../../utilities";
 import { useHymnQuery } from "../../apis";
-import { useHymnCardContext } from "../../context";
+import { useHymnContext } from "../../context";
 
 function VersesSelector({ onVerseChange }: { onVerseChange: (idx: number) => void }) {
-  const { hymnId } = useHymnCardContext();
+  const { hymnId } = useHymnContext();
   const { activeHymnId, activeVerse, shouldWrapVerses } = useHymn();
   const { languages, bilingual } = useLanguage();
   const isActive = hymnId === activeHymnId;

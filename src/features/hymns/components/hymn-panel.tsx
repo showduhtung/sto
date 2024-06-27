@@ -1,17 +1,18 @@
 import type { HymnId } from "~/models";
-import { HymnSearch, HymnCard, useHymn, useHymnContext } from "@/features/hymns";
+import { HymnSearch, HymnCard, useHymn, useHymnTypeContext } from "@/features/hymns";
+import { useAudios } from "@/features/audio";
+
 import { PanelContainer } from "@/ui/shared";
 import { Label } from "@/components/label";
 import { Switch } from "@/components/switch";
 import { Button } from "@/components/button";
 import { List, ListItem } from "@/components/list";
-import { useBaseAudio } from "@/features/audio";
 import { useEffect } from "react";
 
 function HymnPanel() {
-  const { type } = useHymnContext();
+  const { type } = useHymnTypeContext();
   const { hymnIds, add, reorganize, audioPlayback, update } = useHymn();
-  const { add: addAudio, audios } = useBaseAudio(type);
+  const { audios, add: addAudio, initialize } = useAudios();
 
   function handleSearchedHymn(id: HymnId) {
     if (!hymnIds.includes(id)) {
@@ -19,14 +20,10 @@ function HymnPanel() {
       addAudio(id);
     }
   }
-
   useEffect(() => {
-    // check if all audios are loaded
-    // this useEffect is necessary because hymns are persisted in localStorage, but audios are not
-    const allLoaded = audios.length === hymnIds.length;
-    if (allLoaded) return;
-    addAudio(hymnIds.filter((id) => !audios.find(({ hymnId }) => hymnId === id)));
-  }, [audios, hymnIds, addAudio]);
+    if (audios.length === hymnIds.length) return;
+    initialize(hymnIds);
+  }, [audios, hymnIds, initialize]);
 
   return (
     <PanelContainer className="flex flex-col gap-2">

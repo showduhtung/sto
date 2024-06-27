@@ -4,20 +4,20 @@ import { cn } from "@/lib/tailwind";
 
 import { useProjector } from "@/features/projector";
 import { languageMap, useLanguage } from "@/features/languages";
-import { useAudio } from "@/features/audio";
+import { useAudios } from "@/features/audio";
 
 import { Button } from "@/components/button";
 import { VersesSelector } from "./verses-selector";
 import { useHymnQuery } from "../../apis";
 import { useHymn } from "../../store";
-import { useHymnCardContext, useHymnContext } from "../../context";
+import { useHymnContext, useHymnTypeContext } from "../../context";
 
 function HymnController({ active }: { active: boolean }) {
-  const { hymnId } = useHymnCardContext();
-  const { type } = useHymnContext();
+  const { hymnId } = useHymnContext();
+  const { type } = useHymnTypeContext();
 
   const { remove, setActive, audioPlayback, activeHymnId } = useHymn();
-  const { remove: removeAudio, pauseAll: pauseLocalAudios } = useAudio();
+  const { remove: removeAudio, pause: pauseLocalAudios } = useAudios();
 
   const { panelLanguageId } = useLanguage();
   const { toggle } = useProjector();
