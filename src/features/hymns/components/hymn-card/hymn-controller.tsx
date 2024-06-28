@@ -41,7 +41,6 @@ function HymnController({ active }: { active: boolean }) {
   function handleRemove() {
     remove(hymnId);
     removeAudio(hymnId);
-    sing("", -1);
   }
 
   if (isLoading) return <div>Loading...</div>;

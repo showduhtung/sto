@@ -23,18 +23,18 @@ const hymnStore: StateCreator<HymnState & HymnActions> = (set) => ({
   add: (hymnId: HymnId) => set(({ hymnIds }) => ({ hymnIds: [...hymnIds, hymnId] })),
   reorganize: (hymnIds: HymnId[]) => set(() => ({ hymnIds })),
   remove: (hymnId: HymnId) => {
-    set(({ hymnIds, activeHymnId }) => {
-      const activeHymnStates =
-        activeHymnId === hymnId ? { activeHymnId: "" as ActiveHymnId, activeVerse: -1 } : {};
+    set(({ hymnIds, activeHymnId, activeVerse }) => {
+      const newHymnIds = hymnIds.filter((id) => id !== hymnId);
+      const newActiveHymnId = newHymnIds.find((id) => id === activeHymnId) || "";
+      const newActiveVerse = newActiveHymnId === "" ? -1 : activeVerse;
 
-      return { hymnIds: hymnIds.filter((id) => id !== hymnId), ...activeHymnStates };
+      return { hymnIds: newHymnIds, activeHymnId: newActiveHymnId, activeVerse: newActiveVerse };
     });
   },
 
   clear: () => set(() => ({ activeHymnId: "", activeVerse: -1 })),
-  sing: (activeHymnId: ActiveHymnId, activeVerse: number) => {
-    set(() => ({ activeHymnId, activeVerse }));
-  },
+  sing: (activeHymnId: ActiveHymnId, activeVerse: number) =>
+    set(() => ({ activeHymnId, activeVerse })),
 });
 
 const useSermonHymns = create(persist(hymnStore, { name: "sto-sermon-hymns" }));
