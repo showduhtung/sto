@@ -1,11 +1,14 @@
 import { useCallback, useEffect } from "react";
-import { type HymnDisplayType, useHymns } from "../../store";
+import type { HymnId } from "~/models";
+import { useHymn } from "../../store";
 
-function useKeyboardNavigation(id: string, type: HymnDisplayType, max: number) {
-  const { activeHymnId, activeVerse, setActive, hymnIds } = useHymns(type);
+function useKeyboardNavigation(id: HymnId, max: number) {
+  const { activeHymnId, activeVerse, sing, hymnIds } = useHymn();
 
   const navigate = useCallback(
     (direction: number) => {
+      if (activeHymnId === "") return;
+
       const currIdx = hymnIds.indexOf(activeHymnId);
       const nextHymnId = hymnIds[currIdx + direction];
       const edge = direction === -1 ? 0 : max;
@@ -13,18 +16,18 @@ function useKeyboardNavigation(id: string, type: HymnDisplayType, max: number) {
       return () => {
         if (id !== activeHymnId) return;
 
-        if (activeVerse === -1) setActive(activeHymnId, direction === -1 ? max : 0);
-        else if (activeVerse !== edge) setActive(activeHymnId, activeVerse + direction);
-        else if (nextHymnId) setActive(nextHymnId || "", -1);
+        if (activeVerse === -1) sing(activeHymnId, direction === -1 ? max : 0);
+        else if (activeVerse !== edge) sing(activeHymnId, activeVerse + direction);
+        else if (nextHymnId) sing(nextHymnId || "", -1);
       };
     },
-    [activeHymnId, activeVerse, hymnIds, id, max, setActive],
+    [activeHymnId, activeVerse, hymnIds, id, max, sing],
   );
 
   useEffect(() => {
     function keydown(event: KeyboardEvent) {
       if (shouldIgnoreKey(event)) return;
-      const keydowns: Record<string, () => void> = {
+      const keydowns: Record<string, (() => void) | undefined> = {
         ArrowLeft: navigate(-1),
         ArrowUp: navigate(-1),
         ArrowRight: navigate(1),

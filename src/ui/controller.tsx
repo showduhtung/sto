@@ -1,29 +1,39 @@
 import { Button } from "@/components/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/tabs";
 
-import { useUnmount } from "@/utilities";
-
-import { useProjector } from "@/features/projector";
-import { HymnPanel } from "@/features/hymns";
+import { useProjector, useClose } from "@/features/projector";
+import { HymnTypeContextProvider, HymnPanel } from "@/features/hymns";
 import { BibleSelector } from "@/features/bible";
-import { SermonPanel } from "@/features/sermon";
 
 import { SettingsModal } from "./settings-modal";
+import { SermonPanel } from "@/features/sermon";
 
 const tabs = [
   {
     value: "hymnal_worship",
     label: "Hymnal Worship",
-    content: <HymnPanel type="HYMNAL_WORSHIP" />,
+    content: (
+      <HymnTypeContextProvider value={{ type: "HYMNAL_WORSHIP" }}>
+        <HymnPanel />
+      </HymnTypeContextProvider>
+    ),
   },
-  { value: "sermon_hymns", label: "Sermon Hymns", content: <HymnPanel type="SERMON_HYMNS" /> },
+  {
+    value: "sermon_hymns",
+    label: "Sermon Hymns",
+    content: (
+      <HymnTypeContextProvider value={{ type: "SERMON_HYMNS" }}>
+        <HymnPanel />
+      </HymnTypeContextProvider>
+    ),
+  },
   { value: "bible", label: "Bible", content: <BibleSelector /> },
   { value: "slides", label: "Slides", content: <SlidesContent /> },
 ];
 
 function Controller() {
-  const { display, toggle } = useProjector();
-  useUnmount();
+  const { display } = useProjector();
+  const { close } = useClose();
 
   return (
     <div className="flex h-screen flex-col gap-2 px-6 py-4">
@@ -57,7 +67,7 @@ function Controller() {
         </div>
       </div>
       <div className="flex h-9 items-center gap-4">
-        <Button variant="outline" size="sm" disabled={!display} onClick={() => toggle()}>
+        <Button variant="outline" size="sm" disabled={!display} onClick={() => close()}>
           Turn off
         </Button>
         {display}

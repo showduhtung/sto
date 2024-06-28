@@ -1,6 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
 import { type KeyboardEvent, useRef, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { useClickAway, useToggle } from "react-use";
+import type { HymnId } from "~/models";
 import { fetchHymnTitles } from "~/apis/hymns";
 import {
   Command,
@@ -15,7 +16,7 @@ import { cn } from "@/lib/tailwind";
 
 type HymnSearchProps = Omit<CommandInputProps, "onChange"> & {
   id: string;
-  onChange?: (id: string) => void;
+  onChange?: (id: HymnId) => void;
 };
 
 function HymnSearch({ id, onChange }: HymnSearchProps) {
@@ -39,7 +40,7 @@ function HymnSearch({ id, onChange }: HymnSearchProps) {
     }
   }
 
-  function handleSelect({ id }: { title: string; id: string }) {
+  function handleSelect({ id }: { title: string; id: HymnId }) {
     onChange?.(id);
     toggle(false);
     setInput("");

@@ -1,24 +1,21 @@
 import { Button } from "@/components/button";
-import { type HymnDisplayType, useHymns } from "../../store";
-import { useLanguages } from "@/features/languages";
-import { syncVerses } from "../../utilities";
+import { useLanguage } from "@/features/languages";
 import { useKeyboardNavigation } from "./verses-selector.utilities";
+
+import { useHymn } from "../../store";
+import { syncVerses } from "../../utilities";
 import { useHymnQuery } from "../../apis";
+import { useHymnContext } from "../../context";
 
-type VersesSelectorProps = {
-  id: string;
-  type: HymnDisplayType;
-  onVerseChange: (idx: number) => void;
-};
+function VersesSelector({ onVerseChange }: { onVerseChange: (idx: number) => void }) {
+  const { hymnId } = useHymnContext();
+  const { activeHymnId, activeVerse, shouldWrapVerses } = useHymn();
+  const { languages, bilingual } = useLanguage();
+  const isActive = hymnId === activeHymnId;
 
-function VersesSelector({ id, type, onVerseChange }: VersesSelectorProps) {
-  const { activeHymnId, activeVerse, shouldWrapVerses } = useHymns(type);
-  const { languages, bilingual } = useLanguages();
-  const isActive = id === activeHymnId;
+  const { data = [], isLoading } = useHymnQuery({ hymnId, languages });
 
-  const { data = [], isLoading } = useHymnQuery(id, languages);
-
-  useKeyboardNavigation(id, type, Math.max(...data.map(({ verses }) => verses.length)) - 1);
+  useKeyboardNavigation(hymnId, Math.max(...data.map(({ verses }) => verses.length)) - 1);
 
   if (isLoading) return <div>Loading...</div>;
   if (data.length === 0) return <div>Not found</div>;

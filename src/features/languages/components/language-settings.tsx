@@ -5,11 +5,11 @@ import {
   SettingsSwitch,
 } from "@/ui/shared";
 import { languages } from "../utilities";
-import { type LanguageState, useLanguages } from "../store";
+import { type LanguageState, useLanguage } from "../store";
 
 function LanguageSettings() {
   const { bilingual, primaryLanguageId, secondaryLanguageId, panelLanguageId, update } =
-    useLanguages();
+    useLanguage();
 
   function handleChange(key: keyof LanguageState) {
     function swapLanguages() {
