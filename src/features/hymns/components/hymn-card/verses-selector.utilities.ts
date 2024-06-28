@@ -3,7 +3,7 @@ import type { HymnId } from "~/models";
 import { useHymn } from "../../store";
 
 function useKeyboardNavigation(id: HymnId, max: number) {
-  const { activeHymnId, activeVerse, setActive, hymnIds } = useHymn();
+  const { activeHymnId, activeVerse, sing, hymnIds } = useHymn();
 
   const navigate = useCallback(
     (direction: number) => {
@@ -16,12 +16,12 @@ function useKeyboardNavigation(id: HymnId, max: number) {
       return () => {
         if (id !== activeHymnId) return;
 
-        if (activeVerse === -1) setActive(activeHymnId, direction === -1 ? max : 0);
-        else if (activeVerse !== edge) setActive(activeHymnId, activeVerse + direction);
-        else if (nextHymnId) setActive(nextHymnId || "", -1);
+        if (activeVerse === -1) sing(activeHymnId, direction === -1 ? max : 0);
+        else if (activeVerse !== edge) sing(activeHymnId, activeVerse + direction);
+        else if (nextHymnId) sing(nextHymnId || "", -1);
       };
     },
-    [activeHymnId, activeVerse, hymnIds, id, max, setActive],
+    [activeHymnId, activeVerse, hymnIds, id, max, sing],
   );
 
   useEffect(() => {

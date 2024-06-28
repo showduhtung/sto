@@ -16,7 +16,7 @@ function HymnController({ active }: { active: boolean }) {
   const { hymnId } = useHymnContext();
   const { type } = useHymnTypeContext();
 
-  const { remove, setActive, audioPlayback, activeHymnId } = useHymn();
+  const { remove, sing, audioPlayback, activeHymnId } = useHymn();
   const { remove: removeAudio, pause: pauseLocalAudios } = useAudios();
 
   const { panelLanguageId } = useLanguage();
@@ -33,7 +33,7 @@ function HymnController({ active }: { active: boolean }) {
   const [{ num, title }] = data;
 
   function handleVerse(idx: number) {
-    setActive(hymnId, idx);
+    sing(hymnId, idx);
     toggle(type);
     if (activeHymnId !== hymnId) pauseLocalAudios();
   }
@@ -41,7 +41,7 @@ function HymnController({ active }: { active: boolean }) {
   function handleRemove() {
     remove(hymnId);
     removeAudio(hymnId);
-    setActive("", -1);
+    sing("", -1);
   }
 
   if (isLoading) return <div>Loading...</div>;

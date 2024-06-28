@@ -7,7 +7,7 @@ type HymnActions = {
   clear: () => void;
   remove: (hymnId: HymnId) => void;
   reorganize: (hymnIds: HymnId[]) => void;
-  setActive: (activeHymnId: ActiveHymnId, activeVerse: number) => void;
+  sing: (activeHymnId: ActiveHymnId, activeVerse: number) => void;
 };
 
 type HymnState = {
@@ -32,7 +32,7 @@ const hymnStore: StateCreator<HymnState & HymnActions> = (set) => ({
   },
 
   clear: () => set(() => ({ activeHymnId: "", activeVerse: -1 })),
-  setActive: (activeHymnId: ActiveHymnId, activeVerse: number) => {
+  sing: (activeHymnId: ActiveHymnId, activeVerse: number) => {
     set(() => ({ activeHymnId, activeVerse }));
   },
 });
