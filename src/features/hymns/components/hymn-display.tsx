@@ -12,7 +12,7 @@ function HymnDisplay() {
   const { activeHymnId, activeVerse, shouldWrapVerses, hymnIds } = useHymn();
   const { audios } = useAudios();
 
-  const { data, isLoading } = useHymnQuery({
+  const { data } = useHymnQuery({
     hymnId: activeHymnId as HymnId,
     languages,
     enabled: Boolean(activeHymnId),
@@ -35,7 +35,6 @@ function HymnDisplay() {
       </ProjectorContainer>
     );
 
-  if (isLoading) return <div>Loading...</div>;
   if (!data) return <div>Not found</div>;
 
   const [primary, secondary] = data;
@@ -53,22 +52,20 @@ function HymnDisplay() {
         </HymnContextProvider>
       ))}
 
-      {JSON.stringify(languages)}
-
       <div className="flex h-full flex-col gap-8 rounded-md bg-slate-300 px-6 py-4">
-        <div className="flex gap-2">
-          {data.map(({ title }, idx) => (
-            <h1 className="font-semibold" key={idx}>
+        <div className="flex items-center gap-2">
+          {data.map(({ title }) => (
+            <h1 className="font-semibold" key={title}>
               {title}
             </h1>
           ))}
         </div>
 
         <div className="flex gap-8">
-          {data.map(({ verses }, idx) => {
+          {data.map(({ verses, num }, idx) => {
             const verse = verses[idx === 0 ? activePrimaryVerseIdx : activeSecondaryVerseIdx];
             return (
-              <div key={idx}>
+              <div key={num}>
                 <div dangerouslySetInnerHTML={{ __html: verse.html }} />
               </div>
             );
