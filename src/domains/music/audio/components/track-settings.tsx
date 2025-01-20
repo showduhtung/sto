@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from "@/ui/components/select";
 
-import { useAudio, useAudioQuery, formatToDecimalDisplay } from "@/domains/audio";
+import { useAudio, useAudioQuery, formatToDecimalDisplay } from "@/domains/music/audio";
 
 function TrackSettings() {
   const [playbackRate, setPlaybackRate] = useState(1);

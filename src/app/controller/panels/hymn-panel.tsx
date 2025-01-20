@@ -1,6 +1,12 @@
 import type { HymnId } from "~/models";
-import { HymnSearch, HymnCard, useHymn, useHymnTypeContext } from "@/domains/hymns";
-import { useAudiosStore } from "@/domains/audio";
+import {
+  HymnSearch,
+  HymnCard,
+  useHymnsStore,
+  useHymnTypeContext,
+  useHymnSettingsStore,
+} from "@/domains/music/hymns";
+import { useAudiosStore } from "@/domains/music/audio";
 
 import { Label } from "@/ui/components/label";
 import { Switch } from "@/ui/components/switch";
@@ -11,7 +17,8 @@ import { PanelContainer } from "./panel-container";
 
 function HymnPanel() {
   const { type } = useHymnTypeContext();
-  const { hymnIds, add, reorganize, audioPlayback, update } = useHymn();
+  const { hymnIds, add, reorganize } = useHymnsStore();
+  const { audioPlayback, update } = useHymnSettingsStore();
   const { audios, add: addAudio, initialize } = useAudiosStore();
 
   function handleSearchedHymn(id: HymnId) {

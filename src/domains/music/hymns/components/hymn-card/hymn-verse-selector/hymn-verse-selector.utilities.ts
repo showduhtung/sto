@@ -1,9 +1,9 @@
 import { useCallback, useEffect } from "react";
 import type { HymnId } from "~/models";
-import { useHymn } from "@/domains/hymns";
+import { useHymnsStore } from "@/domains/music/hymns";
 
 function useKeyboardNavigation(id: HymnId, max: number) {
-  const { activeHymnId, activeVerse, sing, hymnIds } = useHymn();
+  const { hymnIds, activeHymnId, sing, activeVerse } = useHymnsStore();
 
   const navigate = useCallback(
     (direction: number) => {

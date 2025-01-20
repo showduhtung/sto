@@ -1,11 +1,13 @@
 import { type PropsWithChildren } from "react";
 import { cn } from "@/lib/tailwind";
 import { Accordion, AccordionContent, AccordionItem } from "@/ui/components/accordion";
-import { useHymnSettingsStore } from "@/domains/hymns";
-import { MediaControlButtons, TrackSettings, TimestampTools } from "./";
+import { useHymnSettingsStore } from "@/domains/music/hymns";
+import { useMusicContext } from "@/domains/music/shared";
+import { MediaControlButtons, TrackSettings, TimestampTools } from ".";
 
-function AudioController({ active }: { active: boolean }) {
+function AudioController() {
   const { audioPlayback, timestampTools } = useHymnSettingsStore();
+  const { isActive } = useMusicContext();
 
   return (
     <CardAccordionSection open={audioPlayback} className="flex flex-col bg-zinc-100 p-4">
@@ -13,12 +15,12 @@ function AudioController({ active }: { active: boolean }) {
         <TrackSettings />
       </div>
 
-      <CardAccordionSection open={audioPlayback && active} className="flex h-10 items-center">
+      <CardAccordionSection open={audioPlayback && isActive} className="flex h-10 items-center">
         <MediaControlButtons />
       </CardAccordionSection>
 
       <CardAccordionSection
-        open={audioPlayback && active && timestampTools}
+        open={audioPlayback && isActive && timestampTools}
         className="mb-[-4px] flex h-10 items-center"
       >
         <TimestampTools />

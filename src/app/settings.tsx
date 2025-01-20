@@ -11,7 +11,7 @@ import {
 } from "@/ui/components/dialog";
 
 import { LanguageSettings } from "@/domains/language";
-import { HymnSettings } from "@/domains/hymns";
+import { HymnSettings } from "@/domains/music/hymns";
 import { BibleSettings } from "@/domains/bible";
 import { ProjectorSettings } from "@/domains/projector";
 import { SermonSettings } from "@/domains/sermon";

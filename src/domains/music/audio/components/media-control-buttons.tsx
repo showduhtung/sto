@@ -4,7 +4,7 @@ import { Pause, Play, Square, Volume, Volume2Icon } from "lucide-react";
 import { ActionIcon } from "@/ui/components/button";
 import { Slider } from "@/ui/components/slider";
 
-import { useAudio, formatToDecimalDisplay } from "@/domains/audio";
+import { useAudio, formatToDecimalDisplay } from "@/domains/music/audio";
 
 function MediaControlButtons() {
   const { ref, status, duration } = useAudio();

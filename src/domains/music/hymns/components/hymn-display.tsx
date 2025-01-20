@@ -1,13 +1,20 @@
 import type { HymnId } from "~/models";
 import { cn } from "@/lib/tailwind";
 import { useLanguageStore } from "@/domains/language";
-import { HymnContextProvider, useHymnQuery, useHymn, syncVerses } from "@/domains/hymns";
-import { useAudiosStore, AudioSound, AudioContextProvider } from "@/domains/audio";
+import {
+  useHymnQuery,
+  useHymnsStore,
+  syncVerses,
+  useHymnSettingsStore,
+} from "@/domains/music/hymns";
+import { useAudiosStore, AudioSound, AudioContextProvider } from "@/domains/music/audio";
+import { MusicContextProvider } from "@/domains/music/shared";
 import { ProjectorContainer } from "@/components/projector-container";
 
 function HymnDisplay() {
   const { languages, bilingual } = useLanguageStore();
-  const { activeHymnId, activeVerse, shouldWrapVerses, hymnIds } = useHymn();
+  const { activeHymnId, activeVerse, hymnIds } = useHymnsStore();
+  const { shouldWrapVerses } = useHymnSettingsStore();
   const { audios } = useAudiosStore();
 
   const { data } = useHymnQuery({
@@ -43,11 +50,11 @@ function HymnDisplay() {
   return (
     <ProjectorContainer>
       {audios.map(({ hymnId, store }) => (
-        <HymnContextProvider key={hymnId} value={{ hymnId }}>
+        <MusicContextProvider key={hymnId} value={{ hymnId }}>
           <AudioContextProvider value={{ store }}>
             <AudioSound />
           </AudioContextProvider>
-        </HymnContextProvider>
+        </MusicContextProvider>
       ))}
 
       <div className="flex h-full flex-col gap-8 rounded-md bg-slate-300 px-6 py-4">

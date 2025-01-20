@@ -1,4 +1,4 @@
-import { useAudio, useAudioQuery } from "@/domains/audio";
+import { useAudio, useAudioQuery } from "@/domains/music/audio";
 
 function AudioSound() {
   const { data: tracks, isLoading } = useAudioQuery();

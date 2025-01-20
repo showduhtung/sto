@@ -1,5 +1,5 @@
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/ui/components/tabs";
-import { HymnTypeContextProvider } from "@/domains/hymns";
+import { HymnTypeContextProvider } from "@/domains/music/hymns";
 
 import { HymnPanel } from "./hymn-panel";
 import { BiblePanel } from "./bible-panel";

@@ -14,7 +14,7 @@ type AudiosState = {
 type AudiosActions = {
   add: (hymnId: HymnId) => void;
   remove: (hymnId: HymnId) => void;
-  pause: () => void;
+  pauseAll: () => void;
   initialize: (hymnIds: HymnId[]) => void;
 };
 
@@ -31,7 +31,7 @@ const audiosStore: StateCreator<AudiosState & AudiosActions> = (set, get) => ({
     }),
   remove: (hymnId: HymnId) =>
     set(({ audios }) => ({ audios: audios.filter(({ hymnId: id }) => id !== hymnId) })),
-  pause: () =>
+  pauseAll: () =>
     get().audios.forEach(({ store }) => {
       const { ref } = store.getState();
       if (!ref.current) return;

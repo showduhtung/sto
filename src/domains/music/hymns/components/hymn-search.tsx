@@ -22,7 +22,7 @@ function HymnSearch({ id, onChange }: HymnSearchProps) {
   const { data: titles = [] } = useHymnTitlesQuery({ language: "en" });
   const inputRef = useRef<HTMLInputElement>(null);
   const [open, toggle] = useToggle(false);
-  const [input, setInput] = useState("");
+  const [value, setValue] = useState("");
 
   useClickAway(inputRef, () => toggle(false));
 
@@ -32,14 +32,14 @@ function HymnSearch({ id, onChange }: HymnSearchProps) {
     if (event.key === "Escape") {
       inputRef.current.blur();
       toggle(false);
-      setInput("");
+      setValue("");
     }
   }
 
   function handleSelect({ id }: { title: string; id: HymnId }) {
     onChange?.(id);
     toggle(false);
-    setInput("");
+    setValue("");
   }
 
   return (
@@ -54,8 +54,8 @@ function HymnSearch({ id, onChange }: HymnSearchProps) {
     >
       <CommandInput
         id={id}
-        value={input}
-        onValueChange={setInput}
+        value={value}
+        onValueChange={setValue}
         ref={inputRef}
         onClick={toggle}
         placeholder="Search hymns..."

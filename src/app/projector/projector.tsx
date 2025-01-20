@@ -1,5 +1,5 @@
 import { BibleDisplay } from "@/domains/bible";
-import { HymnTypeContextProvider, HymnDisplay } from "@/domains/hymns";
+import { HymnTypeContextProvider, HymnDisplay } from "@/domains/music/hymns";
 import { useProjectorStore } from "@/domains/projector";
 
 function Projector() {

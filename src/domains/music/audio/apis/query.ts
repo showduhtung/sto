@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import { useHymnContext } from "@/domains/hymns";
+import { useMusicContext } from "@/domains/music/shared";
 import { fetchAudio } from "./audio.service";
 
 function useAudioQuery() {
-  const { hymnId } = useHymnContext();
+  const { hymnId } = useMusicContext();
 
   return useQuery({
     queryKey: ["audio", hymnId],

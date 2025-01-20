@@ -6,7 +6,7 @@ import {
   SettingsSelect,
   SettingsContainer,
 } from "@/domains/shared/settings";
-import { useHymnSettingsStore } from "@/domains/hymns";
+import { useHymnSettingsStore } from "@/domains/music/hymns";
 
 function HymnSettings() {
   const [[first, second], setState] = useState([[92], [22]]);

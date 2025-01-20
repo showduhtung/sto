@@ -1,15 +1,14 @@
 import { Button } from "@/ui/components/button";
 import { useLanguageStore } from "@/domains/language";
-import { useKeyboardNavigation } from "./verses-selector.utilities";
+import { syncVerses, useHymnQuery, useHymnSettingsStore } from "@/domains/music/hymns";
+import { useMusicContext } from "@/domains/music/shared";
 
-import { useHymn, syncVerses, useHymnContext, useHymnQuery } from "@/domains/hymns";
+import { useKeyboardNavigation } from "./hymn-verse-selector.utilities";
 
-function VersesSelector({ onVerseChange }: { onVerseChange: (idx: number) => void }) {
-  const { hymnId } = useHymnContext();
-  const { activeHymnId, activeVerse, shouldWrapVerses } = useHymn();
+function HymnVerseSelector() {
   const { languages, bilingual } = useLanguageStore();
-  const isActive = hymnId === activeHymnId;
-
+  const { hymnId, isActive, onVerseChange, activeVerse } = useMusicContext();
+  const { shouldWrapVerses } = useHymnSettingsStore();
   const { data = [], isLoading } = useHymnQuery({ hymnId, languages });
 
   useKeyboardNavigation(hymnId, Math.max(...data.map(({ verses }) => verses.length)) - 1);
@@ -61,4 +60,4 @@ function VersesSelector({ onVerseChange }: { onVerseChange: (idx: number) => voi
   );
 }
 
-export { VersesSelector };
+export { HymnVerseSelector };

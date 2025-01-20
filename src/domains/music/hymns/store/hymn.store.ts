@@ -33,8 +33,9 @@ const hymnStore: StateCreator<HymnState & HymnActions> = (set) => ({
   },
 
   clear: () => set(() => ({ activeHymnId: "", activeVerse: -1 })),
-  sing: (activeHymnId: ActiveHymnId, activeVerse: number) =>
-    set(() => ({ activeHymnId, activeVerse })),
+  sing: (activeHymnId: ActiveHymnId, activeVerse: number) => {
+    set(() => ({ activeHymnId, activeVerse }));
+  },
 });
 
 const useSermonHymnsStore = create(persist(hymnStore, { name: "sto-sermon-hymns" }));
