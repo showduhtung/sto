@@ -1,27 +1,15 @@
-import { startTransition, Suspense, useEffect, useState, type ReactNode } from "react";
+import { type ReactNode } from "react";
 import { IntlProvider } from "react-intl";
 import { useLanguageQuery, useLanguageStore } from "@/domains/language";
-import type { DialectType } from "~/models";
 
 function LanguageProvider({ children }: { children: ReactNode }) {
-  const [lang, setLang] = useState<DialectType>("en");
   const { panelLanguageId } = useLanguageStore();
-
-  const { data } = useLanguageQuery(lang);
-
-  useEffect(() => {
-    // A component suspended while responding to synchronous input. This will cause the UI to be replaced with a loading indicator. To fix, updates that suspend should be wrapped with startTransition.
-
-    // https://tanstack.com/query/latest/docs/framework/react/guides/suspense#suspense
-    startTransition(() => setLang(panelLanguageId));
-  }, [panelLanguageId]);
+  const { data } = useLanguageQuery(panelLanguageId);
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <IntlProvider locale={panelLanguageId} messages={data}>
-        {children}
-      </IntlProvider>
-    </Suspense>
+    <IntlProvider locale={panelLanguageId} messages={data}>
+      {children}
+    </IntlProvider>
   );
 }
 

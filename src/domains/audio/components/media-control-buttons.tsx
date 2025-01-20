@@ -4,7 +4,7 @@ import { Pause, Play, Square, Volume, Volume2Icon } from "lucide-react";
 import { ActionIcon } from "@/ui/components/button";
 import { Slider } from "@/ui/components/slider";
 
-import { useAudio, convertNumberToDecimalDisplay } from "@/domains/audio";
+import { useAudio, formatToDecimalDisplay } from "@/domains/audio";
 
 function MediaControlButtons() {
   const { ref, status, duration } = useAudio();
@@ -84,7 +84,7 @@ function MediaControlButtons() {
           )}
         </ActionIcon>
         <div className="flex w-32 items-center gap-2">
-          {convertNumberToDecimalDisplay(volume)}
+          {formatToDecimalDisplay(volume)}
           <Slider
             max={1}
             step={0.1}

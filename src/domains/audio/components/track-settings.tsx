@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from "@/ui/components/select";
 
-import { useAudio, useAudioQuery, convertNumberToDecimalDisplay } from "@/domains/audio";
+import { useAudio, useAudioQuery, formatToDecimalDisplay } from "@/domains/audio";
 
 function TrackSettings() {
   const [playbackRate, setPlaybackRate] = useState(1);
@@ -40,7 +40,7 @@ function TrackSettings() {
       </Select>
 
       <Select
-        defaultValue={convertNumberToDecimalDisplay(playbackRate)}
+        defaultValue={formatToDecimalDisplay(playbackRate)}
         onValueChange={(val) => {
           if (ref.current) ref.current.playbackRate = Number(val);
           setPlaybackRate(Number(val));
