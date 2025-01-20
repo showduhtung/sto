@@ -2,10 +2,7 @@ import { Button } from "@/ui/components/button";
 import { useLanguage } from "@/domains/language";
 import { useKeyboardNavigation } from "./verses-selector.utilities";
 
-import { useHymn } from "../../store";
-import { syncVerses } from "../../utilities";
-import { useHymnQuery } from "../../apis";
-import { useHymnContext } from "../../context";
+import { useHymn, syncVerses, useHymnContext, useHymnQuery } from "@/domains/hymns";
 
 function VersesSelector({ onVerseChange }: { onVerseChange: (idx: number) => void }) {
   const { hymnId } = useHymnContext();

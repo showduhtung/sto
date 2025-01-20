@@ -1,8 +1,7 @@
 import type { HymnId } from "~/models";
 
 import { AudioContextProvider, AudioController, useAudios } from "@/domains/audio";
-import { useHymn } from "../../store";
-import { HymnContextProvider } from "../../context";
+import { useHymn, HymnContextProvider } from "@/domains/hymns";
 import { HymnController } from "./hymn-controller";
 
 function HymnCard({ hymnId }: { hymnId: HymnId }) {

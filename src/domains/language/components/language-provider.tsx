@@ -1,7 +1,6 @@
 import { startTransition, Suspense, useEffect, useState, type ReactNode } from "react";
 import { IntlProvider } from "react-intl";
-import { useLanguage } from "@/domains/language";
-import { useLanguageQuery } from "../apis";
+import { useLanguageQuery, useLanguage } from "@/domains/language";
 import type { DialectType } from "~/models";
 
 function LanguageProvider({ children }: { children: ReactNode }) {

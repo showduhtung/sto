@@ -1,16 +1,12 @@
 import { ListMusicIcon } from "lucide-react";
-
 import { cn } from "@/lib/tailwind";
-
 import { useProjector } from "@/domains/projector";
 import { languageMap, useLanguage } from "@/domains/language";
 import { useAudios } from "@/domains/audio";
 
 import { Button } from "@/ui/components/button";
 import { VersesSelector } from "./verses-selector";
-import { useHymnQuery } from "../../apis";
-import { useHymn } from "../../store";
-import { useHymnContext, useHymnTypeContext } from "../../context";
+import { useHymn, useHymnContext, useHymnTypeContext, useHymnQuery } from "@/domains/hymns";
 
 function HymnController({ active }: { active: boolean }) {
   const { hymnId } = useHymnContext();

@@ -5,7 +5,7 @@ import {
   SettingsFontSlider,
   SettingsSelect,
 } from "@/domains/shared/settings";
-import { useHymnSettings } from "../store";
+import { useHymnSettings } from "@/domains/hymns";
 import { SettingsContainer } from "@/ui/shared";
 
 function HymnSettings() {

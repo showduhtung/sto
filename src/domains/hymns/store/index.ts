@@ -1,6 +1,6 @@
 import { type HymnDisplayType, useSermonHymns, useWorshipHymns } from "./hymn.store";
 import { useHymnSettings } from "./hymn-settings.store";
-import { useHymnTypeContext } from "../context";
+import { useHymnTypeContext } from "@/domains/hymns";
 
 function useBaseHymn(type: HymnDisplayType) {
   const sermonHymns = useSermonHymns();

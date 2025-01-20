@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from "react";
 import type { HymnId } from "~/models";
-import { useHymn } from "../../store";
+import { useHymn } from "@/domains/hymns";
 
 function useKeyboardNavigation(id: HymnId, max: number) {
   const { activeHymnId, activeVerse, sing, hymnIds } = useHymn();

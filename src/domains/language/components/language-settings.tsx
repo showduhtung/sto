@@ -1,6 +1,5 @@
 import { SettingsCardContent, SettingsSwitch, SettingsSelect } from "@/domains/shared/settings";
-import { languages } from "../utilities";
-import { type LanguageState, useLanguage } from "../store";
+import { type LanguageState, useLanguage, languages } from "@/domains/language";
 import { SettingsContainer } from "@/ui/shared";
 
 function LanguageSettings() {

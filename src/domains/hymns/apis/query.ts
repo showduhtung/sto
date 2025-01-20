@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchHymnById } from "~/apis/hymns";
 import type { HymnId, LanguageType } from "~/models";
+import { fetchHymnById } from "./hymns.service";
 
 type HymnQueryProps = {
   hymnId: HymnId;

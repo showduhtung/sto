@@ -1,6 +1,6 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { fetchLanguage } from "~/apis/languages";
 import type { DialectType } from "~/models";
+import { fetchLanguage } from "./languages.service";
 
 function useLanguageQuery(language: DialectType = "en") {
   const { data, isLoading } = useSuspenseQuery({

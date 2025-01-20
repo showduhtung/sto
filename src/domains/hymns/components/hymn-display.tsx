@@ -1,11 +1,9 @@
 import type { HymnId } from "~/models";
 import { cn } from "@/lib/tailwind";
 import { useLanguage } from "@/domains/language";
-import { HymnContextProvider, useHymnQuery } from "@/domains/hymns";
+import { HymnContextProvider, useHymnQuery, useHymn, syncVerses } from "@/domains/hymns";
 import { useAudios, AudioSound, AudioContextProvider } from "@/domains/audio";
 import { ProjectorContainer } from "@/ui/shared";
-import { syncVerses } from "../utilities";
-import { useHymn } from "../store";
 
 function HymnDisplay() {
   const { languages, bilingual } = useLanguage();
