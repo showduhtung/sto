@@ -1,5 +1,4 @@
-import { SettingsCardContent, SettingsSelect } from "@/domains/shared/settings";
-import { SettingsContainer } from "@/ui/shared";
+import { SettingsCardContent, SettingsSelect, SettingsContainer } from "@/domains/shared/settings";
 
 function SlidesSettings() {
   return (

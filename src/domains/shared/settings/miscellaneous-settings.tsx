@@ -1,6 +1,5 @@
 import { Download, Upload } from "lucide-react";
-import { SettingsContainer } from "@/ui/shared";
-import { SettingsButton, SettingsCardContent } from "./components/settings.components";
+import { SettingsCardContent, SettingsButton, SettingsContainer } from "@/domains/shared/settings";
 
 function MiscellaneousSettings() {
   return (

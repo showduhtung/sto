@@ -1,6 +1,10 @@
-import { SettingsCardContent, SettingsSwitch, SettingsSelect } from "@/domains/shared/settings";
+import {
+  SettingsCardContent,
+  SettingsSwitch,
+  SettingsSelect,
+  SettingsContainer,
+} from "@/domains/shared/settings";
 import { type LanguageState, useLanguageStore, languages } from "@/domains/language";
-import { SettingsContainer } from "@/ui/shared";
 
 function LanguageSettings() {
   const { bilingual, primaryLanguageId, secondaryLanguageId, panelLanguageId, update } =

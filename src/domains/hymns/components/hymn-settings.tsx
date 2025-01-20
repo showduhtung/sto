@@ -4,9 +4,9 @@ import {
   SettingsSwitch,
   SettingsFontSlider,
   SettingsSelect,
+  SettingsContainer,
 } from "@/domains/shared/settings";
 import { useHymnSettingsStore } from "@/domains/hymns";
-import { SettingsContainer } from "@/ui/shared";
 
 function HymnSettings() {
   const [[first, second], setState] = useState([[92], [22]]);
