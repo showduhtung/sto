@@ -1,7 +1,7 @@
 import { ListMusicIcon } from "lucide-react";
 import { Button } from "@/ui/components/button";
 
-function HymnControllerSkeleton({ children }: { children?: React.ReactNode }) {
+function MusicCardControllerSkeleton({ children }: { children?: React.ReactNode }) {
   return (
     <div className="flex flex-col gap-4 p-4">
       <div className="flex items-center justify-between">
@@ -21,4 +21,4 @@ function HymnControllerSkeleton({ children }: { children?: React.ReactNode }) {
   );
 }
 
-export { HymnControllerSkeleton };
+export { MusicCardControllerSkeleton };

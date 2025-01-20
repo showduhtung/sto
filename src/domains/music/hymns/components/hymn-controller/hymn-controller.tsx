@@ -4,20 +4,20 @@ import { languageMap, useLanguageStore } from "@/domains/language";
 
 import { Button } from "@/ui/components/button";
 import { useHymnSettingsStore, useHymnQuery } from "@/domains/music/hymns";
-import { useMusicContext } from "@/domains/music/shared";
-import { HymnControllerSkeleton } from "./hymn-card-controller.skeleton";
+import { useMusicController } from "@/domains/music/shared";
+import { MusicCardControllerSkeleton } from "./hymn-controller.skeleton";
 
-function HymnCardController({ children }: { children?: React.ReactNode }) {
+function HymnController({ children }: { children?: React.ReactNode }) {
   const { panelLanguageId } = useLanguageStore();
   const { audioPlayback } = useHymnSettingsStore();
-  const { hymnId, onDelete, onVerseChange, isActive } = useMusicContext();
+  const { hymnId, onDelete, onVerseChange, isActive } = useMusicController();
 
   const { data, isLoading } = useHymnQuery({
     hymnId,
     languages: [languageMap[panelLanguageId]],
   });
 
-  if (isLoading) return <HymnControllerSkeleton>{children}</HymnControllerSkeleton>;
+  if (isLoading) return <MusicCardControllerSkeleton>{children}</MusicCardControllerSkeleton>;
   if (!data) return <div>Not found</div>;
 
   const [{ num, title }] = data;
@@ -52,4 +52,4 @@ function HymnCardController({ children }: { children?: React.ReactNode }) {
   );
 }
 
-export { HymnCardController };
+export { HymnController };

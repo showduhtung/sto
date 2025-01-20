@@ -1,13 +1,13 @@
 import { Button } from "@/ui/components/button";
 import { useLanguageStore } from "@/domains/language";
 import { syncVerses, useHymnQuery, useHymnSettingsStore } from "@/domains/music/hymns";
-import { useMusicContext } from "@/domains/music/shared";
+import { useMusicController } from "@/domains/music/shared";
 
-import { useKeyboardNavigation } from "./hymn-verse-selector.utilities";
+import { useKeyboardNavigation } from "./hymn-verse-controller.utilities";
 
 function HymnVerseSelector() {
   const { languages, bilingual } = useLanguageStore();
-  const { hymnId, isActive, onVerseChange, activeVerse } = useMusicContext();
+  const { hymnId, isActive, onVerseChange, activeVerse } = useMusicController();
   const { shouldWrapVerses } = useHymnSettingsStore();
   const { data = [], isLoading } = useHymnQuery({ hymnId, languages });
 

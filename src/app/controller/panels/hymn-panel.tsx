@@ -1,12 +1,12 @@
 import type { HymnId } from "~/models";
 import {
   HymnSearch,
-  HymnCard,
   useHymnsStore,
   useHymnTypeContext,
   useHymnSettingsStore,
 } from "@/domains/music/hymns";
 import { useAudiosStore } from "@/domains/music/audio";
+import { MusicCard } from "@/domains/music/shared";
 
 import { Label } from "@/ui/components/label";
 import { Switch } from "@/ui/components/switch";
@@ -70,7 +70,7 @@ function HymnPanel() {
         <List draggable onChange={(items) => reorganize(items as HymnId[])}>
           {hymnIds.map((id) => (
             <ListItem key={id} id={String(id)}>
-              <HymnCard hymnId={id} />
+              <MusicCard hymnId={id} />
             </ListItem>
           ))}
         </List>

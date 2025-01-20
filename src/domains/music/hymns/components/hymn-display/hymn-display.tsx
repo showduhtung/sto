@@ -1,5 +1,4 @@
 import type { HymnId } from "~/models";
-import { cn } from "@/lib/tailwind";
 import { useLanguageStore } from "@/domains/language";
 import {
   useHymnQuery,
@@ -8,8 +7,9 @@ import {
   useHymnSettingsStore,
 } from "@/domains/music/hymns";
 import { useAudiosStore, AudioSound, AudioContextProvider } from "@/domains/music/audio";
-import { MusicContextProvider } from "@/domains/music/shared";
+import { MusicControllerProvider } from "@/domains/music/shared";
 import { ProjectorContainer } from "@/components/projector-container";
+import { InactiveHymnDisplay } from "./inactive-hymn-display";
 
 function HymnDisplay() {
   const { languages, bilingual } = useLanguageStore();
@@ -23,40 +23,22 @@ function HymnDisplay() {
     enabled: Boolean(activeHymnId),
   });
 
-  if (activeVerse === -1)
-    return (
-      <ProjectorContainer>
-        <div className="flex h-full flex-col gap-8 rounded-md bg-slate-300 px-6 py-4">
-          No active hymn
-          {hymnIds.map((id) => (
-            <h1
-              className={cn("font-semibold", activeHymnId === id && "text-primary underline")}
-              key={id}
-            >
-              {id}
-            </h1>
-          ))}
-        </div>
-      </ProjectorContainer>
-    );
-
-  if (!data) return <div>Not found</div>;
+  if (activeVerse === -1) return <InactiveHymnDisplay ids={hymnIds} activeId={activeHymnId} />;
+  if (!data) return <ProjectorContainer>Not found</ProjectorContainer>;
 
   const [primary, secondary] = data;
   const [activePrimaryVerseIdx, activeSecondaryVerseIdx] = bilingual
     ? syncVerses(shouldWrapVerses, activeVerse, [primary.verses.length, secondary.verses.length])
     : [activeVerse];
 
-  console.log({ data, activeHymnId });
-
   return (
     <ProjectorContainer>
       {audios.map(({ hymnId, store }) => (
-        <MusicContextProvider key={hymnId} value={{ hymnId }}>
+        <MusicControllerProvider key={hymnId} value={{ hymnId }}>
           <AudioContextProvider value={{ store }}>
             <AudioSound />
           </AudioContextProvider>
-        </MusicContextProvider>
+        </MusicControllerProvider>
       ))}
 
       <div className="flex h-full flex-col gap-8 rounded-md bg-slate-300 px-6 py-4">

@@ -9,18 +9,18 @@ import { useAudiosStore } from "@/domains/music/audio";
 type MusicContext = {
   hymnId: HymnId;
   type: HymnDisplayType;
-  onVerseChange: (verseIdx: number) => void;
   activeVerse: number;
   isActive: boolean;
   onDelete: () => void;
+  onVerseChange: (verseIdx: number) => void;
 };
 
-const [BaseMusicContextProvider, useMusicContext] = createSafeContext<MusicContext>(
-  "useMusicContext should be wrapped in a MusicContextProvider",
+const [BaseMusicContextProvider, useMusicController] = createSafeContext<MusicContext>(
+  "useMusicController should be wrapped in a MusicControllerProvider",
 );
 
-type MusicProviderProps = PropsWithChildren<{ value: { hymnId: HymnId } }>;
-function MusicContextProvider({ value: { hymnId }, children }: MusicProviderProps) {
+type MusicControllerProviderProps = PropsWithChildren<{ value: { hymnId: HymnId } }>;
+function MusicControllerProvider({ value: { hymnId }, children }: MusicControllerProviderProps) {
   const { type } = useHymnTypeContext();
   const { toggle } = useProjectorStore();
   const { remove: removeHymn, activeHymnId, activeVerse, sing } = useHymnsStore();
@@ -53,4 +53,4 @@ function MusicContextProvider({ value: { hymnId }, children }: MusicProviderProp
   );
 }
 
-export { MusicContextProvider, useMusicContext };
+export { MusicControllerProvider, useMusicController };
