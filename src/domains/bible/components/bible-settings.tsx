@@ -3,8 +3,8 @@ import {
   SettingsRadioGroups,
   SettingsFontSlider,
   SettingsSelect,
+  SettingsContainer,
 } from "@/domains/shared/settings";
-import { SettingsContainer } from "@/ui/shared";
 
 function BibleSettings() {
   return (

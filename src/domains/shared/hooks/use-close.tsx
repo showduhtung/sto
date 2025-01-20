@@ -1,11 +1,11 @@
-import { useBaseHymn } from "@/domains/hymns";
-import { useProjector } from "@/domains/projector";
+import { useBaseHymnsStore } from "@/domains/music/hymns";
+import { useProjectorStore } from "@/domains/projector";
 import { useCallback } from "react";
 
 function useClose() {
-  const { toggle } = useProjector();
-  const { clear: clearSermonHymns } = useBaseHymn("SERMON_HYMNS");
-  const { clear: clearWorshipHymns } = useBaseHymn("HYMNAL_WORSHIP");
+  const { toggle } = useProjectorStore();
+  const { clear: clearSermonHymns } = useBaseHymnsStore("SERMON_HYMNS");
+  const { clear: clearWorshipHymns } = useBaseHymnsStore("HYMNAL_WORSHIP");
 
   const reset = useCallback(() => {
     clearSermonHymns();

@@ -1,8 +1,8 @@
 import { ReferenceSelectorButton } from "@/domains/bible";
-import { useProjector } from "@/domains/projector";
+import { useProjectorStore } from "@/domains/projector";
 
 function BiblePanel() {
-  const { toggle: _toggle } = useProjector();
+  const { toggle: _toggle } = useProjectorStore();
   return (
     <div>
       <ReferenceSelectorButton />
