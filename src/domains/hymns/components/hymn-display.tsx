@@ -3,7 +3,7 @@ import { cn } from "@/lib/tailwind";
 import { useLanguageStore } from "@/domains/language";
 import { HymnContextProvider, useHymnQuery, useHymn, syncVerses } from "@/domains/hymns";
 import { useAudiosStore, AudioSound, AudioContextProvider } from "@/domains/audio";
-import { ProjectorContainer } from "@/ui/shared";
+import { ProjectorContainer } from "@/components/projector-container";
 
 function HymnDisplay() {
   const { languages, bilingual } = useLanguageStore();

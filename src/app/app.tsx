@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { WindowPortal } from "@/ui/components/window";
+import { WindowPortal } from "@/components/window";
 import { useProjectorStore } from "@/domains/projector";
 import { useClose } from "@/domains/shared/hooks";
 import { LanguageProvider } from "@/domains/language";

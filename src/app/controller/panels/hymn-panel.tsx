@@ -2,12 +2,12 @@ import type { HymnId } from "~/models";
 import { HymnSearch, HymnCard, useHymn, useHymnTypeContext } from "@/domains/hymns";
 import { useAudiosStore } from "@/domains/audio";
 
-import { PanelContainer } from "@/ui/shared";
 import { Label } from "@/ui/components/label";
 import { Switch } from "@/ui/components/switch";
 import { Button } from "@/ui/components/button";
 import { List, ListItem } from "@/ui/components/list";
 import { useEffect } from "react";
+import { PanelContainer } from "./panel-container";
 
 function HymnPanel() {
   const { type } = useHymnTypeContext();
