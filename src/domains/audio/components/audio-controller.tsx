@@ -1,11 +1,11 @@
 import { type PropsWithChildren } from "react";
 import { cn } from "@/lib/tailwind";
 import { Accordion, AccordionContent, AccordionItem } from "@/ui/components/accordion";
-import { useHymnSettings } from "@/domains/hymns";
+import { useHymnSettingsStore } from "@/domains/hymns";
 import { MediaControlButtons, TrackSettings, TimestampTools } from "./";
 
 function AudioController({ active }: { active: boolean }) {
-  const { audioPlayback, timestampTools } = useHymnSettings();
+  const { audioPlayback, timestampTools } = useHymnSettingsStore();
 
   return (
     <CardAccordionSection open={audioPlayback} className="flex flex-col bg-zinc-100 p-4">

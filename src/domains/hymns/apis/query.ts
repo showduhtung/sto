@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import type { HymnId, LanguageType } from "~/models";
-import { fetchHymnById } from "./hymns.service";
+import { fetchHymnById, fetchHymnTitles } from "./hymns.service";
 
 type HymnQueryProps = {
   hymnId: HymnId;
@@ -16,4 +16,11 @@ function useHymnQuery({ hymnId, languages = ["en"], enabled }: HymnQueryProps) {
   });
 }
 
-export { useHymnQuery };
+function useHymnTitlesQuery({ language = "en" }: { language: LanguageType }) {
+  return useQuery({
+    queryKey: ["hymn-titles"],
+    queryFn: () => fetchHymnTitles(language),
+  });
+}
+
+export { useHymnQuery, useHymnTitlesQuery };

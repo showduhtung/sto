@@ -1,8 +1,6 @@
 import { type KeyboardEvent, useRef, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { useClickAway, useToggle } from "react-use";
 import type { HymnId } from "~/models";
-import { fetchHymnTitles } from "~/apis/hymns";
 import {
   Command,
   CommandGroup,
@@ -13,6 +11,7 @@ import {
 } from "@/ui/components/command";
 
 import { cn } from "@/lib/tailwind";
+import { useHymnTitlesQuery } from "../apis";
 
 type HymnSearchProps = Omit<CommandInputProps, "onChange"> & {
   id: string;
@@ -20,10 +19,7 @@ type HymnSearchProps = Omit<CommandInputProps, "onChange"> & {
 };
 
 function HymnSearch({ id, onChange }: HymnSearchProps) {
-  const { data: titles = [] } = useQuery({
-    queryKey: ["hymn-titles"],
-    queryFn: () => fetchHymnTitles("en"),
-  });
+  const { data: titles = [] } = useHymnTitlesQuery({ language: "en" });
   const inputRef = useRef<HTMLInputElement>(null);
   const [open, toggle] = useToggle(false);
   const [input, setInput] = useState("");

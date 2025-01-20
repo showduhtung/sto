@@ -1,11 +1,11 @@
-import { type HymnDisplayType, useSermonHymns, useWorshipHymns } from "./hymn.store";
-import { useHymnSettings } from "./hymn-settings.store";
+import { type HymnDisplayType, useSermonHymnsStore, useWorshipHymnsStore } from "./hymn.store";
+import { useHymnSettingsStore } from "./hymn-settings.store";
 import { useHymnTypeContext } from "@/domains/hymns";
 
 function useBaseHymn(type: HymnDisplayType) {
-  const sermonHymns = useSermonHymns();
-  const worshipHymns = useWorshipHymns();
-  const settings = useHymnSettings();
+  const sermonHymns = useSermonHymnsStore();
+  const worshipHymns = useWorshipHymnsStore();
+  const settings = useHymnSettingsStore();
 
   const hymns = {
     SERMON_HYMNS: sermonHymns,
@@ -21,4 +21,4 @@ function useHymn() {
 }
 
 export type { HymnDisplayType };
-export { useBaseHymn, useHymnSettings, useHymn };
+export { useBaseHymn, useHymnSettingsStore, useHymn };

@@ -18,6 +18,6 @@ const hymnSettingsStore: StateCreator<HymnSettingsState & HymnSettingsActions> =
   update: (key, value) => set({ [key]: value }),
 });
 
-const useHymnSettings = create(persist(hymnSettingsStore, { name: "sto-hymn-settings" }));
+const useHymnSettingsStore = create(persist(hymnSettingsStore, { name: "sto-hymn-settings" }));
 
-export { useHymnSettings };
+export { useHymnSettingsStore };

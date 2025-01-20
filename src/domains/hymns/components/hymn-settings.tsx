@@ -5,12 +5,12 @@ import {
   SettingsFontSlider,
   SettingsSelect,
 } from "@/domains/shared/settings";
-import { useHymnSettings } from "@/domains/hymns";
+import { useHymnSettingsStore } from "@/domains/hymns";
 import { SettingsContainer } from "@/ui/shared";
 
 function HymnSettings() {
   const [[first, second], setState] = useState([[92], [22]]);
-  const { audioPlayback, timestampTools, shouldWrapVerses, update } = useHymnSettings();
+  const { audioPlayback, timestampTools, shouldWrapVerses, update } = useHymnSettingsStore();
 
   function handleChange(idx: number) {
     return (value: [number]) => {

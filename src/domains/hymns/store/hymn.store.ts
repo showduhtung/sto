@@ -37,12 +37,12 @@ const hymnStore: StateCreator<HymnState & HymnActions> = (set) => ({
     set(() => ({ activeHymnId, activeVerse })),
 });
 
-const useSermonHymns = create(persist(hymnStore, { name: "sto-sermon-hymns" }));
-const useWorshipHymns = create(persist(hymnStore, { name: "sto-worship-hymns" }));
+const useSermonHymnsStore = create(persist(hymnStore, { name: "sto-sermon-hymns" }));
+const useWorshipHymnsStore = create(persist(hymnStore, { name: "sto-worship-hymns" }));
 
 type HymnDisplayType = "SERMON_HYMNS" | "HYMNAL_WORSHIP";
 
 export type { HymnDisplayType, HymnId, ActiveHymnId };
-export { useSermonHymns, useWorshipHymns };
+export { useSermonHymnsStore, useWorshipHymnsStore };
 
 type ActiveHymnId = HymnId | "";

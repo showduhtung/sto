@@ -1,5 +1,5 @@
 import { Button } from "@/ui/components/button";
-import { useLanguage } from "@/domains/language";
+import { useLanguageStore } from "@/domains/language";
 import { useKeyboardNavigation } from "./verses-selector.utilities";
 
 import { useHymn, syncVerses, useHymnContext, useHymnQuery } from "@/domains/hymns";
@@ -7,7 +7,7 @@ import { useHymn, syncVerses, useHymnContext, useHymnQuery } from "@/domains/hym
 function VersesSelector({ onVerseChange }: { onVerseChange: (idx: number) => void }) {
   const { hymnId } = useHymnContext();
   const { activeHymnId, activeVerse, shouldWrapVerses } = useHymn();
-  const { languages, bilingual } = useLanguage();
+  const { languages, bilingual } = useLanguageStore();
   const isActive = hymnId === activeHymnId;
 
   const { data = [], isLoading } = useHymnQuery({ hymnId, languages });

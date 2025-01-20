@@ -1,10 +1,10 @@
 import { SettingsCardContent, SettingsSwitch, SettingsSelect } from "@/domains/shared/settings";
-import { type LanguageState, useLanguage, languages } from "@/domains/language";
+import { type LanguageState, useLanguageStore, languages } from "@/domains/language";
 import { SettingsContainer } from "@/ui/shared";
 
 function LanguageSettings() {
   const { bilingual, primaryLanguageId, secondaryLanguageId, panelLanguageId, update } =
-    useLanguage();
+    useLanguageStore();
 
   function handleChange(key: keyof LanguageState) {
     function swapLanguages() {

@@ -1,12 +1,12 @@
 import type { HymnId } from "~/models";
 
-import { AudioContextProvider, AudioController, useAudios } from "@/domains/audio";
+import { AudioContextProvider, AudioController, useAudiosStore } from "@/domains/audio";
 import { useHymn, HymnContextProvider } from "@/domains/hymns";
 import { HymnController } from "./hymn-controller";
 
 function HymnCard({ hymnId }: { hymnId: HymnId }) {
   const { activeHymnId } = useHymn();
-  const { audios } = useAudios();
+  const { audios } = useAudiosStore();
 
   const { store } = audios.find(({ hymnId: id }) => id === hymnId)!;
 

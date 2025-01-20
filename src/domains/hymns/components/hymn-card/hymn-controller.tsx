@@ -1,8 +1,8 @@
 import { ListMusicIcon } from "lucide-react";
 import { cn } from "@/lib/tailwind";
 import { useProjector } from "@/domains/projector";
-import { languageMap, useLanguage } from "@/domains/language";
-import { useAudios } from "@/domains/audio";
+import { languageMap, useLanguageStore } from "@/domains/language";
+import { useAudiosStore } from "@/domains/audio";
 
 import { Button } from "@/ui/components/button";
 import { VersesSelector } from "./verses-selector";
@@ -13,9 +13,9 @@ function HymnController({ active }: { active: boolean }) {
   const { type } = useHymnTypeContext();
 
   const { remove, sing, audioPlayback, activeHymnId } = useHymn();
-  const { remove: removeAudio, pause: pauseLocalAudios } = useAudios();
+  const { remove: removeAudio, pause: pauseLocalAudios } = useAudiosStore();
 
-  const { panelLanguageId } = useLanguage();
+  const { panelLanguageId } = useLanguageStore();
   const { toggle } = useProjector();
 
   const { data, isLoading } = useHymnQuery({

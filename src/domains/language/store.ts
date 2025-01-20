@@ -24,7 +24,7 @@ const languageStore: StateCreator<LanguageState & LanguageActions> = (set) => ({
 
 const useLanguagesStore = create(persist(languageStore, { name: "sto-languages" }));
 
-function useLanguage() {
+function useLanguageStore() {
   const store = useLanguagesStore();
   const { primaryLanguageId, secondaryLanguageId, bilingual } = store;
   const [primary, secondary] = [languageMap[primaryLanguageId], languageMap[secondaryLanguageId]];
@@ -35,4 +35,4 @@ function useLanguage() {
 }
 
 export type { LanguageState };
-export { useLanguage };
+export { useLanguageStore };

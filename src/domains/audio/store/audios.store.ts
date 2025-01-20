@@ -1,6 +1,6 @@
 import { create, createStore, type StoreApi, type StateCreator } from "zustand";
 import type { HymnId } from "~/models";
-import { type AudioActions, type AudioState, audioStore } from "./audio.store";
+import { type AudioActions, type AudioState, audioControllerStore } from "./audio.store";
 
 type AudioStore = StoreApi<AudioState & AudioActions>;
 
@@ -21,12 +21,12 @@ type AudiosActions = {
 const audiosStore: StateCreator<AudiosState & AudiosActions> = (set, get) => ({
   audios: [],
   initialize: (hymnIds: HymnId[]) => {
-    const audios = hymnIds.map((hymnId) => ({ hymnId, store: createStore(audioStore) }));
+    const audios = hymnIds.map((hymnId) => ({ hymnId, store: createStore(audioControllerStore) }));
     return set({ audios });
   },
   add: (hymnId: HymnId) =>
     set(({ audios }) => {
-      const store = createStore(audioStore);
+      const store = createStore(audioControllerStore);
       return { audios: [...audios, { hymnId, store }] };
     }),
   remove: (hymnId: HymnId) =>
@@ -40,7 +40,7 @@ const audiosStore: StateCreator<AudiosState & AudiosActions> = (set, get) => ({
     }),
 });
 
-const useAudios = create(audiosStore);
+const useAudiosStore = create(audiosStore);
 
 export type { AudioStore };
-export { useAudios };
+export { useAudiosStore };
