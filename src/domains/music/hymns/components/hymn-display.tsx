@@ -47,6 +47,8 @@ function HymnDisplay() {
     ? syncVerses(shouldWrapVerses, activeVerse, [primary.verses.length, secondary.verses.length])
     : [activeVerse];
 
+  console.log({ data, activeHymnId });
+
   return (
     <ProjectorContainer>
       {audios.map(({ hymnId, store }) => (
@@ -67,10 +69,10 @@ function HymnDisplay() {
         </div>
 
         <div className="flex gap-8">
-          {data.map(({ verses, num }, idx) => {
+          {data.map(({ verses, num, lang }, idx) => {
             const verse = verses[idx === 0 ? activePrimaryVerseIdx : activeSecondaryVerseIdx];
             return (
-              <div key={num}>
+              <div key={num + lang}>
                 <div dangerouslySetInnerHTML={{ __html: verse.html }} />
               </div>
             );
