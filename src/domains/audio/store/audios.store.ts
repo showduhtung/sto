@@ -1,6 +1,6 @@
 import { create, createStore, type StoreApi, type StateCreator } from "zustand";
 import type { HymnId } from "~/models";
-import { type AudioActions, type AudioState, audioControllerStore } from "./audio.store";
+import { type AudioActions, type AudioState, audioControllerStore } from "./audio-controller.store";
 
 type AudioStore = StoreApi<AudioState & AudioActions>;
 
