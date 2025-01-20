@@ -11,11 +11,11 @@ type ProjectorState = {
   dimensions: { width: number; height: number };
 };
 
-const useProjector = create<ProjectorState & ProjectorActions>((set) => ({
+const useProjectorStore = create<ProjectorState & ProjectorActions>((set) => ({
   display: undefined,
   dimensions: { width: 600, height: 400 },
   toggle: (display) => set(() => ({ display })),
 }));
 
 export type { Displays };
-export { useProjector };
+export { useProjectorStore };

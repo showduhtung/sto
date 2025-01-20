@@ -1,4 +1,4 @@
-import { useProjector } from "@/domains/projector";
+import { useProjectorStore } from "@/domains/projector";
 import { useClose } from "@/domains/shared/hooks";
 
 import { Panels } from "./panels/panels";
@@ -6,7 +6,7 @@ import { Settings } from "@/domains/shared/settings";
 import { Button } from "@/ui/components/button";
 
 function Controller() {
-  const { display } = useProjector();
+  const { display } = useProjectorStore();
   const { close } = useClose();
   return (
     <div className="flex h-screen flex-col gap-2 px-6 py-4">

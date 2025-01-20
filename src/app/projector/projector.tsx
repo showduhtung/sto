@@ -1,9 +1,9 @@
 import { BibleDisplay } from "@/domains/bible";
 import { HymnTypeContextProvider, HymnDisplay } from "@/domains/hymns";
-import { useProjector } from "@/domains/projector";
+import { useProjectorStore } from "@/domains/projector";
 
 function Projector() {
-  const { display } = useProjector();
+  const { display } = useProjectorStore();
 
   switch (display) {
     case "SERMON_HYMNS":
