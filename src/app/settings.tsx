@@ -16,8 +16,7 @@ import { BibleSettings } from "@/domains/bible";
 import { ProjectorSettings } from "@/domains/projector";
 import { SermonSettings } from "@/domains/sermon";
 import { SlidesSettings } from "@/domains/slides";
-
-import { MiscellaneousSettings } from "./miscellaneous-settings";
+import { MiscellaneousSettings } from "@/domains/shared/settings";
 
 const tabs = [
   { value: "language", label: "Language", content: <LanguageSettings /> },

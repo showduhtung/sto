@@ -5,10 +5,7 @@ import { fetchLanguage } from "./languages.service";
 function useLanguageQuery(language: DialectType = "en") {
   const { data, isLoading } = useQuery({
     queryKey: ["intl", language],
-    queryFn: async () => {
-      await new Promise((resolve) => setTimeout(resolve, 10000));
-      return fetchLanguage(language);
-    },
+    queryFn: () => fetchLanguage(language),
   });
 
   return { data, isLoading };

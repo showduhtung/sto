@@ -2,8 +2,8 @@ import { useProjectorStore } from "@/domains/projector";
 import { useClose } from "@/domains/shared/hooks";
 
 import { Panels } from "./panels/panels";
-import { Settings } from "@/domains/shared/settings";
 import { Button } from "@/ui/components/button";
+import { Settings } from "../settings";
 
 function Controller() {
   const { display } = useProjectorStore();
