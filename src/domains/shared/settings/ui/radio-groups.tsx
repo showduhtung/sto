@@ -1,5 +1,5 @@
-import { Label } from "@/ui/components/label";
-import { RadioGroup, RadioGroupItem, type RadioGroupProps } from "@/ui/components/radio-group";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem, type RadioGroupProps } from "@/components/ui/radio-group";
 
 type SettingsRadioGroupProps<T extends string> = RadioGroupProps & {
   label: string;

@@ -1,4 +1,4 @@
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/ui/components/tabs";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { HymnTypeContextProvider } from "@/domains/music/hymns";
 
 import { HymnPanel } from "./hymn-panel";

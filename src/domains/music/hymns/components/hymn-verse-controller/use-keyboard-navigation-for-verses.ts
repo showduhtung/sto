@@ -2,7 +2,7 @@ import { useCallback, useEffect } from "react";
 import type { HymnId } from "~/models";
 import { useHymnsStore } from "@/domains/music/hymns";
 
-function useKeyboardNavigation(id: HymnId, max: number) {
+function useKeyboardNavigationForVerses(id: HymnId, max: number) {
   const { hymnIds, activeHymnId, sing, activeVerse } = useHymnsStore();
 
   const navigate = useCallback(
@@ -57,4 +57,4 @@ function shouldIgnoreKey(event: KeyboardEvent) {
   );
 }
 
-export { useKeyboardNavigation };
+export { useKeyboardNavigationForVerses };

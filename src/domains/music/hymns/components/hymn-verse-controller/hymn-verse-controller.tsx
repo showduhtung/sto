@@ -1,9 +1,8 @@
-import { Button } from "@/ui/components/button";
+import { Button } from "@/components/ui/button";
 import { useLanguageStore } from "@/domains/language";
 import { syncVerses, useHymnQuery, useHymnSettingsStore } from "@/domains/music/hymns";
 import { useMusicController } from "@/domains/music/shared";
-
-import { useKeyboardNavigation } from "./hymn-verse-controller.utilities";
+import { useKeyboardNavigationForVerses } from "./use-keyboard-navigation-for-verses";
 
 function HymnVerseSelector() {
   const { languages, bilingual } = useLanguageStore();
@@ -11,7 +10,7 @@ function HymnVerseSelector() {
   const { shouldWrapVerses } = useHymnSettingsStore();
   const { data = [], isLoading } = useHymnQuery({ hymnId, languages });
 
-  useKeyboardNavigation(hymnId, Math.max(...data.map(({ verses }) => verses.length)) - 1);
+  useKeyboardNavigationForVerses(hymnId, Math.max(...data.map(({ verses }) => verses.length)) - 1);
 
   if (isLoading) return <div>Loading...</div>;
   if (data.length === 0) return <div>Not found</div>;

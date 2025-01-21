@@ -2,7 +2,7 @@ import { ListMusicIcon } from "lucide-react";
 import { cn } from "@/lib/tailwind";
 import { languageMap, useLanguageStore } from "@/domains/language";
 
-import { Button } from "@/ui/components/button";
+import { Button } from "@/components/ui/button";
 import { useHymnSettingsStore, useHymnQuery } from "@/domains/music/hymns";
 import { useMusicController } from "@/domains/music/shared";
 import { MusicCardControllerSkeleton } from "./hymn-controller.skeleton";

@@ -8,7 +8,7 @@ import {
   CommandInput,
   CommandList,
   type CommandInputProps,
-} from "@/ui/components/command";
+} from "@/components/ui/command";
 
 import { cn } from "@/lib/tailwind";
 import { useHymnTitlesQuery } from "../apis";

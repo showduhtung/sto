@@ -8,10 +8,10 @@ import {
 import { useAudiosStore } from "@/domains/music/audio";
 import { MusicCard } from "@/domains/music/shared";
 
-import { Label } from "@/ui/components/label";
-import { Switch } from "@/ui/components/switch";
-import { Button } from "@/ui/components/button";
-import { List, ListItem } from "@/ui/components/list";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { Button } from "@/components/ui/button";
+import { List, ListItem } from "@/components/ui/list";
 import { useEffect } from "react";
 import { PanelContainer } from "./panel-container";
 

@@ -1,5 +1,5 @@
 import { ListMusicIcon } from "lucide-react";
-import { Button } from "@/ui/components/button";
+import { Button } from "@/components/ui/button";
 
 function MusicCardControllerSkeleton({ children }: { children?: React.ReactNode }) {
   return (

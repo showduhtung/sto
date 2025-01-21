@@ -1,5 +1,5 @@
-import { Label } from "@/ui/components/label";
-import { Switch, type SwitchProps } from "@/ui/components/switch";
+import { Label } from "@/components/ui/label";
+import { Switch, type SwitchProps } from "@/components/ui/switch";
 
 type SettingsSwitchProps = SwitchProps & { label: string };
 

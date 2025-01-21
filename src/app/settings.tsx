@@ -1,6 +1,6 @@
 import { Settings as SettingsIcon } from "lucide-react";
-import { Button } from "@/ui/components/button";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/ui/components/tabs";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import {
   Dialog,
   DialogContent,
@@ -8,7 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/ui/components/dialog";
+} from "@/components/ui/dialog";
 
 import { LanguageSettings } from "@/domains/language";
 import { HymnSettings } from "@/domains/music/hymns";

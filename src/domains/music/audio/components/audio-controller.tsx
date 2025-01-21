@@ -1,6 +1,6 @@
 import { type PropsWithChildren } from "react";
 import { cn } from "@/lib/tailwind";
-import { Accordion, AccordionContent, AccordionItem } from "@/ui/components/accordion";
+import { Accordion, AccordionContent, AccordionItem } from "@/components/ui/accordion";
 import { useHymnSettingsStore } from "@/domains/music/hymns";
 import { useMusicController } from "@/domains/music/shared";
 import { MediaControlButtons, TrackSettings, TimestampTools } from ".";

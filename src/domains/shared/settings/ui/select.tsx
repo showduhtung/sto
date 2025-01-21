@@ -1,4 +1,4 @@
-import { Label } from "@/ui/components/label";
+import { Label } from "@/components/ui/label";
 import {
   type SelectProps,
   Select,
@@ -6,7 +6,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/ui/components/select";
+} from "@/components/ui/select";
 
 type SettingsSelectProps<T extends string> = Omit<SelectProps, "onValueChange" | "value"> & {
   label: string;

@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { Checkbox } from "@/ui/components/checkbox";
-import { Label } from "@/ui/components/label";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/ui/components/select";
+} from "@/components/ui/select";
 
 import { useAudio, useAudioQuery, formatToDecimalDisplay } from "@/domains/music/audio";
 

@@ -1,11 +1,11 @@
 import { PlusIcon } from "lucide-react";
 import { useMedia } from "react-use";
 
-import { Button } from "@/ui/components/button";
-import { Label } from "@/ui/components/label";
-import { Switch } from "@/ui/components/switch";
-import { Textarea } from "@/ui/components/textarea";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/ui/components/tabs";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Translated } from "@/domains/language";
 
 function SermonPanel() {

@@ -2,7 +2,7 @@ import { useProjectorStore } from "@/domains/projector";
 import { useClose } from "@/domains/shared/hooks";
 
 import { Panels } from "./panels/panels";
-import { Button } from "@/ui/components/button";
+import { Button } from "@/components/ui/button";
 import { Settings } from "../settings";
 
 function Controller() {

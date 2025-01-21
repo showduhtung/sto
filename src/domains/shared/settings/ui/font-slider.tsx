@@ -1,6 +1,6 @@
-import { Label } from "@/ui/components/label";
-import { Slider, type SliderProps } from "@/ui/components/slider";
-import { Switch } from "@/ui/components/switch";
+import { Label } from "@/components/ui/label";
+import { Slider, type SliderProps } from "@/components/ui/slider";
+import { Switch } from "@/components/ui/switch";
 
 type SettingsFontSliderProps = SliderProps & { label: string; isAutofit?: boolean };
 

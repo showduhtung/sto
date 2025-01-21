@@ -1,4 +1,4 @@
-import { Button } from "@/ui/components/button";
+import { Button } from "@/components/ui/button";
 
 function TimestampTools() {
   return (

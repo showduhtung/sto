@@ -1,5 +1,5 @@
-import { Button, type ButtonProps } from "@/ui/components/button";
-import { Label } from "@/ui/components/label";
+import { Button, type ButtonProps } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 
 type SettingsButtonProps = ButtonProps & { label: string };
 

@@ -4,7 +4,7 @@ import { SortableContext, arrayMove, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
 import { cn } from "@/lib/tailwind";
-import { SubscriptionProvider, useSubscription, useSubscriptionProvider } from "@/ui/hooks";
+import { SubscriptionProvider, useSubscription, useSubscriptionProvider } from "@/hooks";
 
 type DraggableProps = PropsWithChildren<{ onChange: (items: string[]) => void }>;
 

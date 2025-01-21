@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Pause, Play, Square, Volume, Volume2Icon } from "lucide-react";
 
-import { ActionIcon } from "@/ui/components/button";
-import { Slider } from "@/ui/components/slider";
+import { ActionIcon } from "@/components/ui/button";
+import { Slider } from "@/components/ui/slider";
 
 import { useAudio, formatToDecimalDisplay } from "@/domains/music/audio";
 

@@ -1,6 +1,6 @@
 import { ChevronDown } from "lucide-react";
-import { Button } from "@/ui/components/button";
-import { Popover, PopoverContent, PopoverTrigger } from "@/ui/components/popover";
+import { Button } from "@/components/ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 function ReferenceSelectorButton() {
   return (

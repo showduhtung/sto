@@ -10,8 +10,10 @@
     "cssVariables": true
   },
   "aliases": {
-    "components": "@/ui/components",
-    "utils": "@/lib/tailwind",
-    "ui": "@/components"
+    "components": "@/components",
+    "utils": "@/lib/utils",
+    "ui": "@/components/ui",
+    "lib": "@/lib",
+    "hooks": "@/hooks"
   }
 }
