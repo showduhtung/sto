@@ -9,49 +9,39 @@ type WindowPortalProps = PropsWithChildren<{
 }>;
 
 function WindowPortal({ children, open, onClose, width, height }: WindowPortalProps) {
-  const [container, setContainer] = useState<HTMLDivElement | null>(null);
-  const externalWindow = useRef<Window | null>(null);
+  const container = useRef(document.createElement("div"));
 
   useEffect(() => {
-    if (container === null) {
-      externalWindow.current?.close();
-      externalWindow.current = null;
-    } else if (open) {
-      const hasActiveWindow = externalWindow.current !== null;
-      if (hasActiveWindow) return;
+    if (!open) return;
+    const newWindow = window.open("", "", `width=${width},height=${height}`);
+    if (!newWindow) return;
 
-      externalWindow.current = window.open("", "", `width=${width},height=${height}`);
-      externalWindow.current!.addEventListener("beforeunload", onClose);
-      const { styleSheets } = document;
+    newWindow.document.body.appendChild(container.current);
+    newWindow.addEventListener("beforeunload", onClose);
 
-      [...styleSheets].forEach((styleSheet) => {
-        if (styleSheet.href) {
-          const newLinkEl = externalWindow.current!.document.createElement("link");
-          newLinkEl.rel = "stylesheet";
-          newLinkEl.href = styleSheet.href;
-          externalWindow.current!.document.head.appendChild(newLinkEl);
-        } else if (styleSheet.cssRules) {
-          const newStyleEl = externalWindow.current!.document.createElement("style");
-          Array.from(styleSheet.cssRules).forEach(({ cssText }) => {
-            newStyleEl.appendChild(externalWindow.current!.document.createTextNode(cssText));
-          });
-          externalWindow.current!.document.head.appendChild(newStyleEl);
-        }
-      });
+    [...document.styleSheets].forEach((styleSheet) => {
+      if (styleSheet.href) {
+        const newLinkEl = newWindow.document.createElement("link");
+        newLinkEl.rel = "stylesheet";
+        newLinkEl.href = styleSheet.href;
+        newWindow.document.head.appendChild(newLinkEl);
+      } else if (styleSheet.cssRules) {
+        const newStyleEl = newWindow.document.createElement("style");
+        Array.from(styleSheet.cssRules).forEach(({ cssText }) => {
+          newStyleEl.appendChild(newWindow.document.createTextNode(cssText));
+        });
+        newWindow.document.head.appendChild(newStyleEl);
+      }
+    });
 
-      externalWindow.current!.document.body.appendChild(container);
-    }
     return () => {
-      externalWindow.current?.removeEventListener("beforeunload", onClose);
+      newWindow.removeEventListener("beforeunload", onClose);
+      newWindow.close();
+      onClose();
     };
-  }, [container, onClose, open, width, height]);
+  }, [onClose, open, width, height]);
 
-  useEffect(() => {
-    if (!open) setContainer(null);
-    else setContainer(document.createElement("div"));
-  }, [open]);
-
-  return container !== null && createPortal(children, container);
+  return createPortal(children, container.current);
 }
 
 export { WindowPortal };
